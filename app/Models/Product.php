@@ -2,28 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'price', 'rating','sku', 'default_image', 'category_id', 'is_active'
+        'name', 'description', 'price', 'offer_price', 'rating', 'sku', 
+        'category_id', 'is_active', 'is_featured', 'stock',
+        'weight', 'dimensions', 'materials', 'care_instructions'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
         'price' => 'decimal:2',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        
+        'offer_price' => 'decimal:2',
+        'stock_quantity' => 'integer',
     ];
 
+    protected $appends = ['discount_percentage', 'final_price', 'in_stock'];
+
+    // Relationships
     public function sizes()
     {
         return $this->hasMany(ProductSize::class);
@@ -33,49 +35,75 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
-    
-    public function defaultImage()
-    {
+
+    public function defaultImage(){
         return $this->hasOne(ProductImage::class)->where('is_default', 1);
     }
-    
-    public function galleryImages()
+    public function colors()
     {
-        return $this->hasMany(ProductImage::class)->where('is_default', 0);
-    }
-    
-
-    public function colors(){
         return $this->hasMany(ProductColor::class);
     }
 
-    public function category() {
-        return $this->belongsTo(Category::class, 'category_id');
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
-    
 
     public function reviews()
     {
-        return $this->hasMany(Review::class)->latest();
+        return $this->hasMany(Review::class);
     }
 
-    // THE MAGIC FUNCTION
+    // Accessors
+    public function getDiscountPercentageAttribute()
+    {
+        if ($this->offer_price && $this->price > 0) {
+            return round((($this->price - $this->offer_price) / $this->price) * 100);
+        }
+        return 0;
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        return $this->offer_price ?? $this->price;
+    }
+
+    public function getInStockAttribute()
+    {
+        return $this->stock > 0 || $this->sizes()->where('stock', '>', 0)->exists();
+    }
+
+    public function getMainImageAttribute()
+    {
+        $image = $this->images()->where('is_default', true)->first();
+        if (!$image) {
+            $image = $this->images()->first();
+        }
+        return $image ? asset('storage/' . $image->image_path) : asset('images/default-product.jpg');
+    }
+
+    public function getGalleryImagesAttribute()
+    {
+        return $this->images()->where('is_default', false)->get();
+    }
+
+    // Check if user has purchased this product
     public function currentUserHasPurchased()
     {
-        if (!Auth::check()) return false;
+        if (!auth()->check()) return false;
 
-        return \App\Models\Order::where('user_id', Auth::id())
-            ->whereIn('status', ['delivered', 'completed', 'shipped']) 
+        return \App\Models\Order::where('user_id', auth()->id())
+            ->whereIn('status', ['delivered', 'completed'])
             ->whereHas('items', function ($query) {
                 $query->where('product_id', $this->id);
             })
             ->exists();
     }
-    
+
+    // Check if user has reviewed this product
     public function currentUserHasReviewed()
     {
-        if (!Auth::check()) return false;
-        return $this->reviews()->where('user_id', Auth::id())->exists();
+        if (!auth()->check()) return false;
+        return $this->reviews()->where('user_id', auth()->id())->exists();
     }
 }
-

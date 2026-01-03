@@ -1,23 +1,61 @@
 @extends("user.layouts.master-layouts.plain")
+
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <title>Home Collection | Premium Home Essentials</title>
 
 @push("style")
 <style>
-
-
-/* Smooth hover depth effect */
-.group:hover img {
-  transform: scale(1.08) rotate(1deg);
+:root {
+    --primary-color: #6B4226;      
+    --primary-hover: #593721;       
+    --secondary-color: #C8A165;     
+    --secondary-hover: #B58F54;     
+    --accent-color: #8C5E3C;       
+    --accent-hover: #734C30;        
+    --text-on-primary: #FFFFFF;     
+    --text-on-secondary: #1A1A1A;   
+    --background-color: #F8F5F2;   
+    --surface-color: #FFFFFF;      
+    --border-color: #E5D5C3;
+    --surface-light: #FFFCF9;
 }
 
-/* Custom shadow glow for premium feel */
-.group:hover .bg-gradient-to-br {
-  filter: drop-shadow(0 8px 20px rgba(200,161,101,0.3));
+* {
+    font-family: 'Inter', sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+}
 
-/* Floating animation */
+/* Modern Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 5px;
+}
+
+/* Custom Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes float {
     0%, 100% {
         transform: translateY(0) rotate(0deg);
@@ -27,618 +65,992 @@
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 .animate-float {
-    animation: float 8s ease-in-out infinite;
+    animation: float 6s ease-in-out infinite;
 }
 
-.animate-float-delay-2 {
-    animation: float 8s ease-in-out 2s infinite;
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.animate-float-delay-4 {
-    animation: float 8s ease-in-out 4s infinite;
+.animate-marquee {
+    animation: marquee 30s linear infinite;
 }
 
-.animate-float-delay-6 {
-    animation: float 8s ease-in-out 6s infinite;
+/* Premium Glass Effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.premium-gradient {
+    background: linear-gradient(135deg, 
+        rgba(107, 66, 38, 0.1) 0%,
+        rgba(200, 161, 101, 0.1) 50%,
+        rgba(140, 94, 60, 0.1) 100%);
+}
+
+.premium-text-gradient {
+    background: linear-gradient(135deg, 
+        var(--primary-color) 0%,
+        var(--secondary-color) 50%,
+        var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Premium Card Hover Effects */
+.premium-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: var(--surface-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    transition: left 0.7s;
+}
+
+.premium-card:hover::before {
+    left: 100%;
+}
+
+.premium-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(107, 66, 38, 0.15),
+                0 5px 15px rgba(200, 161, 101, 0.1);
+}
+
+/* Modern Button Styles */
+.btn-modern {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, 
+        var(--primary-color) 0%,
+        var(--accent-color) 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.4s ease;
+    isolation: isolate;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    transition: left 0.6s;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(107, 66, 38, 0.3);
+}
+
+.btn-modern-outline {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 12px 30px;
+}
+
+.btn-modern-outline:hover {
+    background: var(--primary-color);
+    color: white;
 }
 
 
-.sale-gradient {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+/* Premium Trust Cards */
+.trust-card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.4s ease;
 }
 
-.btn-gradient {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+.trust-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color));
+    opacity: 0;
+    transition: opacity 0.4s;
 }
 
-.btn-gradient:hover {
-    background: linear-gradient(135deg, var(--primary-hover) 0%, var(--accent-hover) 100%);
+.trust-card-modern:hover::before {
+    opacity: 1;
 }
 
-/* Pattern backgrounds */
-.hero-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-    opacity: 0.3;
+.trust-card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(107, 66, 38, 0.1);
 }
 
-.sale-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+/* Modern Testimonial Card */
+.modern-testimonial-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
 }
 
-.footer-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-    opacity: 0.3;
+.modern-testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    font-size: 120px;
+    font-family: 'Playfair Display', serif;
+    color: var(--secondary-color);
+    opacity: 0.1;
 }
 
-/* Custom transitions */
-.transition-custom {
-    transition: var(--transition);
+/* Custom Utility Classes */
+.text-balance {
+    text-wrap: balance;
 }
 
-/* Hide scrollbar for cleaner look */
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.perspective-1000 {
+    perspective: 1000px;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+.hover-lift {
+    transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+/* Loading Skeleton */
+.skeleton {
+    background: linear-gradient(90deg, 
+        rgba(248, 245, 242, 1) 0%, 
+        rgba(255, 255, 255, 0.8) 50%, 
+        rgba(248, 245, 242, 1) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Parallax Sections */
+.parallax-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-size: cover;
+    background-position: center;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Modern Navigation Effects */
+.nav-link-modern {
+    position: relative;
+    padding: 10px 0;
+}
+
+.nav-link-modern::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--secondary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-link-modern:hover::after {
+    width: 100%;
+}
+
+/* Premium Badge */
+.premium-badge {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.premium-badge:hover::before {
+    left: 100%;
+}
+
+/* Modern Input Fields */
+.input-modern {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-modern:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(200, 161, 101, 0.2);
 }
 </style>
 @endpush
 
 @section("content")
-@if($banners->count() > 0)
-    <section 
-        x-data="{ 
+<!-- Modern Hero Banner with Parallax -->
+<section class="relative h-screen w-full overflow-hidden bg-[var(--primary-color)] text-[var(--text-on-primary)]" 
+         x-data="{ 
             activeSlide: 0, 
             slides: {{ $banners->count() }},
-            autoplayInterval: null,
-            startAutoplay() {
-                // LOGIC: Only start timer if we have more than 1 slide
-                if(this.slides > 1) {
-                    this.autoplayInterval = setInterval(() => {
-                        this.activeSlide = (this.activeSlide + 1) % this.slides;
-                    }, 5000); 
-                }
-            },
-            stopAutoplay() {
-                clearInterval(this.autoplayInterval);
+            timer: null,
+            startTimer() {
+                this.timer = setInterval(() => {
+                    this.activeSlide = (this.activeSlide === this.slides - 1) ? 0 : this.activeSlide + 1;
+                }, 6000);
             }
-        }"
-        x-init="startAutoplay()"
-        @mouseenter="stopAutoplay()" 
-        @mouseleave="startAutoplay()"
-        class="relative min-h-[90vh] flex items-center justify-center rounded-3xl overflow-hidden mx-4 mt-4 bg-gray-900 shadow-2xl" 
-    >
-    
-        @foreach($banners as $index => $banner)
-            <div 
-                x-show="activeSlide === {{ $index }}"
-                
-                {{-- Only apply transitions if there is more than 1 slide to avoid flicker on single video --}}
-                @if($banners->count() > 1)
-                    x-transition:enter="transition ease-out duration-1000"
-                    x-transition:enter-start="opacity-0 transform scale-105"
-                    x-transition:enter-end="opacity-100 transform scale-100"
-                    x-transition:leave="transition ease-in duration-1000"
-                    x-transition:leave-start="opacity-100 transform scale-100"
-                    x-transition:leave-end="opacity-0 transform scale-105"
-                @endif
-                
-                class="absolute inset-0 w-full h-full"
-            >
+         }" 
+         x-init="startTimer()"
+         @mouseenter="clearInterval(timer)" 
+         @mouseleave="startTimer()">
+
+    <div class="absolute inset-0 z-20 pointer-events-none opacity-[0.08]" 
+         style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%221%22/%3E%3C/svg%3E');">
+    </div>
+
+    <div class="absolute inset-0 z-10 pointer-events-none container mx-auto border-x border-white/5">
+        <div class="h-full w-full grid grid-cols-4 lg:grid-cols-12">
+            <div class="hidden lg:block col-span-3 border-r border-white/5 h-full"></div>
+            <div class="hidden lg:block col-span-6 border-r border-white/5 h-full"></div>
+        </div>
+    </div>
+
+    @foreach($banners as $index => $banner)
+        <div x-show="activeSlide === {{ $index }}" 
+             x-transition:enter="transition ease-out duration-1000"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-1000"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="absolute inset-0 z-0">
+            
+            <div class="relative w-full h-full overflow-hidden">
                 @if($banner->type === 'video' && $banner->video)
-                    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+                    <video autoplay loop muted playsinline 
+                           class="absolute inset-0 w-full h-full object-cover transform scale-105 transition-transform duration-[10s] ease-linear"
+                           :class="{ 'scale-110': activeSlide === {{ $index }}, 'scale-100': activeSlide !== {{ $index }} }">
                         <source src="{{ asset($banner->video) }}" type="video/mp4">
                     </video>
                 @else
-                    <div class="absolute inset-0 bg-cover bg-center z-0" 
-                    style="background-image: url('{{ asset('storage/' . $banner->image) }}')">                @endif
-    
-                <div class="absolute inset-0 hero-gradient z-1"></div>
-                <div class="absolute inset-0 hero-pattern opacity-30 z-1"></div>
+                    <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-[10s] ease-linear"
+                         :class="{ 'scale-110': activeSlide === {{ $index }}, 'scale-100': activeSlide !== {{ $index }} }"
+                         style="background-image: url('{{ asset('storage/' . $banner->image) }}')">
+                    </div>
+                @endif
                 
-                <div class="absolute w-32 h-32 rounded-full bg-white/5 top-10 left-5 animate-float z-1"></div>
-                <div class="absolute w-20 h-20 rounded-full bg-white/5 bottom-15 right-10 animate-float-delay-2 z-1"></div>
-    
-                <div class="relative z-10 container mx-auto px-4 h-full flex items-center justify-center">
-                    <div class="max-w-3xl w-full" data-aos="fade-right" data-aos-delay="100">
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 drop-shadow-lg">
-                            {{ $banner->title }}
-                        </h1>
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+            </div>
+
+            <div class="absolute inset-0 flex items-center z-30">
+                <div class="container mx-auto px-6 md:px-12">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                         
-                        <p class="text-xl text-white/90 mb-8 max-w-2xl leading-relaxed drop-shadow-md">
-                            {{ $banner->description }}
-                        </p>
-                        
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            @if($banner->button_text && $banner->button_url)
-                                <a href="{{ $banner->button_url }}" 
-                                   class="btn-gradient text-white border-none py-4 px-10 rounded-full font-semibold transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-1 text-center">
-                                    {{ $banner->button_text }}
-                                </a>
-                            @endif
-    
-                            <a href="{{ route('category') }}" 
-                               class="bg-transparent text-white border-2 border-[var(--secondary-color)] py-4 px-10 rounded-full font-semibold transition-all duration-500 relative overflow-hidden group hover:text-[var(--text-on-secondary)] text-center">
-                                <span class="relative z-10">Explore Categories</span>
-                                <div class="absolute inset-0 bg-[var(--secondary-color)] opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10"></div>
-                            </a>
+                        <div class="lg:col-span-9 flex flex-col items-start">
+                            
+                            <div class="overflow-hidden mb-6">
+                                <span class="block text-xs font-mono uppercase tracking-[0.3em] text-[var(--secondary-color)] transform transition-transform duration-700 delay-300 translate-y-full"
+                                      :class="{ '!translate-y-0': activeSlide === {{ $index }} }">
+                                     {{ $banner->badge }}
+                                </span>
+                            </div>
+
+                            <div class="overflow-hidden mb-8">
+                                <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-medium leading-[0.85] tracking-tight transform transition-transform duration-1000 delay-300 translate-y-full"
+                                    :class="{ '!translate-y-0': activeSlide === {{ $index }} }">
+                                    {{ $banner->title }}
+                                </h1>
+                            </div>
+
+                            <div class="flex items-start gap-6 max-w-xl transform transition-all duration-1000 delay-500 opacity-0 translate-y-10"
+                                 :class="{ '!opacity-100 !translate-y-0': activeSlide === {{ $index }} }">
+                                <div class="w-12 h-px bg-[var(--secondary-color)] mt-4 hidden md:block"></div>
+                                <p class="text-lg md:text-xl font-light text-white/80 leading-relaxed">
+                                    {{ $banner->description }}
+                                </p>
+                            </div>
+
+                          
+
                         </div>
                     </div>
                 </div>
             </div>
-        @endforeach
-
-        @if($banners->count() > 1)
-            <div class="absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3">
-                @foreach($banners as $index => $banner)
-                    <button 
-                        @click="activeSlide = {{ $index }}" 
-                        :class="{'bg-white w-8': activeSlide === {{ $index }}, 'bg-white/50 w-3': activeSlide !== {{ $index }}}"
-                        class="h-3 rounded-full transition-all duration-300 shadow-sm"
-                        aria-label="Go to slide {{ $index + 1 }}">
-                    </button>
-                @endforeach
-            </div>
-        @endif
-    
-    </section>
-@endif
-<section class="relative bg-[var(--background-color)] overflow-hidden">
-  <div id="blob-1" class="absolute -top-60 -left-40 w-[45rem] h-[45rem] rounded-full blur-[130px] opacity-70"></div>
-  <div id="blob-2" class="absolute bottom-0 right-0 w-[50rem] h-[50rem] rounded-full blur-[130px] opacity-60"></div>
-
-  <div class="container mx-auto px-6 py-28 relative z-10">
-    <div class="text-center mb-20" data-aos="fade-up">
-      <h2 class="text-6xl font-extrabold text-[var(--primary-color)] mb-6 tracking-tight leading-tight">
-        Shop by Category
-      </h2>
-      <p class="text-lg text-[var(--accent-color)] max-w-2xl mx-auto leading-relaxed">
-        Experience vibrant elegance — discover collections that flow with life, crafted to inspire every moment.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-32">
-      @foreach($categories as $category)
-      <div class="relative group perspective" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-        <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[var(--secondary-color)]/30 via-transparent to-[var(--accent-color)]/30 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
-
-        <div
-          class="relative bg-white/60 backdrop-blur-2xl border border-white/20 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.15)] transition-transform duration-700 transform-gpu group-hover:-translate-y-4 group-hover:scale-[1.03]"
-          onmousemove="tiltCard(event, this)"
-          onmouseleave="resetTilt(this)"
-        >
-          <div class="relative h-72 overflow-hidden">
-            <img
-              src="{{ $category->image ? asset('storage/' . $category->image) : 'https://via.placeholder.com/800x500?text=No+Image' }}"
-              alt="{{ $category->name }}"
-              class="w-full h-full object-cover transition-transform duration-[1.8s] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-110"
-            >
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-
-            <div class="absolute bottom-0 left-0 p-6 translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
-              <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-xl">{{ $category->name }}</h3>
-              <p class="text-white/80 text-sm">{{ $category->description ?? 'Explore our collection' }}</p>
-            </div>
-          </div>
-
-          <div class="p-6 text-center">
-            <h3 class="text-xl font-semibold text-[var(--primary-color)] mb-2">{{ $category->name }}</h3>
-            <a href="{{ route('product',['category_id' => $category->id])}}"
-              class="inline-flex items-center justify-center gap-2 text-[var(--secondary-color)] font-semibold mt-2 px-5 py-2.5 rounded-full border border-[var(--secondary-color)]/30 hover:bg-[var(--secondary-color)] hover:text-white transition-all duration-500 hover:shadow-[0_0_20px_var(--secondary-color)]">
-              Explore
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
         </div>
-      </div>
-      @endforeach
-    </div>
+    @endforeach
 
-    @php
-    
-    $activeSale = $sale->first();
-    @endphp
-    <!-- ================= FEATURED PRODUCTS ================= -->
-    <div class="text-center mb-16" data-aos="fade-up">
-      <h2 class="text-5xl md:text-6xl font-extrabold text-[var(--primary-color)] mb-6 tracking-tight leading-tight">
-        Featured Products
-      </h2>
-      <p class="text-lg text-[var(--accent-color)] max-w-2xl mx-auto leading-relaxed">
-        Discover our most loved products hand-picked for you.
-      </p>
-    </div>
+    <div class="absolute bottom-0 left-0 w-full z-40 border-t border-white/10 bg-black/20 backdrop-blur-sm">
+        <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between h-20">
+            
+            <div class="flex items-center gap-6">
+                <span class="text-sm font-mono text-white/50">01</span>
+                
+                <div class="flex gap-0">
+                    @foreach($banners as $index => $banner)
+                        <button @click="activeSlide = {{ $index }}" 
+                                class="relative w-12 h-12 flex items-center justify-center group focus:outline-none">
+                            <span class="absolute inset-0 border-t-2 transition-all duration-500"
+                                  :class="{ 'border-[var(--secondary-color)] w-full': activeSlide === {{ $index }}, 'border-white/20 w-full group-hover:border-white/50': activeSlide !== {{ $index }} }"></span>
+                        </button>
+                    @endforeach
+                </div>
+                
+                <span class="text-sm font-mono text-white/50">0{{ $banners->count() }}</span>
+            </div>
 
-    <div class="w-full px-4 lg:px-8 mx-auto">
-    <div class="products-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        @foreach($products as $product)
-            @include('user.partials.home-product-cards', ['product' => $product])
-        @endforeach
-    </div>
-</div>
-
-
-    <div class="text-center mt-16" data-aos="fade-up">
-      <a
-        href="{{ route('product') }}"
-        class="inline-block bg-[var(--primary-color)] text-[var(--text-on-primary)] font-semibold py-3 px-10 rounded-full shadow-lg hover:bg-[var(--primary-hover)] hover:-translate-y-1 transition-all duration-300"
-      >
-        View All Products
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- =================== Scripts & Styles =================== -->
-<script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
-<style>
-.perspective { perspective: 1000px; }
-
-#blob-1, #blob-2 {
-  background: radial-gradient(circle, var(--secondary-color), var(--accent-color));
-  animation: blobMove 14s ease-in-out infinite;
-}
-#blob-2 { animation-delay: 4s; }
-
-@keyframes blobMove {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(25px, -25px) scale(1.05); }
-  66% { transform: translate(-25px, 25px) scale(0.95); }
-}
-</style>
-
-<script>
-function tiltCard(e, card) {
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const rotateX = ((y - rect.height / 2) / rect.height) * 10;
-  const rotateY = ((x - rect.width / 2) / rect.width) * -10;
-
-  gsap.to(card, {
-    rotationX: rotateX,
-    rotationY: rotateY,
-    scale: 1.03,
-    transformPerspective: 1000,
-    ease: "power2.out",
-    duration: 0.4
-  });
-}
-
-function resetTilt(card) {
-  gsap.to(card, {
-    rotationX: 0,
-    rotationY: 0,
-    scale: 1,
-    ease: "elastic.out(1, 0.3)",
-    duration: 1.2
-  });
-}
-
-// 🌊 Floating Blob Movement
-gsap.to("#blob-1", { x: 60, y: -40, duration: 12, repeat: -1, yoyo: true, ease: "sine.inOut" });
-gsap.to("#blob-2", { x: -60, y: 50, duration: 14, repeat: -1, yoyo: true, ease: "sine.inOut" });
-</script>
-
-<style>
-  #blob-left, #blob-right {
-    will-change: transform;
-    isolation: isolate;
-  }
-  #sale-countdown, h2, p, a {
-    transform: translateZ(0);
-    position: relative;
-    z-index: 20;
-  }
-  #spark-canvas {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    transform: translateZ(0);
-  }
-</style>
-
-@if($activeSale)
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
-
-<section id="premium-sale-card" 
-    class="relative isolate overflow-hidden my-24 mx-4 md:mx-auto max-w-7xl rounded-[2.5rem] border border-white/10 shadow-2xl group"
-    style="font-family: 'Outfit', sans-serif; background-color: #050505;">
-
-    <div class="absolute inset-0 opacity-[0.07] z-0 pointer-events-none" 
-         style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');"></div>
-
-    <div id="spotlight" 
-         class="absolute -inset-px bg-[radial-gradient(600px_circle_at_var(--x,50%)_var(--y,50%),rgba(255,255,255,0.1),transparent_40%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"></div>
-
-    <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-[var(--primary-color,#ec4899)]/30 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow"></div>
-    <div class="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-[var(--secondary-color,#3b82f6)]/30 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow" style="animation-delay: 2s;"></div>
-
-    <div class="relative z-10 flex flex-col items-center justify-center py-24 px-6 text-center">
-        
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 shadow-lg ring-1 ring-white/10">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-            </span>
-            <span class="text-xs font-medium tracking-widest uppercase text-white/90">Limited Time Offer</span>
-        </div>
-
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-6 drop-shadow-2xl">
-            <span class="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/60">
-                {{ $activeSale->name }}
-            </span>
-        </h2>
-
-        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed font-light">
-            {{ $activeSale->description }}
-        </p>
-
-        <div id="sale-countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
-            @foreach (['Days' => 'days', 'Hours' => 'hours', 'Minutes' => 'minutes', 'Seconds' => 'seconds'] as $label => $id)
-            <div class="relative group/card">
-                <div class="w-32 h-36 md:w-40 md:h-44 flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl transition-all duration-500 group-hover/card:-translate-y-2 group-hover/card:bg-white/10">
-                    
-                    <span id="{{ $id }}" class="text-5xl md:text-6xl font-bold text-white mb-1 tabular-nums tracking-tight">00</span>
-                    
-                    <span class="text-xs font-medium uppercase tracking-[0.2em] text-white/50 group-hover/card:text-white/80 transition-colors">
-                        {{ $label }}
-                    </span>
-
-                    <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 group-hover/card:ring-white/30 transition-all"></div>
+            <div class="hidden md:flex flex-1 justify-end overflow-hidden ml-12">
+                <div class="animate-marquee whitespace-nowrap flex gap-8 opacity-60">
+                    <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">World Wide Shipping</span>
+                    <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
+                    <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">New Season 2024</span>
+                    <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
+                    <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">Limited Editions</span>
                 </div>
             </div>
-            @endforeach
+
+        </div>
+    </div>
+
+    <div class="absolute top-1/2 left-6 md:left-12 transform -translate-y-1/2 -rotate-90 origin-left hidden lg:block z-40 mix-blend-difference">
+        <span class="text-xs font-mono uppercase tracking-[0.5em] text-white/60">
+            Scroll to Explore
+        </span>
+    </div>
+
+</section>
+
+<style>
+/* Ken Burns Effect Logic */
+.scale-110 { transform: scale(1.1); }
+.scale-100 { transform: scale(1); }
+</style>
+
+<!-- Premium Categories Section -->
+<section class="py-24 bg-[var(--background-color)] relative overflow-hidden">
+    
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-[var(--border-color)] opacity-50"></div>
+
+    <div class="container relative mx-auto px-6 md:px-12">
+        
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-[var(--border-color)] pb-8">
+            <div class="max-w-xl">
+                <span class="block text-xs font-mono uppercase tracking-[0.25em] text-[var(--secondary-color)] mb-4">
+                    // The Collections
+                </span>
+                <h2 class="text-5xl md:text-7xl font-serif text-[var(--primary-color)] leading-[0.9]">
+                    Curated <br> <span class="italic text-[var(--secondary-color)]">Essentials</span>
+                </h2>
+            </div>
+            <div class="hidden md:block mb-2">
+                <a href="#" class="group inline-flex items-center text-sm font-mono uppercase tracking-widest text-[var(--primary-color)]">
+                    <span class="border-b border-transparent group-hover:border-[var(--primary-color)] transition-all duration-300">View All Categories</span>
+                    <svg class="w-4 h-4 ml-2 transform -rotate-45 group-hover:rotate-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+            </div>
         </div>
 
-        <a href="{{ route('product', ['sale' => $activeSale->id]) }}" 
-           class="group relative inline-flex items-center justify-center px-10 py-5 font-bold text-white transition-all duration-200 focus:outline-none">
-            
-            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--primary-color,#ec4899)] to-[var(--secondary-color,#8b5cf6)] blur opacity-40 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--primary-color,#ec4899)] to-[var(--secondary-color,#8b5cf6)]"></div>
-            
-            <span class="relative flex items-center gap-3">
-                Shop Collection
-                <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </span>
-        </a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8">
+            @foreach($categories as $index => $category)
+                <a href="{{ route('product', ['category_id' => $category->id]) }}" class="group block relative w-full cursor-pointer">
+                    
+                    <div class="relative w-full aspect-[3/4] overflow-hidden bg-[var(--primary-color)]">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 z-10 transition-opacity duration-500 group-hover:opacity-40"></div>
+                        
+                        <img src="{{ $category->image ? asset('storage/' . $category->image) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800' }}"
+                             alt="{{ $category->name }}"
+                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[20%] group-hover:grayscale-0">
+                             
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-50 group-hover:scale-100">
+                            <div class="w-24 h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center">
+                                <span class="text-white text-xs font-mono uppercase tracking-widest">Explore</span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="mt-6 border-t border-[var(--border-color)] pt-4 group-hover:border-[var(--secondary-color)] transition-colors duration-500">
+                        <div class="flex justify-between items-start">
+                            
+                            <span class="text-xs font-mono text-[var(--secondary-color)] uppercase tracking-widest">
+                                {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
+                            </span>
+
+                            <div class="flex-1 text-right pl-8">
+                                <h3 class="text-3xl font-serif text-[var(--primary-color)] group-hover:text-[var(--secondary-color)] transition-colors duration-300">
+                                    {{ $category->name }}
+                                </h3>
+                                
+                                <div class="overflow-hidden h-6 mt-2">
+                                    <p class="text-sm text-[var(--primary-color)]/60 font-light transform translate-y-0 group-hover:-translate-y-full transition-transform duration-500">
+                                        {{ Str::limit($category->description ?? 'Exclusive Collection', 40) }}
+                                    </p>
+                                    <p class="text-sm text-[var(--secondary-color)] font-mono uppercase tracking-widest transform translate-y-full group-hover:-translate-y-full transition-transform duration-500">
+                                        Shop Now &rarr;
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+<section class="py-24 bg-[var(--background-color)]">
+    <div class="container mx-auto px-6">
+        
+        <div class="text-center mb-20" data-aos="fade-up">
+            <span class="inline-block px-4 py-1.5 mb-6 text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--secondary-color)] border border-[var(--border-color)] rounded-full">
+                The Collection
+            </span>
+            <h2 class="text-4xl md:text-5xl font-serif font-light mb-6 text-[var(--primary-color)]">
+                Editor's Selection
+            </h2>
+            <div class="w-16 h-px bg-[var(--secondary-color)] mx-auto mb-6"></div>
+            <p class="text-neutral-600 max-w-xl mx-auto leading-relaxed">
+                Handpicked pieces that define luxury living, curated for the discerning homeowner.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+        @foreach ($products as $product)
+    @include('user.partials.home-product-cards', ['product' => $product])
+@endforeach
+        </div>
+
+        <div class="mt-20 text-center" data-aos="fade-up">
+            <a href="{{ route('product') }}" class="relative inline-flex items-center gap-4 group">
+                <span class="text-sm font-bold uppercase tracking-[0.3em] text-[var(--primary-color)]">
+                    Explore Entire Collection
+                </span>
+                <div class="w-12 h-px bg-[var(--primary-color)] transition-all group-hover:w-20"></div>
+                <svg class="w-5 h-5 text-[var(--primary-color)] transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+@if($activeSale = $sale->first())
+<section class="relative min-h-[90vh] flex items-center bg-[var(--primary-color)] overflow-hidden py-20">
+
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute inset-0" style="background: radial-gradient(circle at 70% 50%, rgba(200,161,101,0.12) 0%, transparent 70%);"></div>
+        <div class="absolute inset-0 opacity-[0.05] mix-blend-overlay" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+    </div>
+
+    <div class="container relative z-10 mx-auto px-6 lg:px-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+            
+            <div class="lg:col-span-6" data-aos="fade-right">
+                <div class="mb-10">
+                    <span class="inline-block uppercase tracking-[0.6em] text-[10px] font-bold text-[var(--secondary-color)] mb-6 border-b border-[var(--secondary-color)] pb-2">
+                        Private Invitation
+                    </span>
+                    <h2 class="text-7xl md:text-9xl font-serif text-white leading-[0.8] mb-8">
+                        {{ $activeSale->name }}
+                    </h2>
+                    <div class="w-20 h-px bg-[var(--secondary-color)] my-10"></div>
+                    <p class="text-white opacity-60 text-lg font-light leading-relaxed max-w-md italic">
+                        "{{ $activeSale->description }}"
+                    </p>
+                </div>
+
+                <a href="{{ route('product', ['sale' => $activeSale->id]) }}" 
+                   class="group inline-flex items-center gap-6">
+                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[var(--secondary-color)] group-hover:border-[var(--secondary-color)] transition-all duration-500">
+                        <svg class="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                    <span class="uppercase tracking-[0.4em] text-xs font-bold text-white group-hover:text-[var(--secondary-color)] transition-colors">
+                        Enter the Event
+                    </span>
+                </a>
+            </div>
+
+            <div class="lg:col-span-6 flex justify-center lg:justify-end" data-aos="fade-left">
+                <div class="relative w-full max-w-md">
+                    <div class="absolute -inset-4 border border-[var(--secondary-color)]/20 pointer-events-none"></div>
+                    
+                    <div id="timer-container" class="relative bg-[var(--primary-color)] p-10 md:p-16 opacity-0 transition-opacity duration-1000">
+                        
+                        <div class="text-center mb-12">
+                            <h4 class="text-[10px] uppercase tracking-[0.5em] text-[var(--secondary-color)]">Closing Soon</h4>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-12 gap-x-8">
+                            <div class="flex flex-col items-center">
+                                <span id="days" class="text-6xl md:text-7xl font-serif font-light text-white">00</span>
+                                <span class="text-[9px] uppercase tracking-[0.3em] text-[var(--secondary-color)] mt-4">Days</span>
+                            </div>
+                            <div class="flex flex-col items-center border-l border-white/5">
+                                <span id="hours" class="text-6xl md:text-7xl font-serif font-light text-white">00</span>
+                                <span class="text-[9px] uppercase tracking-[0.3em] text-[var(--secondary-color)] mt-4">Hours</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span id="minutes" class="text-6xl md:text-7xl font-serif font-light text-white">00</span>
+                                <span class="text-[9px] uppercase tracking-[0.3em] text-[var(--secondary-color)] mt-4">Minutes</span>
+                            </div>
+                            <div class="flex flex-col items-center border-l border-white/5 relative">
+                                <div class="absolute top-0 right-0 w-1 h-1 bg-[var(--secondary-color)] rounded-full animate-ping"></div>
+                                <span id="seconds" class="text-6xl md:text-7xl font-serif font-light text-[var(--secondary-color)]">00</span>
+                                <span class="text-[9px] uppercase tracking-[0.3em] text-white/40 mt-4">Seconds</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-16 text-center">
+                            <p class="text-[10px] text-white/20 uppercase tracking-[0.2em]">Limited Collection Access</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
 <script>
-    // 1. COUNTDOWN LOGIC (Optimized)
-    document.addEventListener('DOMContentLoaded', function () {
-        const endDate = new Date("{{ $activeSale->ends_at->toIso8601String() }}").getTime();
-        const elements = {
-            days: document.getElementById('days'),
-            hours: document.getElementById('hours'),
-            minutes: document.getElementById('minutes'),
-            seconds: document.getElementById('seconds')
-        };
+    (function() {
+        const countDownDate = {{ \Carbon\Carbon::parse($activeSale->ends_at)->timestamp * 1000 }};
+        const timerContainer = document.getElementById("timer-container");
+        const daysEl = document.getElementById("days");
+        const hoursEl = document.getElementById("hours");
+        const minutesEl = document.getElementById("minutes");
+        const secondsEl = document.getElementById("seconds");
 
-        const updateCountdown = () => {
+        function updateTimer() {
             const now = new Date().getTime();
-            const distance = endDate - now;
+            const distance = countDownDate - now;
 
-            if (distance <= 0) {
-                document.getElementById("sale-countdown").innerHTML = "<div class='col-span-4 text-2xl text-white font-bold'>Sale Ended</div>";
+            if (distance < 0) {
+                clearInterval(interval);
+                timerContainer.innerHTML = "<div class='py-20 text-center text-[var(--secondary-color)] text-xl font-serif tracking-[0.3em] uppercase'>The Event has Concluded</div>";
+                timerContainer.classList.remove('opacity-0');
                 return;
             }
 
-            const values = {
-                days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-                seconds: Math.floor((distance % (1000 * 60)) / 1000)
-            };
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            for (const [key, el] of Object.entries(elements)) {
-                if (el) {
-                    const strVal = String(values[key]).padStart(2, '0');
-                    if (el.textContent !== strVal) el.textContent = strVal;
-                }
+            const pad = (n) => n < 10 ? '0' + n : n;
+
+            if (daysEl) {
+                daysEl.innerText = pad(days);
+                hoursEl.innerText = pad(hours);
+                minutesEl.innerText = pad(minutes);
+                secondsEl.innerText = pad(seconds);
             }
-        };
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // 2. MOUSE SPOTLIGHT LOGIC
-        const card = document.getElementById('premium-sale-card');
-        const spotlight = document.getElementById('spotlight');
-
-        if(card && spotlight) {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                spotlight.style.setProperty('--x', `${x}px`);
-                spotlight.style.setProperty('--y', `${y}px`);
-            });
+            timerContainer.classList.remove('opacity-0');
         }
-    });
+        updateTimer();
+        const interval = setInterval(updateTimer, 1000);
+    })();
 </script>
-
-<style>
-    /* Custom Animation for Background Blobs */
-    @keyframes pulse-slow {
-        0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.3; }
-        50% { transform: scale(1.1) translate(20px, -20px); opacity: 0.5; }
-    }
-    .animate-pulse-slow {
-        animation: pulse-slow 8s infinite ease-in-out;
-    }
-</style>
 @endif
- 🌟 Premium Trust & Testimonials Section
-<section class="relative overflow-hidden py-28 my-24 rounded-[3rem] bg-gradient-to-br from-gray-50 via-white to-gray-100 shadow-[0_0_80px_rgba(0,0,0,0.08)]">
-    <!-- Floating gradient blobs -->
-    <div class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-gradient-to-br from-[var(--primary-color)]/30 to-[var(--accent-color)]/30 blur-[140px] rounded-full animate-pulse"></div>
-    <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-gradient-to-tr from-[var(--secondary-color)]/30 to-[var(--accent-color)]/20 blur-[180px] rounded-full animate-pulse"></div>
+<section class="py-32 bg-white border-y border-[var(--border-color)]">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
+            <div class="max-w-2xl" data-aos="fade-right">
+                <span class="text-[11px] font-bold tracking-[0.4em] text-[var(--secondary-color)] uppercase block mb-4">Our Philosophy</span>
+                <h2 class="text-5xl md:text-7xl font-serif text-[var(--primary-color)] leading-tight">
+                    The Art of <br><span class="italic text-[var(--secondary-color)]">Refined</span> Living
+                </h2>
+            </div>
+            <div class="lg:w-1/3" data-aos="fade-left">
+                <p class="text-neutral-500 leading-relaxed border-l-2 border-[var(--secondary-color)] pl-6">
+                    We don't just manufacture; we curate. Every piece is a testament to the dialogue between raw materials and human precision.
+                </p>
+            </div>
+        </div>
 
-    <div class="container relative z-10 mx-auto px-6 text-center">
-        <!-- Heading -->
-        <h2 class="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[var(--primary-color)] via-[var(--accent-color)] to-[var(--secondary-color)] bg-clip-text text-transparent tracking-tight">
-            Why Choose Us
-        </h2>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-16">
-            We’re redefining the art of comfort and trust in home living.
-        </p>
-
-        <!-- Trust Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            @foreach ([
-                ['icon' => 'fa-shield-alt', 'title' => 'Premium Quality', 'desc' => 'Crafted with the finest materials and unmatched attention to detail.'],
-                ['icon' => 'fa-truck', 'title' => 'Free Shipping', 'desc' => 'Enjoy fast, free delivery on all premium orders.'],
-                ['icon' => 'fa-undo-alt', 'title' => 'Easy Returns', 'desc' => '30-day hassle-free returns, no questions asked.'],
-                ['icon' => 'fa-headset', 'title' => '24/7 Support', 'desc' => 'We’re always here to help, anytime, anywhere.']
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-[var(--border-color)]">
+            @foreach([
+                ['num' => '01', 'title' => 'Ethical Sourcing', 'desc' => 'Hand-selected timber and fabrics from sustainable, certified forests.'],
+                ['num' => '02', 'title' => 'Master Craft', 'desc' => 'Assembled by artisans with over two decades of experience in joinery.'],
+                ['num' => '03', 'title' => 'Global White-Glove', 'desc' => 'Complimentary premium delivery including room-of-choice setup.'],
+                ['num' => '04', 'title' => 'Lifetime Promise', 'desc' => 'A testament to quality: our frames carry a lifetime structural warranty.']
             ] as $trust)
-            <div class="group relative p-10 rounded-3xl bg-white/30 backdrop-blur-xl border border-white/40 
-                        shadow-[0_0_40px_rgba(0,0,0,0.05)] hover:shadow-[0_0_80px_rgba(0,0,0,0.1)]
-                        transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div class="relative z-10 flex flex-col items-center text-center space-y-4">
-                    <div class="text-5xl text-[var(--primary-color)] group-hover:text-[var(--secondary-color)] transition-colors duration-500">
-                        <i class="fas {{ $trust['icon'] }}"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900">{{ $trust['title'] }}</h3>
-                    <p class="text-gray-600 leading-relaxed">{{ $trust['desc'] }}</p>
-                </div>
+            <div class="p-10 border-r border-b border-[var(--border-color)] group hover:bg-[var(--background-color)] transition-colors duration-500">
+                <span class="text-sm font-serif italic text-[var(--secondary-color)] mb-8 block">{{ $trust['num'] }}</span>
+                <h3 class="text-lg font-bold text-[var(--primary-color)] mb-4 tracking-tight uppercase">{{ $trust['title'] }}</h3>
+                <p class="text-neutral-500 text-sm leading-relaxed">{{ $trust['desc'] }}</p>
             </div>
             @endforeach
         </div>
     </div>
-<!-- 
-    <div class="relative mt-32">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl md:text-5xl font-extrabold mb-8 bg-gradient-to-r from-[var(--primary-color)] via-[var(--accent-color)] to-[var(--secondary-color)] bg-clip-text text-transparent">
-                What Our Customers Say
-            </h2>
-            <p class="text-lg text-gray-600 mb-16 max-w-2xl mx-auto">Trusted by thousands of happy customers across the globe.</p>
+</section>
 
-            <div class="relative max-w-5xl mx-auto overflow-hidden">
-                <div id="testimonialsTrack" class="flex transition-transform duration-700 ease-in-out">
-                    <div class="testimonial-card min-w-full px-8">
-                        <div class="p-10 rounded-3xl bg-white/40 backdrop-blur-xl border border-white/40 shadow-[0_0_50px_rgba(0,0,0,0.08)]">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="w-20 h-20 rounded-full mx-auto mb-6 shadow-md">
-                            <p class="text-gray-700 italic mb-4">“The quality exceeded my expectations. Delivery was quick, and setup was seamless!”</p>
-                            <h4 class="font-semibold text-gray-900">Sarah Johnson</h4>
-                            <p class="text-sm text-gray-500">Interior Designer</p>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card min-w-full px-8">
-                        <div class="p-10 rounded-3xl bg-white/40 backdrop-blur-xl border border-white/40 shadow-[0_0_50px_rgba(0,0,0,0.08)]">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="w-20 h-20 rounded-full mx-auto mb-6 shadow-md">
-                            <p class="text-gray-700 italic mb-4">“I was hesitant to buy online, but the quality and service are top-notch!”</p>
-                            <h4 class="font-semibold text-gray-900">Michael Chen</h4>
-                            <p class="text-sm text-gray-500">Architect</p>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card min-w-full px-8">
-                        <div class="p-10 rounded-3xl bg-white/40 backdrop-blur-xl border border-white/40 shadow-[0_0_50px_rgba(0,0,0,0.08)]">
-                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez" class="w-20 h-20 rounded-full mx-auto mb-6 shadow-md">
-                            <p class="text-gray-700 italic mb-4">“Exceptional customer service and design help — made my dream living room!”</p>
-                            <h4 class="font-semibold text-gray-900">Emma Rodriguez</h4>
-                            <p class="text-sm text-gray-500">Home Stager</p>
-                        </div>
-                    </div>
+<section class="py-32 bg-[var(--background-color)]">
+    <div class="container mx-auto px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <div class="hidden lg:block lg:col-span-1 text-8xl font-serif text-[var(--secondary-color)] opacity-30">
+                    “
                 </div>
 
-                <div class="flex justify-center mt-10 space-x-3">
-                    <div class="dot w-3 h-3 rounded-full bg-gray-400 cursor-pointer" data-index="0"></div>
-                    <div class="dot w-3 h-3 rounded-full bg-gray-300 cursor-pointer" data-index="1"></div>
-                    <div class="dot w-3 h-3 rounded-full bg-gray-300 cursor-pointer" data-index="2"></div>
+                <div class="lg:col-span-11">
+                    <div class="space-y-12">
+                        @foreach([
+                            ['name' => 'Sarah Johnson', 'role' => 'Interior Architect', 'text' => 'The silhouettes are timeless. It is rare to find a brand that balances modern structural integrity with such warm, organic aesthetics.'],
+                        ] as $testimonial)
+                        <div class="space-y-8" data-aos="fade-up">
+                            <p class="text-3xl md:text-4xl font-serif italic text-[var(--primary-color)] leading-snug">
+                                {{ $testimonial['text'] }}
+                            </p>
+                            <div class="flex items-center gap-6">
+                                <div class="w-16 h-px bg-[var(--secondary-color)]"></div>
+                                <div>
+                                    <h4 class="font-bold text-[var(--primary-color)] uppercase tracking-widest text-xs">{{ $testimonial['name'] }}</h4>
+                                    <p class="text-[var(--secondary-color)] text-[10px] uppercase tracking-widest mt-1">{{ $testimonial['role'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </section>
-
-<!-- GSAP + Slider Script -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    gsap.from(".trust-card, .testimonial-card", {
-        opacity: 0,
-        y: 80,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: "power3.out"
-    });
-
-    // Auto slider
-    const track = document.getElementById("testimonialsTrack");
-    const dots = document.querySelectorAll(".dot");
-    let current = 0;
-    function showSlide(i) {
-        track.style.transform = `translateX(-${i * 100}%)`;
-        dots.forEach(d => d.classList.remove("bg-gray-400"));
-        dots[i].classList.add("bg-gray-400");
-        current = i;
-    }
-    dots.forEach((dot, i) => dot.addEventListener("click", () => showSlide(i)));
-    setInterval(() => showSlide((current + 1) % 3), 5000);
-});
-</script>
-
-  
 @endsection
 
 @push("script")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <script>
-    // Initialize AOS (Animate On Scroll)
-    document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100
+// Initialize AOS
+document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100,
+        easing: 'ease-out-cubic'
+    });
+
+    // Initialize GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Parallax effect for hero background
+    gsap.to('.parallax-bg', {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+            trigger: '.hero-section',
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
+    });
+
+    // Stagger animations for product cards
+    gsap.from('.modern-product-card', {
+        scrollTrigger: {
+            trigger: '.modern-product-card:first-child',
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+
+    // Sale countdown timer
+    @if($activeSale = $sale->first())
+    const endDate = new Date("{{ $activeSale->ends_at->toIso8601String() }}").getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+        
+        if (distance <= 0) {
+            document.querySelector('.modern-sale-timer').innerHTML = `
+                <div class="text-3xl font-bold text-white text-center py-8">
+                    Sale Ended
+                </div>
+            `;
+            return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+    @endif
+
+    // Hover tilt effect for cards
+    const cards = document.querySelectorAll('.premium-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateY = (x - centerX) / 25;
+            const rotateX = (centerY - y) / 25;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
         });
         
-        // Quick view button functionality
-        document.querySelectorAll('.quick-view-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('Quick view feature would open a modal with product details');
-            });
-        });
-        
-        // Wishlist button functionality
-        document.querySelectorAll('.wishlist-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const icon = this.querySelector('svg');
-                if (icon.classList.contains('far')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas', 'text-red-500');
-                } else {
-                    icon.classList.remove('fas', 'text-red-500');
-                    icon.classList.add('far');
-                }
-            });
-        });
-        
-        // Add to cart functionality
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const originalContent = this.innerHTML;
-                this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-                
-                setTimeout(() => {
-                    this.innerHTML = originalContent;
-                }, 1500);
-            });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(-10px)';
         });
     });
+
+    // Product image zoom on hover
+    const productImages = document.querySelectorAll('.product-image img');
+    productImages.forEach(img => {
+        img.parentElement.addEventListener('mouseenter', () => {
+            img.style.transform = 'scale(1.1)';
+        });
+        
+        img.parentElement.addEventListener('mouseleave', () => {
+            img.style.transform = 'scale(1)';
+        });
+    });
+
+    // Add to cart animation
+    document.querySelectorAll('.modern-product-card button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const originalText = this.innerHTML;
+            
+            // Animation
+            gsap.to(this, {
+                scale: 0.95,
+                duration: 0.1,
+                yoyo: true,
+                repeat: 1,
+                onComplete: () => {
+                    this.innerHTML = '<svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 1500);
+                }
+            });
+            
+            // Show notification
+            showNotification('Product added to cart!');
+        });
+    });
+
+    // Wishlist functionality
+    document.querySelectorAll('.product-actions button:first-child').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const icon = this.querySelector('svg');
+            const isActive = icon.style.fill === 'currentColor';
+            
+            gsap.to(this, {
+                scale: 1.2,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1
+            });
+            
+            if (isActive) {
+                icon.style.fill = 'none';
+                showNotification('Removed from wishlist');
+            } else {
+                icon.style.fill = 'currentColor';
+                showNotification('Added to wishlist');
+            }
+        });
+    });
+
+    // Notification function
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-6 right-6 bg-white shadow-xl rounded-xl p-4 border-l-4 border-[var(--secondary-color)] z-50';
+        notification.innerHTML = `
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-[var(--secondary-color)]" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-800 font-medium">${message}</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        gsap.from(notification, {
+            x: 100,
+            opacity: 0,
+            duration: 0.3
+        });
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            gsap.to(notification, {
+                x: 100,
+                opacity: 0,
+                duration: 0.3,
+                onComplete: () => notification.remove()
+            });
+        }, 3000);
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                gsap.to(window, {
+                    duration: 1,
+                    scrollTo: target,
+                    ease: "power2.inOut"
+                });
+            }
+        });
+    });
+
+    // Animate floating elements
+    gsap.to('.animate-float', {
+        y: -20,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+});
+
+// Mouse move spotlight effect
+document.addEventListener('mousemove', (e) => {
+    const spotlight = document.createElement('div');
+    spotlight.style.cssText = `
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle at ${e.clientX}px ${e.clientY}px, 
+            rgba(200, 161, 101, 0.1) 0%, 
+            transparent 50%);
+        pointer-events: none;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        mix-blend-mode: screen;
+    `;
+    document.body.appendChild(spotlight);
+    
+    // Remove old spotlights
+    const oldSpotlights = document.querySelectorAll('body > div[style*="radial-gradient"]');
+    if (oldSpotlights.length > 3) {
+        oldSpotlights[0].remove();
+    }
+    
+    setTimeout(() => spotlight.remove(), 1000);
+});
 </script>
 @endpush

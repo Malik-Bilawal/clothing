@@ -98,243 +98,152 @@ body {
 
 
 @section("content")
-<section class="relative h-[80vh] md:h-[80vh] overflow-hidden flex items-center justify-center text-white">
-  <!-- Animated Gradient Background -->
-  <div class="absolute inset-0 bg-gradient-to-r from-[var(--primary-color)] via-[var(--accent-color)] to-[var(--secondary-color)] animate-gradient"></div>
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--background-color)]">
+  
+  <div class="absolute inset-0 opacity-[0.04] pointer-events-none" 
+       style="background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');"></div>
 
-  <!-- Floating Glow Orbs -->
-  <div class="absolute -top-40 -left-20 w-[400px] h-[400px] bg-[var(--secondary-color)] opacity-25 rounded-full blur-[140px] animate-pulse"></div>
-  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--accent-color)] opacity-30 rounded-full blur-[180px] animate-bounce-slow"></div>
+  <div class="absolute inset-0" 
+       style="background: radial-gradient(circle at center, transparent 0%, rgba(229, 213, 195, 0.3) 100%);"></div>
 
-  <!-- Sparkle Canvas -->
-  <canvas id="spark-canvas" class="absolute inset-0 z-10"></canvas>
+  <div class="absolute top-20 left-10 w-[300px] h-[1px] bg-[var(--secondary-color)] opacity-20 hidden md:block"></div>
+  <div class="absolute bottom-20 right-10 w-[300px] h-[1px] bg-[var(--secondary-color)] opacity-20 hidden md:block"></div>
 
-  <!-- Content -->
-  <div class="relative z-20 text-center max-w-3xl mx-auto px-8 py-10 backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-[0_0_40px_rgba(255,255,255,0.1)]" data-aos="fade-up">
-    <h1 class="text-5xl md:text-6xl font-extrabold mb-5 leading-tight tracking-tight drop-shadow-lg">
-      Our <span class="text-[var(--secondary-color)]">Collections</span>
-    </h1>
-    <p class="text-lg md:text-xl text-gray-200 mb-10">
-      Discover our premium home collection curated for modern living — stylish, comfortable, and timeless.
-    </p>
-    <div class="flex justify-center gap-6">
-      <a href="#categories" 
-         class="px-8 py-3 rounded-full bg-[var(--primary-color)] hover:bg-[var(--primary-hover)] font-semibold text-[var(--text-on-primary)] shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-        Explore Collections
-      </a>
-      <a href="#products" 
-         class="px-8 py-3 rounded-full border border-[var(--border-color)] hover:border-[var(--secondary-color)] text-white hover:bg-white/10 transition-all duration-300">
-        Featured Items
-      </a>
+  <div class="container mx-auto px-6 relative z-20">
+    <div class="flex flex-col items-center text-center">
+      
+      <div class="mb-8" data-aos="fade-down">
+        <span class="inline-flex items-center gap-3 uppercase tracking-[0.5em] text-[10px] font-bold text-[var(--accent-color)]">
+          <span class="w-8 h-[1px] bg-[var(--secondary-color)]"></span>
+          The 2024 Collection
+          <span class="w-8 h-[1px] bg-[var(--secondary-color)]"></span>
+        </span>
+      </div>
+
+      <h1 class="text-6xl md:text-9xl font-serif text-[var(--primary-color)] leading-[0.9] mb-10" data-aos="zoom-out" data-aos-duration="1500">
+        Quiet <br>
+        <span class="italic font-light text-[var(--secondary-color)] ml-4 md:ml-20">Luxury.</span>
+      </h1>
+
+      <p class="max-w-xl text-lg md:text-xl text-[var(--primary-color)] opacity-70 font-light leading-relaxed mb-14 px-4" data-aos="fade-up" data-aos-delay="400">
+        Step into a world where every detail is deliberate. Our furniture blends 
+        <span class="font-medium text-[var(--primary-color)]">organic textures</span> with 
+        <span class="font-medium text-[var(--primary-color)]">timeless silhouettes</span>.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-10 items-center" data-aos="fade-up" data-aos-delay="600">
+        
+        <a href="#categories" 
+           class="group relative px-14 py-5 bg-[var(--primary-color)] text-[var(--text-on-primary)] transition-all duration-500 hover:shadow-[0_20px_40px_rgba(107,66,38,0.2)]">
+           <span class="relative z-10 uppercase tracking-[0.3em] text-xs font-bold">Discover More</span>
+           <div class="absolute inset-0 bg-[var(--primary-hover)] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+        </a>
+
+        <a href="#products" 
+           class="group flex items-center gap-5 text-[var(--primary-color)]">
+           <span class="uppercase tracking-[0.3em] text-xs font-bold group-hover:text-[var(--secondary-color)] transition-colors">View Lookbook</span>
+           <div class="relative w-12 h-12 flex items-center justify-center border border-[var(--border-color)] rounded-full group-hover:border-[var(--secondary-color)] group-hover:bg-[var(--secondary-color)] group-hover:text-white transition-all duration-500">
+                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+           </div>
+        </a>
+      </div>
     </div>
   </div>
 
-  <!-- Animated Double Wave Bottom Border -->
-  <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-    <svg class="relative block w-full h-[180px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <path fill="url(#grad1)" fill-opacity="0.6"
-        d="M0,40 C150,120 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120Z">
-        <animate attributeName="d" dur="12s" repeatCount="indefinite"
-          values="
-            M0,40 C150,120 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120Z;
-            M0,60 C150,20 350,100 600,40 C850,-20 1050,80 1200,40 L1200,120 L0,120Z;
-            M0,40 C150,120 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120Z" />
-      </path>
-
-      <path fill="url(#grad2)" fill-opacity="0.4"
-        d="M0,60 C200,100 400,20 600,80 C800,140 1000,40 1200,80 L1200,120 L0,120Z">
-        <animate attributeName="d" dur="16s" repeatCount="indefinite"
-          values="
-            M0,60 C200,100 400,20 600,80 C800,140 1000,40 1200,80 L1200,120 L0,120Z;
-            M0,80 C200,40 400,120 600,60 C800,0 1000,100 1200,60 L1200,120 L0,120Z;
-            M0,60 C200,100 400,20 600,80 C800,140 1000,40 1200,80 L1200,120 L0,120Z" />
-      </path>
-
-      <defs>
-        <linearGradient id="grad1" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0%" stop-color="var(--primary-color)" />
-          <stop offset="50%" stop-color="var(--accent-color)" />
-          <stop offset="100%" stop-color="var(--secondary-color)" />
-        </linearGradient>
-        <linearGradient id="grad2" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0%" stop-color="var(--secondary-color)" />
-          <stop offset="50%" stop-color="var(--accent-color)" />
-          <stop offset="100%" stop-color="var(--primary-color)" />
-        </linearGradient>
-      </defs>
-    </svg>
+  <div class="absolute bottom-10 left-10 text-[var(--border-color)] text-[10px] uppercase tracking-[1em] vertical-text hidden lg:block" style="writing-mode: vertical-rl;">
+    Crafted For Comfort
   </div>
 
-  <style>
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .animate-gradient {
-      background-size: 200% 200%;
-      animation: gradient 10s ease infinite;
-    }
-    .animate-bounce-slow {
-      animation: bounce 6s infinite ease-in-out;
-    }
-    #spark-canvas {
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-
-    /* Mobile Height */
-    @media (max-width: 768px) {
-      section.relative {
-        height: 50vh !important;
-      }
-    }
-  </style>
-
-  <script>
-    // Subtle Sparkle Particle Effect
-    const canvas = document.getElementById('spark-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-
-    function resize() {
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    function createParticle() {
-      return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.8,
-        a: Math.random() * 0.5 + 0.3,
-        s: Math.random() * 0.4 + 0.1,
-      };
-    }
-
-    for (let i = 0; i < 90; i++) particles.push(createParticle());
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${p.a})`;
-        ctx.fill();
-        p.y -= p.s;
-        if (p.y < -5) {
-          p.y = canvas.height + 5;
-          p.x = Math.random() * canvas.width;
-        }
-      });
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
 </section>
+<section id="categories" class="relative py-28 bg-[var(--background-color)] overflow-hidden">
+  
+  <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-[var(--border-color)] opacity-20 rounded-full blur-[120px]"></div>
+  <div class="absolute bottom-0 left-0 w-1/4 h-1/4 bg-[var(--secondary-color)] opacity-10 rounded-full blur-[100px]"></div>
 
-
-
-<!-- Categories Section -->
-<section id="categories" class="relative py-24 overflow-hidden bg-[var(--background-color)] text-[var(--text-on-secondary)]">
-
-  <!-- Floating Blobs -->
-  <div class="absolute top-[-100px] left-[-100px] w-[30rem] h-[30rem] bg-[var(--secondary-color)] opacity-25 rounded-full blur-[100px] animate-float-slow"></div>
-  <div class="absolute bottom-[-120px] right-[-120px] w-[34rem] h-[34rem] bg-[var(--accent-color)] opacity-20 rounded-full blur-[100px] animate-float-reverse"></div>
-
-  <!-- Subtle Noise Overlay -->
-  <div class="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.07] pointer-events-none"></div>
-
-  <!-- Section Heading -->
-  <div class="relative z-20 text-center mb-20" data-aos="fade-up">
-    <h2 class="text-5xl md:text-6xl font-extrabold mb-4 text-[var(--primary-color)]">
-      Our <span class="text-[var(--secondary-color)]">Luxury Collections</span>
-    </h2>
-    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-      Handpicked categories crafted with elegance and timeless design.
-    </p>
-  </div>
-
-  <!-- Category Cards -->
-  <div class="relative z-20 container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-    @foreach ($categories as $index => $category)
-      <div 
-        class="category-card group relative rounded-3xl overflow-hidden bg-white border border-[var(--border-color)] shadow-lg hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02]"
-        data-aos="zoom-in"
-        @if($index % 3 == 1) data-aos-delay="100" 
-        @elseif($index % 3 == 2) data-aos-delay="200" 
-        @endif
-      >
-
-        <!-- Image -->
-        <div class="h-64 overflow-hidden relative">
-          <img 
-            src="{{ $category->image ? asset('storage/' . $category->image) : asset('images/default-category.jpg') }}" 
-            alt="{{ $category->name }}" 
-            class="w-full h-full object-cover transform transition-transform duration-[900ms] group-hover:scale-110"
-          >
-          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-700"></div>
-        </div>
-
-        <!-- Content -->
-        <div class="relative z-10 p-6">
-          <h3 class="text-2xl font-bold mb-2 text-[var(--primary-color)] group-hover:text-[var(--accent-color)] transition-colors duration-300">
-            {{ $category->name }}
-          </h3>
-          <p class="text-gray-600 mb-5">{{ $category->description ?? 'Explore our finest picks in this category.' }}</p>
-
-          <div class="flex justify-between items-center">
-            <span class="text-lg font-semibold text-[var(--secondary-color)]">
-              {{ $category->product->count() ?? '0' }}+ Products
-            </span>
-            <a href="{{ route('product', ['category_id' => $category->id]) }}" 
-   class="px-5 py-2.5 rounded-full font-medium bg-[var(--secondary-color)] text-[var(--text-on-secondary)] hover:bg-[var(--secondary-hover)] shadow-[0_0_15px_rgba(200,161,101,0.3)] hover:shadow-[0_0_25px_rgba(200,161,101,0.5)] transition-all duration-500">
-  Explore
-</a>
-
-          </div>
-        </div>
+  <div class="container mx-auto px-6 relative z-10">
+    
+    <div class="max-w-3xl mx-auto text-center mb-20" data-aos="fade-up">
+      <h2 class="text-4xl md:text-6xl font-serif text-[var(--primary-color)] mb-6 tracking-tight">
+        The <span class="italic text-[var(--secondary-color)]">Signature</span> Series
+      </h2>
+      <p class="text-[var(--primary-color)] opacity-70 uppercase tracking-[0.2em] text-sm font-medium">
+        Curated Excellence • Handcrafted Quality
+      </p>
+      <div class="mt-8 flex justify-center items-center gap-4">
+        <div class="h-[1px] w-12 bg-[var(--border-color)]"></div>
+        <div class="w-2 h-2 rotate-45 border border-[var(--secondary-color)]"></div>
+        <div class="h-[1px] w-12 bg-[var(--border-color)]"></div>
       </div>
-    @endforeach
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      @foreach ($categories as $index => $category)
+        <div class="group relative bg-[var(--surface-color)] p-4 border border-[var(--border-color)] transition-all duration-700 hover:border-[var(--secondary-color)] shadow-sm hover:shadow-2xl"
+             data-aos="fade-up" 
+             data-aos-delay="{{ $index * 100 }}">
+          
+          <div class="relative h-[450px] overflow-hidden bg-[var(--background-color)]">
+            <img 
+              src="{{ $category->image ? asset('storage/' . $category->image) : asset('images/default-category.jpg') }}" 
+              alt="{{ $category->name }}" 
+              class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
+            >
+            
+            <div class="absolute top-4 right-4 bg-[var(--surface-color)]/90 backdrop-blur-md px-4 py-1 border border-[var(--border-color)]">
+                <p class="text-[10px] tracking-[0.2em] uppercase text-[var(--primary-color)]">
+                    Est. 2024
+                </p>
+            </div>
+
+            <div class="absolute inset-0 bg-[var(--primary-color)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          </div>
+
+          <div class="pt-8 pb-4 text-center">
+            <h3 class="text-2xl font-serif text-[var(--primary-color)] group-hover:text-[var(--secondary-color)] transition-colors duration-500 mb-3">
+              {{ $category->name }}
+            </h3>
+            
+            <p class="text-sm text-[var(--primary-color)] opacity-60 mb-6 px-4 line-clamp-2 italic">
+               {{ $category->description ?? 'Redefining the standards of modern luxury and craftsmanship.' }}
+            </p>
+
+            <div class="relative overflow-hidden inline-block">
+                <a href="{{ route('product', ['category_id' => $category->id]) }}" 
+                   class="inline-block text-[var(--primary-color)] text-xs uppercase tracking-[0.3em] font-bold py-2 group-hover:text-[var(--secondary-hover)] transition-colors">
+                  View Collection
+                </a>
+                <div class="h-[1px] w-full bg-[var(--secondary-color)] transform translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500"></div>
+            </div>
+          </div>
+
+          <div class="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-[var(--secondary-color)] transition-all duration-500 group-hover:w-8 group-hover:h-8"></div>
+        </div>
+      @endforeach
+    </div>
+
   </div>
-
-  <!-- Bottom Decorative Wave -->
-  <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-    <svg class="w-full h-20 text-[var(--background-color)]" preserveAspectRatio="none" viewBox="0 0 1200 120">
-      <path d="M0,0V46.29c47.28,22,98.51,39,158,39,110,0,219-50,329-50s219,50,329,50,219-50,329-50c59.49,0,110.72,17,158,39V0Z" fill="currentColor"></path>
-    </svg>
-  </div>
-
-  <!-- Animations -->
-  <style>
-    @keyframes float-slow {
-      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
-      50% { transform: translateY(-25px) translateX(20px) scale(1.05); }
-    }
-    .animate-float-slow {
-      animation: float-slow 10s ease-in-out infinite;
-    }
-
-    @keyframes float-reverse {
-      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
-      50% { transform: translateY(25px) translateX(-20px) scale(1.05); }
-    }
-    .animate-float-reverse {
-      animation: float-reverse 12s ease-in-out infinite;
-    }
-  </style>
 </section>
-
-
-
     <!-- Featured Products Section -->
     <section id="featured" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="text-3xl font-bold text-primary mb-4">Featured Products</h2>
-                <p class="text-text-color max-w-2xl mx-auto">Handpicked items from our collections</p>
+            <div class="mb-8" data-aos="fade-down">
+            <div class="max-w-3xl mx-auto text-center mb-20" data-aos="fade-up">
+      <h2 class="text-4xl md:text-6xl font-serif text-[var(--primary-color)] mb-6 tracking-tight">
+        The <span class="italic text-[var(--secondary-color)]">Signature</span> Series
+      </h2>
+      <p class="text-[var(--primary-color)] opacity-70 uppercase tracking-[0.2em] text-sm font-medium">
+        Curated Excellence • Handcrafted Quality
+      </p>
+      <div class="mt-8 flex justify-center items-center gap-4">
+        <div class="h-[1px] w-12 bg-[var(--border-color)]"></div>
+        <div class="w-2 h-2 rotate-45 border border-[var(--secondary-color)]"></div>
+        <div class="h-[1px] w-12 bg-[var(--border-color)]"></div>
+      </div>
+    </div>
+
             </div>
             
             <div class="w-full px-4 lg:px-8 mx-auto">
@@ -345,7 +254,7 @@ body {
     </div>
 </div>
             <div class="text-center mt-10" data-aos="fade-up">
-                <a href="/shop" class="btn-primary px-8 py-3 rounded-lg font-medium text-lg">View All Products</a>
+                <a href="/product" class="btn-primary px-8 py-3 rounded-lg font-medium text-lg">View All Products</a>
             </div>
         </div>
     </section>

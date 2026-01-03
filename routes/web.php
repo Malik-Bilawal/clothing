@@ -1,11 +1,10 @@
 <?php
 
 use App\Models\User;
-use App\Http\Controllers\User\Auth\UserRegisterController;
+use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AboutController;
@@ -15,6 +14,7 @@ use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\Auth\UserLoginController;
 use App\Http\Controllers\User\Partial\NavbarController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\User\Auth\UserRegisterController;
 use App\Http\Controllers\User\Checkout\CheckoutController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\Auth\ForgotPasswordController;
@@ -87,35 +87,54 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 
 
-Route::get('/product',[ProductController::class, 'index'])->name('product');
+Route::get('/product', [ProductController::class, 'index'])->name('product');
 
-// HOME 
-Route::get('popular-products', [NavbarController::class, 'index']);
-Route::get('/search-products', [NavbarController::class, 'search']);
+// Navbar search route
+Route::get('/navbar-search', [NavbarController::class, 'search'])->name('navbar.search');
+Route::post('/recent-searches', [NavbarController::class, 'storeRecentSearch'])->name('recent.searches.store');
+Route::delete('/recent-searches/{id}', [NavbarController::class, 'deleteRecentSearch'])->name('recent.searches.delete');
 
-Route::get('/product/{id}', [ProductDetailController::class, 'show'])->name('product.show');
-Route::post('/product/{id}/review', [ProductDetailController::class, 'store'])->name('review.store');
+
+
+
+Route::post('/products/{id}/quick-add', [ProductDetailController::class, 'quickAddToCart'])
+    ->name('product.quick.add');
 // Add this line to your routes/web.php
 Route::get('/products/load-more/{category}', [ProductController::class, 'loadMoreProducts'])
-     ->name('products.load-more');
+    ->name('products.load-more');
 Route::post('add-to-cart', [ProductDetailController::class, 'addToCart']);
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/buy-now', [ProductDetailController::class, 'buyNow']);
 Route::post('/cart/update/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/placeOrder', [CheckoutController::class , 'placeOrder'])->name('checkout.placeOrder');
+Route::post('/checkout/placeOrder', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
 Route::get('/order/confirmation/{order}', [CheckoutController::class, 'confirmation'])
-->name('order.confirmation');
+    ->name('order.confirmation');
 
 // Invoice download (can be accessed by user)
 Route::get('/order/invoice/{order}/download', [CheckoutController::class, 'downloadInvoice'])
-->name('order.invoice.download');
+    ->name('order.invoice.download');
 
-Route::get('/',[HomeController::class, 'index'])->name('home');
-Route::get('/about',[AboutController::class, 'index'])->name('about');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-Route::get('/contact', [ContactController::class , 'index'])->name('contact');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category');
+// Product detail routes
+Route::get('/product/{id}', [ProductDetailController::class, 'show'])
+    ->name('product.detail')
+    ->where('id', '[0-9]+');
+
+// Cart routes
+Route::post('/cart/add', [ProductDetailController::class, 'addToCart'])->name('cart.add');
+Route::post('/buy-now', [ProductDetailController::class, 'buyNow'])->name('buy.now');
+Route::get('/cart/count', [CartController::class, 'getCartCountApi'])->name('cart.count');
+Route::get('/products/{product}/quick-add', [ProductDetailController::class, 'quickAddToCart'])->name('products.quick-add');
+
+// Review routes
+Route::post('/products/{product}/reviews', [ProductDetailController::class, 'storeReview'])->name('review.store');
+Route::get('/debug/cart', [CartController::class, 'debugCart']);
+Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');

@@ -31,4 +31,6 @@ class Sale extends Model
         if ($this->ends_at && $now->gt($this->ends_at)) return false;
         return true;
     }
+
+
 }

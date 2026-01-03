@@ -100,9 +100,10 @@ class CheckoutController extends Controller
     return view('user.checkout.checkout', compact('cartItems', 'shipping', 'tax'));
 }
 
-
 public function placeOrder(Request $request)
 {
+    Log::info('🚀 [Place Order Started]', ['input' => $request->all()]);
+
     try {
         $validated = $request->validate([
             'first_name'  => 'required|string|max:255',
@@ -114,23 +115,24 @@ public function placeOrder(Request $request)
             'postal_code' => 'required|string',
             'country'     => 'nullable|string|max:255',
         ]);
-        Log::info('✅ [Checkout] Validation passed', ['validated' => $validated]);
+
+        Log::info('✅ [Validation Passed]', ['validated' => $validated]);
     } catch (\Illuminate\Validation\ValidationException $e) {
         Log::error('❌ [Validation Failed]', [
             'errors' => $e->errors(),
             'input'  => $request->all(),
         ]);
-        throw $e; // let Laravel handle redirect after logging
+        throw $e;
     }
-    
 
     DB::beginTransaction();
+    Log::info('🔹 [Transaction Started]');
 
     try {
-        // Get cart items
+        // Fetch cart items
         if (Session::has('buy_now_item')) {
             $cartItems = collect([Session::get('buy_now_item')]);
-            Log::info('🛍 Using Buy Now item', ['cartItems' => $cartItems]);
+            Log::info('🛍 Using Buy Now item', ['cartItems' => $cartItems->toArray()]);
             Session::forget('buy_now_item');
         } else {
             if (Auth::check()) {
@@ -150,7 +152,7 @@ public function placeOrder(Request $request)
             return back()->with('error', 'Your cart is empty!');
         }
 
-        // Calculate totals
+        // Totals
         $subtotal = $cartItems->sum(function ($i) {
             $price = is_array($i) ? ($i['price'] ?? 0) : ($i->price ?? ($i->product->price ?? 0));
             $qty   = is_array($i) ? ($i['quantity'] ?? 1) : ($i->quantity ?? 1);
@@ -164,7 +166,6 @@ public function placeOrder(Request $request)
         $activeSale = Sale::where('starts_at', '<=', $now)
             ->where('ends_at', '>=', $now)
             ->first();
-
         $discount = $activeSale ? ($subtotal * $activeSale->discount_percent) / 100 : 0;
         $total = $subtotal - $discount + $shipping + $tax;
 
@@ -192,8 +193,9 @@ public function placeOrder(Request $request)
 
         Log::info('🧾 [Order Created]', ['order_id' => $order->id]);
 
-        // Store order items
+        // Order items
         foreach ($cartItems as $index => $item) {
+            Log::info('🔹 [Creating Order Item]', ['item_index' => $index, 'item' => $item]);
             $productId = is_array($item) ? ($item['product_id'] ?? null) : ($item->product_id ?? ($item->product->id ?? null));
             $quantity  = is_array($item) ? ($item['quantity'] ?? 1) : ($item->quantity ?? 1);
             $price     = is_array($item) ? ($item['price'] ?? 0) : ($item->price ?? ($item->product->price ?? 0));
@@ -205,7 +207,7 @@ public function placeOrder(Request $request)
                 throw new \Exception("Missing product_id for item index {$index}");
             }
 
-            OrderItem::create([
+            $orderItem = OrderItem::create([
                 'order_id'   => $order->id,
                 'product_id' => $productId,
                 'size_id'    => $sizeId,
@@ -216,6 +218,7 @@ public function placeOrder(Request $request)
             ]);
 
             Log::info('🧩 [Order Item Created]', [
+                'order_item_id' => $orderItem->id,
                 'order_id' => $order->id,
                 'product_id' => $productId,
                 'quantity' => $quantity,
@@ -224,42 +227,37 @@ public function placeOrder(Request $request)
         }
 
         // Billing/shipping
-        try {
-            $isSameBilling = $request->boolean('same_billing', true);
-            Log::info('📦 [Address Step Started]', ['isSameBilling' => $isSameBilling]);
+        $isSameBilling = $request->boolean('same_billing', true);
+        Log::info('📦 [Address Step Started]', ['isSameBilling' => $isSameBilling]);
 
-            if ($isSameBilling) {
-                $billing = OrderAddress::create([
-                    'order_id'    => $order->id,
-                    'type'        => 'billing',
-                    'first_name'  => $validated['first_name'],
-                    'last_name'   => $validated['last_name'],
-                    'email'       => $validated['email'],
-                    'phone'       => $validated['phone'],
-                    'address'     => $validated['address'],
-                    'city'        => $validated['city'],
-                    'postal_code' => $validated['postal_code'],
-                    'country'     => 'Pakistan',
-                ]);
-                Log::info('🏠 [Billing Address Created - Same as Shipping]', ['billing_id' => $billing->id]);
-            } else {
-                $billing = OrderAddress::create([
-                    'order_id'    => $order->id,
-                    'type'        => 'billing',
-                    'first_name'  => $request->input('billing_first_name') ?? 'N/A',
-                    'last_name'   => $request->input('billing_last_name') ?? 'N/A',
-                    'email'       => $request->input('billing_email') ?? $validated['email'],
-                    'phone'       => $request->input('billing_phone') ?? $validated['phone'],
-                    'address'     => $request->input('billing_address') ?? $validated['address'],
-                    'city'        => $request->input('billing_city') ?? $validated['city'],
-                    'postal_code' => $request->input('billing_postal_code') ?? $validated['postal_code'],
-                    'country'     => 'Pakistan',
-                ]);
-                Log::info('🏠 [Billing Address Created - Custom]', ['billing_id' => $billing->id]);
-            }
-        } catch (\Exception $e) {
-            Log::error('❌ [Address Creation Failed]', ['error' => $e->getMessage()]);
-            throw $e;
+        if ($isSameBilling) {
+            $billing = OrderAddress::create([
+                'order_id'    => $order->id,
+                'type'        => 'billing',
+                'first_name'  => $validated['first_name'],
+                'last_name'   => $validated['last_name'],
+                'email'       => $validated['email'],
+                'phone'       => $validated['phone'],
+                'address'     => $validated['address'],
+                'city'        => $validated['city'],
+                'postal_code' => $validated['postal_code'],
+                'country'     => 'Pakistan',
+            ]);
+            Log::info('🏠 [Billing Address Created - Same as Shipping]', ['billing_id' => $billing->id]);
+        } else {
+            $billing = OrderAddress::create([
+                'order_id'    => $order->id,
+                'type'        => 'billing',
+                'first_name'  => $request->input('billing_first_name') ?? 'N/A',
+                'last_name'   => $request->input('billing_last_name') ?? 'N/A',
+                'email'       => $request->input('billing_email') ?? $validated['email'],
+                'phone'       => $request->input('billing_phone') ?? $validated['phone'],
+                'address'     => $request->input('billing_address') ?? $validated['address'],
+                'city'        => $request->input('billing_city') ?? $validated['city'],
+                'postal_code' => $request->input('billing_postal_code') ?? $validated['postal_code'],
+                'country'     => 'Pakistan',
+            ]);
+            Log::info('🏠 [Billing Address Created - Custom]', ['billing_id' => $billing->id]);
         }
 
         // Clear cart
@@ -272,14 +270,14 @@ public function placeOrder(Request $request)
             Log::info('🧹 [Cart Cleared for guest]', ['guest_token' => $guestToken]);
         }
 
-
-
         DB::commit();
         Log::info('✅ [Order Transaction Committed]', ['order_id' => $order->id]);
 
         $order->load('addresses'); 
         Mail::to($validated['email'])->send(new OrderPlacedMail($order));
         Mail::to('bilawal2407f@aptechgdn.net')->send(new AdminOrderAlertMail($order));
+
+        Log::info('📧 [Order Emails Sent]');
 
         return redirect()->route('order.confirmation', ['order' => $order->id]);
 
@@ -294,7 +292,6 @@ public function placeOrder(Request $request)
         return back()->with('error', 'Something went wrong! ' . $e->getMessage());
     }
 }
-
 
 public function confirmation($orderId)
 {

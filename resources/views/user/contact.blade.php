@@ -1,778 +1,1041 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StyleVault | Contact Us</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        :root {
-            --primary-color: #6B4226;      
-            --primary-hover: #593721;       
-            --secondary-color: #C8A165;     
-            --secondary-hover: #B58F54;     
-            --accent-color: #8C5E3C;       
-            --accent-hover: #734C30;        
-            --text-on-primary: #FFFFFF;     
-            --text-on-secondary: #1A1A1A;   
-            --background-color: #F8F5F2;   
-            --surface-color: #FFFFFF;      
-            --border-color: #E5D5C3;
-        }
+@extends("user.layouts.master-layouts.plain")
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@section("title", "Home Collection | Contact")
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@push("style")
+<style>
+    :root {
+        --primary-color: #6B4226;      
+        --primary-hover: #593721;       
+        --secondary-color: #C8A165;     
+        --secondary-hover: #B58F54;     
+        --accent-color: #8C5E3C;       
+        --accent-hover: #734C30;        
+        --text-on-primary: #FFFFFF;     
+        --text-on-secondary: #1A1A1A;   
+        --background-color: #F8F5F2;   
+        --surface-color: #FFFFFF;      
+        --border-color: #E5D5C3;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-on-secondary);
-            overflow-x: hidden;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: var(--text-on-primary);
-            transition: all 0.3s ease;
-        }
+    body {
+        font-family: 'Cormorant Garamond', serif;
+        background-color: var(--background-color);
+        color: var(--text-on-secondary);
+        overflow-x: hidden;
+        letter-spacing: 0.5px;
+    }
 
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(107, 66, 38, 0.2);
-        }
+    /* Luxury Typography */
+    .luxury-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
 
-        .btn-secondary {
-            background-color: var(--secondary-color);
-            color: var(--text-on-secondary);
-            transition: all 0.3s ease;
-        }
+    .luxury-subtitle {
+        font-family: 'Inter', sans-serif;
+        font-weight: 300;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
 
-        .btn-secondary:hover {
-            background-color: var(--secondary-hover);
-            transform: translateY(-2px);
-        }
+    /* Luxury Hero */
+    .luxury-hero {
+        position: relative;
+        min-height: 100vh;
+        background: linear-gradient(rgba(107, 66, 38, 0.85), rgba(140, 94, 60, 0.9)),
+                    url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    }
 
-        .text-primary {
-            color: var(--primary-color);
-        }
+    .hero-content {
+        position: relative;
+        z-index: 10;
+        padding: 0 2rem;
+    }
 
-        .bg-primary {
-            background-color: var(--primary-color);
-        }
+    .hero-title {
+        font-size: 5.5rem;
+        font-weight: 300;
+        color: var(--text-on-primary);
+        line-height: 1;
+        margin-bottom: 2rem;
+    }
 
-        .bg-secondary {
-            background-color: var(--secondary-color);
-        }
+    .hero-title span {
+        color: var(--secondary-color);
+        font-style: italic;
+    }
 
-        .bg-accent {
-            background-color: var(--accent-color);
-        }
+    .hero-divider {
+        width: 120px;
+        height: 2px;
+        background: var(--secondary-color);
+        margin: 3rem 0;
+    }
 
-        .bg-surface {
-            background-color: var(--surface-color);
-        }
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 600px;
+        line-height: 1.8;
+        font-weight: 300;
+    }
 
-        .border-custom {
-            border-color: var(--border-color);
-        }
+    /* Luxury Form */
+    .luxury-form-container {
+        background: var(--surface-color);
+        padding: 4rem;
+        position: relative;
+        isolation: isolate;
+        border: 1px solid var(--border-color);
+    }
 
-        .gradient-bg {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-        }
+    .form-background {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, var(--background-color), #F0ECE8);
+        opacity: 0.3;
+        z-index: -1;
+    }
 
-        .floating {
-            animation: floating 6s ease-in-out infinite;
-        }
+    .form-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--primary-color);
+        margin-bottom: 3rem;
+        position: relative;
+    }
 
-        @keyframes floating {
-            0% { transform: translate(0, 0px); }
-            50% { transform: translate(0, 15px); }
-            100% { transform: translate(0, -0px); }
-        }
+    .form-title:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 60px;
+        height: 1px;
+        background: var(--secondary-color);
+    }
 
-        .parallax {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+    .luxury-input-group {
+        position: relative;
+        margin-bottom: 2.5rem;
+    }
 
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+    .luxury-input {
+        width: 100%;
+        padding: 1.2rem 0;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        color: var(--text-on-secondary);
+        transition: all 0.3s ease;
+    }
 
-        .text-stroke {
-            -webkit-text-stroke: 1px var(--primary-color);
-            color: transparent;
-        }
+    .luxury-input:focus {
+        outline: none;
+        border-bottom-color: var(--accent-color);
+    }
 
-        .contact-card {
-            transition: all 0.4s ease;
-            transform-style: preserve-3d;
-        }
+    .luxury-label {
+        position: absolute;
+        left: 0;
+        top: 1.2rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        color: var(--accent-color);
+        pointer-events: none;
+        transition: all 0.3s ease;
+    }
 
-        .contact-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
+    .luxury-input:focus + .luxury-label,
+    .luxury-input:not(:placeholder-shown) + .luxury-label {
+        top: -0.5rem;
+        font-size: 0.85rem;
+        color: var(--primary-color);
+    }
 
-        .form-group {
-            position: relative;
-            margin-bottom: 2rem;
-        }
+    .luxury-textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
 
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--surface-color);
-            transition: all 0.3s ease;
-        }
+    .luxury-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238C5E3C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1.5em;
+        padding-right: 2.5rem;
+    }
 
-        .form-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(107, 66, 38, 0.1);
-            outline: none;
-        }
+    .luxury-checkbox {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
 
-        .form-label {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            color: #999;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
+    .checkbox-input {
+        display: none;
+    }
 
-        .form-input:focus + .form-label,
-        .form-input:not(:placeholder-shown) + .form-label {
-            top: -0.5rem;
-            left: 0.8rem;
-            font-size: 0.8rem;
-            background: var(--surface-color);
-            padding: 0 0.5rem;
-            color: var(--primary-color);
-        }
+    .checkbox-box {
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        transition: all 0.3s ease;
+    }
 
-        .social-icon {
-            transition: all 0.3s ease;
-        }
+    .checkbox-input:checked + .checkbox-box {
+        background: var(--accent-color);
+        border-color: var(--accent-color);
+    }
 
-        .social-icon:hover {
-            transform: translateY(-5px) scale(1.1);
-        }
+    .checkbox-input:checked + .checkbox-box:after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
 
-        .faq-item {
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
+    .checkbox-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+    }
 
-        .faq-answer {
-            max-height: 0;
-            transition: max-height 0.5s ease;
-        }
+    /* Luxury Button */
+    .luxury-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.2rem 3rem;
+        background: var(--primary-color);
+        color: var(--text-on-primary);
+        border: 1px solid var(--primary-color);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
 
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-        }
+    .luxury-btn:hover {
+        background: transparent;
+        color: var(--primary-color);
+    }
 
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
+    .luxury-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--surface-color);
+        transition: left 0.4s ease;
+        z-index: -1;
+    }
 
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
+    .luxury-btn:hover:before {
+        left: 0;
+    }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(107, 66, 38, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(107, 66, 38, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(107, 66, 38, 0); }
-        }
+    .luxury-btn-outline {
+        background: transparent;
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
 
-        .morph-shape {
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            animation: morph 8s ease-in-out infinite;
-        }
+    .luxury-btn-outline:hover {
+        background: var(--primary-color);
+        color: var(--text-on-primary);
+    }
 
-        @keyframes morph {
-            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-        }
+    .luxury-btn-outline:hover:before {
+        background: var(--primary-color);
+    }
 
-        .scroll-indicator {
-            animation: bounce 2s infinite;
-        }
+    /* Contact Cards */
+    .luxury-contact-card {
+        background: var(--surface-color);
+        padding: 2.5rem;
+        position: relative;
+        transition: all 0.4s ease;
+        border-bottom: 4px solid transparent;
+        border: 1px solid var(--border-color);
+    }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
+    .luxury-contact-card:hover {
+        transform: translateY(-10px);
+        border-bottom-color: var(--secondary-color);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
 
-        .stagger-item {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-    </style>
-</head>
-<body class="overflow-x-hidden">
-    <!-- Header -->
-    <header class="fixed w-full z-50 bg-surface shadow-md py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                    <span class="text-white font-bold">SV</span>
-                </div>
-                <span class="text-xl font-bold text-primary">StyleVault</span>
-            </div>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#" class="font-medium hover:text-primary transition">Home</a>
-                <a href="#" class="font-medium hover:text-primary transition">Collections</a>
-                <a href="#" class="font-medium hover:text-primary transition">New Arrivals</a>
-                <a href="#" class="font-medium hover:text-primary transition">About</a>
-                <a href="#" class="font-medium text-primary border-b-2 border-primary">Contact</a>
-            </nav>
-            <div class="flex items-center space-x-4">
-                <button class="p-2 rounded-full hover:bg-gray-100 transition">
-                    <i class="fas fa-search text-gray-600"></i>
-                </button>
-                <button class="p-2 rounded-full hover:bg-gray-100 transition">
-                    <i class="fas fa-shopping-bag text-gray-600"></i>
-                </button>
-                <button class="md:hidden p-2 rounded-full hover:bg-gray-100 transition">
-                    <i class="fas fa-bars text-gray-600"></i>
-                </button>
-            </div>
-        </div>
-    </header>
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--background-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        border: 1px solid var(--border-color);
+    }
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-20 gradient-bg relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-            <div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-        </div>
+    .contact-title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-details {
+        color: var(--accent-color);
+        line-height: 1.8;
+    }
+
+    /* FAQ Section */
+    .luxury-faq-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        color: var(--text-on-primary);
+        padding: 6rem 0;
+        position: relative;
+    }
+
+    .faq-title {
+        font-size: 3rem;
+        font-weight: 300;
+        color: var(--text-on-primary);
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .faq-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 0;
+        cursor: pointer;
+    }
+
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--text-on-primary);
+    }
+
+    .faq-icon {
+        color: var(--secondary-color);
+        transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        transition: max-height 0.5s ease;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 300px;
+        margin-top: 1.5rem;
+    }
+
+    /* Map Section */
+    .luxury-map-section {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+    }
+
+    .map-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(107, 66, 38, 0.4), rgba(140, 94, 60, 0.6));
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .map-content {
+        position: absolute;
+        bottom: 3rem;
+        left: 3rem;
+        z-index: 2;
+        color: var(--text-on-primary);
+    }
+
+    .map-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .luxury-footer {
+        background: var(--primary-color);
+        color: var(--text-on-primary);
+        padding: 4rem 0 2rem;
+    }
+
+    .footer-logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2rem;
+        font-weight: 300;
+        color: var(--text-on-primary);
+        margin-bottom: 2rem;
+    }
+
+    .footer-divider {
+        width: 100%;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 3rem 0;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-on-primary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+        border-color: var(--secondary-color);
+        color: var(--secondary-color);
+        transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
         
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-4xl mx-auto text-center text-white">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6" id="hero-title">Get In Touch</h1>
-                <p class="text-xl md:text-2xl mb-10 opacity-90">We're here to help with any questions about our premium clothing collections</p>
-                
-                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
-                    <a href="#contact-form" class="btn-primary px-8 py-4 rounded-full font-semibold text-lg inline-flex items-center justify-center">
-                        <span>Send a Message</span>
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                    <a href="#contact-info" class="bg-white text-primary px-8 py-4 rounded-full font-semibold text-lg inline-flex items-center justify-center">
-                        <span>Contact Info</span>
-                        <i class="fas fa-info-circle ml-2"></i>
-                    </a>
-                </div>
-                
-                <div class="scroll-indicator">
-                    <a href="#contact-form" class="text-white opacity-70 hover:opacity-100 transition">
-                        <i class="fas fa-chevron-down text-2xl"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+        .luxury-form-container {
+            padding: 2rem;
+        }
         
-        <!-- Floating elements -->
-        <div class="absolute top-20 left-5 w-20 h-20 bg-white opacity-10 rounded-full floating"></div>
-        <div class="absolute top-40 right-10 w-16 h-16 bg-secondary opacity-20 rounded-full floating" style="animation-delay: 1s;"></div>
-        <div class="absolute bottom-20 left-20 w-12 h-12 bg-accent opacity-30 rounded-full floating" style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-40 right-20 w-14 h-14 bg-white opacity-15 rounded-full floating" style="animation-delay: 1.5s;"></div>
-    </section>
+        .form-title {
+            font-size: 2rem;
+        }
+        
+        .luxury-btn {
+            padding: 1rem 2rem;
+        }
+        
+        .map-content {
+            left: 1.5rem;
+            bottom: 1.5rem;
+        }
+        
+        .map-title {
+            font-size: 1.8rem;
+        }
+    }
 
-    <!-- Contact Form & Info Section -->
-    <section class="py-20 bg-surface" id="contact-form">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <!-- Contact Form -->
-                <div class="bg-surface rounded-2xl p-8 shadow-xl contact-card" data-aos="fade-right">
-                    <div class="flex items-center mb-8">
-                        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-envelope text-white text-xl"></i>
+    /* Animations */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.7);
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+        40% { transform: translate(-50%, -10px); }
+        60% { transform: translate(-50%, -5px); }
+    }
+
+    /* Accent Elements */
+    .accent-line {
+        width: 60px;
+        height: 1px;
+        background: var(--secondary-color);
+        margin: 2rem 0;
+    }
+
+    .accent-text {
+        color: var(--secondary-color);
+    }
+
+    /* Floating Elements */
+    .floating-element {
+        position: absolute;
+        border: 1px solid rgba(200, 161, 101, 0.1);
+        pointer-events: none;
+    }
+
+    .element-1 {
+        width: 200px;
+        height: 200px;
+        top: 20%;
+        right: 10%;
+        border-radius: 50%;
+        animation: float 20s infinite linear;
+    }
+
+    .element-2 {
+        width: 300px;
+        height: 300px;
+        bottom: 15%;
+        left: 5%;
+        border-radius: 40% 60% 60% 40%;
+        animation: float 25s infinite linear reverse;
+    }
+
+    @keyframes float {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(50px, 50px) rotate(360deg); }
+    }
+</style>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+@endpush
+
+@section("content")
+<!-- Luxury Hero Section -->
+<section class="luxury-hero">
+    <div class="container mx-auto px-4">
+        <div class="hero-content max-w-4xl">
+            <h1 class="hero-title luxury-title">
+                Connect With<br>
+                <span>Our Team</span>
+            </h1>
+            <div class="hero-divider"></div>
+            <p class="hero-subtitle luxury-subtitle">
+                Experience exceptional service and personalized attention. 
+                Our dedicated team is ready to assist you with all your home collection needs.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Floating Elements -->
+    <div class="floating-element element-1"></div>
+    <div class="floating-element element-2"></div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-down text-2xl"></i>
+    </div>
+</section>
+
+<!-- Contact Form & Info -->
+<section class="py-20" style="background-color: var(--background-color);">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Luxury Contact Form -->
+            <div class="luxury-form-container">
+                <div class="form-background"></div>
+                <h2 class="form-title luxury-title">Send Us a Message</h2>
+                
+                <form action="{{ route('contact.store') }}" method="POST" id="luxury-contact-form" class="space-y-4">
+                    @csrf
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="luxury-input-group">
+                            <input type="text" name="first_name" id="first-name" class="luxury-input" placeholder=" " required>
+                            <label for="first-name" class="luxury-label">First Name</label>
                         </div>
-                        <h2 class="text-3xl font-bold text-primary">Send Us a Message</h2>
+                        <div class="luxury-input-group">
+                            <input type="text" name="last_name" id="last-name" class="luxury-input" placeholder=" ">
+                            <label for="last-name" class="luxury-label">Last Name</label>
+                        </div>
                     </div>
                     
-                    <form id="contact-form" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="form-group">
-                                <input type="text" name="first_name" id="first-name" class="form-input" placeholder=" " required>
-                                <label for="first-name" class="form-label">First Name</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="last_name" id="last-name" class="form-input" placeholder=" " required>
-                                <label for="last-name" class="form-label">Last Name</label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-input" placeholder=" " required>
-                            <label for="email" class="form-label">Email Address</label>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="tel" name="phone" id="phone" class="form-input" placeholder=" ">
-                            <label for="phone" class="form-label">Phone Number</label>
-                        </div>
-                        
-                        <div class="form-group">
-                            <select id="subject" name="subject" class="form-input">
-                                <option value="" disabled selected> </option>
-                                <option value="product-inquiry">Product Inquiry</option>
-                                <option value="order-support">Order Support</option>
-                                <option value="shipping">Shipping & Delivery</option>
-                                <option value="returns">Returns & Exchanges</option>
-                                <option value="wholesale">Wholesale Inquiry</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <label for="subject" class="form-label">Subject</label>
-                        </div>
-                        
-                        <div class="form-group">
-                            <textarea id="message" name="message" rows="6" class="form-input" placeholder=" " required></textarea>
-                            <label for="message" class="form-label">Message</label>
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <input type="checkbox" id="newsletter" class="h-5 w-5 text-primary focus:ring-primary border-gray-300 rounded">
-                            <label for="newsletter" class="ml-3 block text-sm text-gray-700">
-                                Subscribe to our newsletter for updates and promotions
-                            </label>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary w-full py-4 rounded-xl font-semibold text-lg mt-6 pulse-animation">
-                            Send Message
-                            <i class="fas fa-paper-plane ml-2"></i>
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Contact Information -->
-                <div id="contact-info">
-                    <div class="mb-12">
-                        <h2 class="text-3xl font-bold text-primary mb-4">Contact Information</h2>
-                        <p class="text-gray-600 text-lg">We're available to answer your questions and help you find the perfect clothing items. Reach out to us through any of the following channels.</p>
+                    <div class="luxury-input-group">
+                        <input type="email" name="email" id="email" class="luxury-input" placeholder=" " required>
+                        <label for="email" class="luxury-label">Email Address</label>
                     </div>
                     
-                    <div class="space-y-8">
-                        <!-- Contact Card 1 -->
-                        <div class="contact-card bg-surface rounded-2xl p-6 flex items-start shadow-lg hover:shadow-xl transition">
-                            <div class="bg-primary text-white p-4 rounded-xl mr-5">
-                                <i class="fas fa-map-marker-alt text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-primary mb-2">Visit Our Store</h3>
-                                <p class="text-gray-600">123 Fashion Street, Style City, SC 12345</p>
-                                <p class="text-gray-600 mt-1">Open Monday - Saturday, 9AM - 8PM</p>
-                            </div>
+                    <div class="luxury-input-group">
+                        <input type="tel" name="phone" id="phone" class="luxury-input" placeholder=" ">
+                        <label for="phone" class="luxury-label">Phone Number</label>
+                    </div>
+                    
+                    <div class="luxury-input-group">
+                        <select name="subject" id="subject" class="luxury-input luxury-select" required>
+                            <option value="" selected disabled>Select a subject</option>
+                            <option value="product-inquiry">Product Inquiry</option>
+                            <option value="custom-order">Custom Order</option>
+                            <option value="collaboration">Collaboration</option>
+                            <option value="press">Press & Media</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <label for="subject" class="luxury-label">Subject</label>
+                    </div>
+                    
+                    <div class="luxury-input-group">
+                        <textarea name="message" id="message" class="luxury-input luxury-textarea" placeholder=" " required></textarea>
+                        <label for="message" class="luxury-label">Your Message</label>
+                    </div>
+                    
+                    <div class="luxury-checkbox">
+                        <input type="checkbox" id="newsletter" name="newsletter" class="checkbox-input">
+                        <span class="checkbox-box"></span>
+                        <label for="newsletter" class="checkbox-label">
+                            Subscribe to our newsletter for curated collections and exclusive offers
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="luxury-btn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="space-y-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-light luxury-title mb-4" style="color: var(--primary-color);">Contact Information</h2>
+                    <div class="accent-line mx-auto"></div>
+                    <p class="text-gray-600">
+                        Our team is available to provide personalized guidance and exceptional service.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Contact Card 1 -->
+                    <div class="luxury-contact-card fade-in">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        
-                        <!-- Contact Card 2 -->
-                        <div class="contact-card bg-surface rounded-2xl p-6 flex items-start shadow-lg hover:shadow-xl transition">
-                            <div class="bg-primary text-white p-4 rounded-xl mr-5">
-                                <i class="fas fa-phone text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-primary mb-2">Call Us</h3>
-                                <p class="text-gray-600">+1 (555) 123-4567</p>
-                                <p class="text-gray-600 mt-1">Customer Service: Mon-Fri, 8AM-6PM EST</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Contact Card 3 -->
-                        <div class="contact-card bg-surface rounded-2xl p-6 flex items-start shadow-lg hover:shadow-xl transition">
-                            <div class="bg-primary text-white p-4 rounded-xl mr-5">
-                                <i class="fas fa-envelope text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-primary mb-2">Email Us</h3>
-                                <p class="text-gray-600">info@stylevault.com</p>
-                                <p class="text-gray-600 mt-1">We typically respond within 24 hours</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Contact Card 4 -->
-                        <div class="contact-card bg-surface rounded-2xl p-6 flex items-start shadow-lg hover:shadow-xl transition">
-                            <div class="bg-primary text-white p-4 rounded-xl mr-5">
-                                <i class="fas fa-comments text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-primary mb-2">Live Chat</h3>
-                                <p class="text-gray-600">Available during business hours</p>
-                                <p class="text-gray-600 mt-1">Click the chat icon in the bottom right</p>
-                            </div>
+                        <h3 class="contact-title">Visit Our Store</h3>
+                        <div class="contact-details">
+                            <p>123 Home Collection Avenue</p>
+                            <p>Design District</p>
+                            <p>Karachi, Pakistan</p>
+                            <p class="mt-2"><strong>Hours:</strong> Mon-Sat 10AM-7PM</p>
                         </div>
                     </div>
                     
-                    <!-- Social Media -->
-                    <div class="mt-12">
-                        <h3 class="text-2xl font-bold text-primary mb-6">Follow Us</h3>
-                        <div class="flex space-x-5">
-                            <a href="#" class="social-icon h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-hover">
-                                <i class="fab fa-facebook-f text-xl"></i>
-                            </a>
-                            <a href="#" class="social-icon h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-hover">
-                                <i class="fab fa-instagram text-xl"></i>
-                            </a>
-                            <a href="#" class="social-icon h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-hover">
-                                <i class="fab fa-twitter text-xl"></i>
-                            </a>
-                            <a href="#" class="social-icon h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-hover">
-                                <i class="fab fa-pinterest text-xl"></i>
+                    <!-- Contact Card 2 -->
+                    <div class="luxury-contact-card fade-in" style="transition-delay: 0.1s">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3 class="contact-title">Call Us</h3>
+                        <div class="contact-details">
+                            <p>+92 300 1234567</p>
+                            <p class="mt-2"><strong>Customer Service:</strong> +92 300 7654321</p>
+                            <p><strong>Hours:</strong> 9AM-6PM PST</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Card 3 -->
+                    <div class="luxury-contact-card fade-in" style="transition-delay: 0.2s">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="contact-title">Email Us</h3>
+                        <div class="contact-details">
+                            <p>info@homecollection.com</p>
+                            <p>support@homecollection.com</p>
+                            <p class="mt-2"><strong>Response Time:</strong> Within 24 hours</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Card 4 -->
+                    <div class="luxury-contact-card fade-in" style="transition-delay: 0.3s">
+                        <div class="contact-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="contact-title">Schedule Appointment</h3>
+                        <div class="contact-details">
+                            <p>Schedule a private consultation</p>
+                            <p class="mt-2"><strong>Available by appointment</strong></p>
+                            <a href="#" class="text-[var(--secondary-color)] hover:underline mt-2 inline-block">
+                                Book consultation →
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-20 bg-background-color">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">Frequently Asked Questions</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Find quick answers to common questions about our products and services.</p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto space-y-6">
-                <!-- FAQ Item 1 -->
-                <div class="faq-item bg-surface rounded-2xl shadow-md overflow-hidden">
-                    <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
-                        <span class="text-lg font-semibold text-gray-800">What is your return policy?</span>
-                        <i class="faq-icon fas fa-chevron-down text-primary transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer px-6 pb-6">
-                        <p class="text-gray-600">We offer a 30-day return policy for all items in original condition with tags attached. Custom and clearance items are final sale. Returns are free for store credit, or a refund to the original payment method minus a $7.99 restocking fee.</p>
-                    </div>
-                </div>
                 
-                <!-- FAQ Item 2 -->
-                <div class="faq-item bg-surface rounded-2xl shadow-md overflow-hidden">
-                    <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
-                        <span class="text-lg font-semibold text-gray-800">How long does shipping take?</span>
-                        <i class="faq-icon fas fa-chevron-down text-primary transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer px-6 pb-6">
-                        <p class="text-gray-600">Standard shipping takes 5-7 business days. Express shipping (2-3 business days) and overnight shipping are also available at checkout. Delivery times may vary during holiday seasons or due to unforeseen circumstances.</p>
-                    </div>
-                </div>
-                
-                <!-- FAQ Item 3 -->
-                <div class="faq-item bg-surface rounded-2xl shadow-md overflow-hidden">
-                    <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
-                        <span class="text-lg font-semibold text-gray-800">Do you offer international shipping?</span>
-                        <i class="faq-icon fas fa-chevron-down text-primary transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer px-6 pb-6">
-                        <p class="text-gray-600">Yes, we ship to over 50 countries worldwide. International shipping costs and delivery times vary by location. Additional customs fees or import taxes may apply and are the responsibility of the customer.</p>
-                    </div>
-                </div>
-                
-                <!-- FAQ Item 4 -->
-                <div class="faq-item bg-surface rounded-2xl shadow-md overflow-hidden">
-                    <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
-                        <span class="text-lg font-semibold text-gray-800">Can I track my order?</span>
-                        <i class="faq-icon fas fa-chevron-down text-primary transition-transform duration-300"></i>
-                    </button>
-                    <div class="faq-answer px-6 pb-6">
-                        <p class="text-gray-600">Yes, once your order ships, you'll receive a tracking number via email. You can also track your order by logging into your account on our website and viewing your order history.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <p class="text-gray-600 mb-6 text-lg">Still have questions?</p>
-                <a href="#contact-form" class="btn-primary px-8 py-4 rounded-full font-semibold text-lg inline-flex items-center">
-                    <span>Contact Us</span>
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Map Section -->
-    <section class="py-20 bg-surface">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">Visit Our Store</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Come see our premium clothing collection in person at our flagship store.</p>
-            </div>
-            
-            <div class="rounded-2xl overflow-hidden shadow-2xl mb-16">
-                <!-- Embedded Google Map -->
-                <div class="w-full h-96 bg-gray-200">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.9503398796587!2d-73.99104868459418!3d40.750322379327976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1629990000000!5m2!1sen!2sus" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="text-center">
-                    <div class="bg-primary text-white h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-6 pulse-animation">
-                        <i class="fas fa-clock text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Store Hours</h3>
-                    <p class="text-gray-600">Monday - Saturday: 9AM - 8PM</p>
-                    <p class="text-gray-600">Sunday: 11AM - 6PM</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-primary text-white h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-6 pulse-animation" style="animation-delay: 0.5s;">
-                        <i class="fas fa-parking text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Parking</h3>
-                    <p class="text-gray-600">Complimentary valet parking available</p>
-                    <p class="text-gray-600">Underground garage with 200+ spaces</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-primary text-white h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-6 pulse-animation" style="animation-delay: 1s;">
-                        <i class="fas fa-concierge-bell text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Services</h3>
-                    <p class="text-gray-600">Personal styling consultations</p>
-                    <p class="text-gray-600">Custom tailoring and alterations</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-primary text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-6">
-                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                            <span class="text-primary font-bold">SV</span>
-                        </div>
-                        <span class="text-xl font-bold">StyleVault</span>
-                    </div>
-                    <p class="text-gray-300 mb-4">Premium clothing for the modern individual. Quality, style, and comfort in every piece.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-300 hover:text-white transition">
+                <!-- Social Media -->
+                <div class="mt-12">
+                    <h3 class="text-xl font-light luxury-title mb-6" style="color: var(--primary-color);">Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link" style="background: var(--primary-color);">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="text-gray-300 hover:text-white transition">
+                        <a href="#" class="social-link" style="background: var(--primary-color);">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="text-gray-300 hover:text-white transition">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-300 hover:text-white transition">
+                        <a href="#" class="social-link" style="background: var(--primary-color);">
                             <i class="fab fa-pinterest"></i>
                         </a>
+                        <a href="#" class="social-link" style="background: var(--primary-color);">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
                     </div>
                 </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Home</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">New Arrivals</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Collections</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Sale</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">About Us</a></li>
-                    </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="luxury-faq-section">
+    <div class="container mx-auto px-4">
+        <h2 class="faq-title luxury-title">Frequently Asked Questions</h2>
+        
+        <div class="max-w-3xl mx-auto">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>Do you offer custom orders?</span>
+                    <i class="fas fa-plus faq-icon"></i>
                 </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-6">Customer Care</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Size Guide</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Shipping Info</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Returns & Exchanges</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">FAQ</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition">Contact Us</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-6">Newsletter</h3>
-                    <p class="text-gray-300 mb-4">Subscribe to get special offers, free giveaways, and exclusive deals.</p>
-                    <div class="flex">
-                        <input type="email" placeholder="Your email" class="px-4 py-3 w-full rounded-l-lg text-gray-800 focus:outline-none">
-                        <button class="bg-secondary text-gray-800 px-4 rounded-r-lg font-semibold hover:bg-secondary-hover transition">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
+                <div class="faq-answer">
+                    <p>Yes, we offer custom order services for discerning clients. 
+                    Our skilled artisans can create custom pieces tailored to your specific 
+                    requirements, from fabric selection to unique design elements. 
+                    Contact our custom order department for a consultation.</p>
                 </div>
             </div>
             
-            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
-                <p>&copy; 2023 StyleVault. All rights reserved.</p>
+            <!-- FAQ Item 2 -->
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>What is your delivery process?</span>
+                    <i class="fas fa-plus faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We provide premium delivery service for all our items. 
+                    Each piece is carefully packaged and delivered with care. 
+                    Delivery timelines vary based on customization and location, 
+                    typically 2-4 weeks for standard pieces.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>Do you provide nationwide shipping?</span>
+                    <i class="fas fa-plus faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we ship throughout Pakistan with full tracking and insurance. 
+                    We offer express delivery options for major cities. 
+                    Our logistics team ensures safe and timely delivery of all products.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>What is your return policy?</span>
+                    <i class="fas fa-plus faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We accept returns within 7 days of delivery for items in original 
+                    condition. Custom and bespoke pieces are final sale. Returns are 
+                    processed within 3-5 business days. Our team will guide you through 
+                    the return process.</p>
+                </div>
             </div>
         </div>
-    </footer>
-
-    <!-- Floating Action Button -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button class="btn-primary h-14 w-14 rounded-full shadow-lg flex items-center justify-center pulse-animation">
-            <i class="fas fa-comments text-xl"></i>
-        </button>
     </div>
+</section>
 
-    <script>
-        // Initialize GSAP and ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger, TextPlugin);
+<!-- Map Section -->
+<section class="luxury-map-section">
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.548612293214!2d67.02885817534243!3d24.851615545807127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e5da5f1cae1%3A0x9b727d5c6b5e7c0e!2sKarachi%2C%20Pakistan!5e0!3m2!1sen!2sus!4v1629990000000!5m2!1sen!2sus" 
+        width="100%" 
+        height="100%" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    
+    <div class="map-overlay"></div>
+    
+    <div class="map-content">
+        <h3 class="map-title luxury-title">Visit Our Showroom</h3>
+        <p class="text-white/80 mb-4">Experience our collections in person at our flagship showroom</p>
+        <a href="#" class="luxury-btn luxury-btn-outline">
+            <span>Get Directions</span>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</section>
 
-        // Hero section animation
-        gsap.timeline()
-            .fromTo("#hero-title", 
-                { opacity: 0, y: 50 }, 
-                { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
-            )
-            .fromTo(".scroll-indicator", 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 0.8 }, "-=0.5"
-            );
+<!-- GSAP Core -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-lzTRe5slJYRCf0aXolSlYy/n7ExkWQ7/yA6xyt4gDN7M6q6nCicGmcKXnAk6xexKv0Bge7u0F92qolx/2Vf83A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        // Animate elements on scroll
-        gsap.utils.toArray('.contact-card, .faq-item, .text-center').forEach(element => {
-            gsap.fromTo(element, 
-                { opacity: 0, y: 30 }, 
-                { 
-                    opacity: 1, 
-                    y: 0, 
-                    duration: 0.8, 
-                    scrollTrigger: {
-                        trigger: element,
-                        start: "top 80%",
-                        end: "bottom 20%",
-                        toggleActions: "play none none reverse"
-                    }
-                }
-            );
+<!-- Optional Plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha512-2y6c/3VLCjK/Xg3/BV6zWgxQeHn+u5c6YF6iH+VfBBHx1CO2uJiwf/0k5rFRkYhYk47wGh6wXqxxz1VrHDNTLw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@endsection
+
+@push("script")
+<script>
+    // Initialize GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero animation
+    gsap.from(".hero-title", {
+        duration: 1.5,
+        y: 50,
+        opacity: 0,
+        ease: "power3.out"
+    });
+
+    gsap.from(".hero-subtitle", {
+        duration: 1.5,
+        y: 30,
+        opacity: 0,
+        delay: 0.5,
+        ease: "power3.out"
+    });
+
+    // Scroll animations
+    gsap.utils.toArray('.fade-in').forEach((el, i) => {
+        gsap.from(el, {
+            scrollTrigger: {
+                trigger: el,
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none none"
+            },
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            delay: i * 0.1,
+            ease: "power3.out"
         });
+    });
 
-        // Form submission with AJAX
-        $(document).ready(function() {
-            // Set up CSRF token for AJAX requests
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $('#contact-form').on('submit', function(e) {
+    // Form handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('luxury-contact-form');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
-
-                const formData = new FormData(this);
+                
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
                 
                 // Show loading state
-                const submitBtn = $(this).find('button[type="submit"]');
-                const originalText = submitBtn.html();
-                submitBtn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Sending...');
-                submitBtn.prop('disabled', true);
-
-                // Simulate AJAX request (replace with actual endpoint)
-                setTimeout(() => {
-                    // In a real implementation, you would use:
-                    // $.ajax({
-                    //     url: "{{ route('contact.store') }}",
-                    //     method: "POST",
-                    //     data: formData,
-                    //     processData: false,
-                    //     contentType: false,
-                    //     success: function(response) {
-                    //         // Success handling
-                    //     },
-                    //     error: function(xhr) {
-                    //         // Error handling
-                    //     }
-                    // });
-
-                    // For demo purposes, we'll just show a success message
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Get form data
+                const formData = new FormData(form);
+                
+                // Send AJAX request
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Success message
                     Swal.fire({
                         icon: 'success',
-                        title: 'Message Sent!',
-                        text: 'Your message has been sent successfully! We\'ll get back to you soon.',
-                        confirmButtonColor: 'var(--primary-color)'
+                        title: 'Message Sent',
+                        text: 'Thank you for your inquiry. Our team will contact you shortly.',
+                        confirmButtonColor: '#6B4226',
+                        background: '#F8F5F2',
+                        customClass: {
+                            title: 'font-serif text-2xl',
+                            confirmButton: 'px-6 py-3'
+                        }
                     });
                     
                     // Reset form
-                    $('#contact-form')[0].reset();
-                    
+                    form.reset();
+                })
+                .catch(error => {
+                    // Error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There was an error sending your message. Please try again.',
+                        confirmButtonColor: '#6B4226',
+                        background: '#F8F5F2'
+                    });
+                })
+                .finally(() => {
                     // Reset button
-                    submitBtn.html(originalText);
-                    submitBtn.prop('disabled', false);
-                }, 1500);
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
             });
-
-            // FAQ toggle functionality
-            $('.faq-question').on('click', function() {
-                const faqItem = $(this).closest('.faq-item');
-                const isActive = faqItem.hasClass('active');
-                
-                // Close all FAQ items
-                $('.faq-item').removeClass('active');
-                
-                // If the clicked item wasn't active, open it
-                if (!isActive) {
-                    faqItem.addClass('active');
-                }
-            });
-
-            // Form label animation
-            $('.form-input').on('focus', function() {
-                $(this).siblings('.form-label').addClass('active');
+        }
+        
+        // FAQ toggle function
+        window.toggleFAQ = function(element) {
+            const isActive = element.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
             });
             
-            $('.form-input').on('blur', function() {
-                if ($(this).val() === '') {
-                    $(this).siblings('.form-label').removeClass('active');
+            // If clicked item wasn't active, open it
+            if (!isActive) {
+                element.classList.add('active');
+            }
+        };
+        
+        // Input label animation
+        document.querySelectorAll('.luxury-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.parentElement.classList.remove('focused');
                 }
             });
-
-            // Initialize form labels based on existing values
-            $('.form-input').each(function() {
-                if ($(this).val() !== '') {
-                    $(this).siblings('.form-label').addClass('active');
-                }
-            });
-        });
-
-        // Parallax effect for hero section
-        gsap.to(".gradient-bg", {
-            backgroundPosition: "50% 100%",
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".gradient-bg",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
+            
+            // Check initial value
+            if (input.value !== '') {
+                input.parentElement.classList.add('focused');
             }
         });
+        
+        // Checkbox animation
+        document.querySelectorAll('.checkbox-input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const box = this.nextElementSibling;
+                if (this.checked) {
+                    gsap.to(box, {
+                        scale: 1.1,
+                        duration: 0.2,
+                        yoyo: true,
+                        repeat: 1
+                    });
+                }
+            });
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
 
-        // Animated counter for statistics (if needed)
-        // This is a placeholder for any statistics you might want to add
-    </script>
-</body>
-</html>
+    // Parallax effect for hero
+    gsap.to(".luxury-hero", {
+        backgroundPosition: "50% 100%",
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".luxury-hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
+    });
+
+    // Stagger animation for contact cards
+    gsap.utils.toArray('.luxury-contact-card').forEach((card, i) => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                y: -10,
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                y: 0,
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+    });
+</script>
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush

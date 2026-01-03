@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,153 +8,278 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+:root {
+    --primary-color: #6B4226;        /* was #8B5FBF */
+    --primary-hover: #593721;        /* was #7A4CAC */
+    --secondary-color: #C8A165;      /* was #FF6B8B */
+    --secondary-hover: #B58F54;      /* was #E55A78 */
+    --accent-color: #8C5E3C;         /* was #4ECDC4 */
+    --accent-hover: #734C30;         /* was #3DBBB2 */
+    --text-on-primary: #FFFFFF;      /* same */
+    --text-on-secondary: #1A1A1A;    /* was #FFFFFF */
+    --background-color: #F8F5F2;     /* was #F8F9FF */
+    --card-background: #FFFFFF;      /* same as previous surface-color */
+    --border-color: #E5D5C3;         /* was #E8EAED */
+}
 
 
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Custom scrollbar for search results */
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--background-color);
+            overflow-x: hidden;
+        }
+
+        /* Glass morphism effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+
+        /* Custom scrollbar */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(139, 95, 191, 0.05);
             border-radius: 10px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 10px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
-        /* Smooth transitions */
-        .transition-all {
-            transition: all 0.3s ease;
+        .floating {
+            animation: float 3s ease-in-out infinite;
         }
 
-        /* Overlay background */
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.5);
+        /* Shimmer effect for loading */
+        .shimmer {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.8) 50%, 
+                rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
         }
 
-        /* Custom animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
-        .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
+        /* Slide in animation */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        /* Custom gradient for buttons */
-        .btn-gradient {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        .slide-in-right {
+            animation: slideInRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .btn-gradient:hover {
-            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-color) 100%);
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Navbar hover effect */
+        /* Pulse animation for cart */
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 5px var(--secondary-color);
+            }
+            50% { 
+                box-shadow: 0 0 20px var(--secondary-color), 0 0 30px rgba(255, 107, 139, 0.3);
+            }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Navbar link hover effect */
         .nav-link {
             position: relative;
+            overflow: hidden;
         }
 
-        .nav-link::after {
+        .nav-link::before {
             content: '';
             position: absolute;
+            bottom: 0;
+            left: 0;
             width: 0;
             height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: var(--secondary-color);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             transition: width 0.3s ease;
         }
 
-        .nav-link:hover::after {
+        .nav-link:hover::before {
             width: 100%;
         }
 
-        /* Glass morphism effect for dropdown */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Button hover effect */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
-        /* Mobile menu improvements */
-        .mobile-menu-item {
-            transition: all 0.2s ease;
-            border-radius: 8px;
+        .btn-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.7s;
+            z-index: -1;
         }
 
-        .mobile-menu-item:hover {
-            background-color: rgba(139, 95, 191, 0.1);
+        .btn-hover-effect:hover::before {
+            left: 100%;
         }
 
-        /* Custom classes using root variables */
-        .bg-primary {
-            background-color: var(--primary-color);
+        /* Drawer animations */
+        .drawer-overlay {
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
         }
-        
-        .bg-primary-hover {
-            background-color: var(--primary-hover);
+
+        /* Category icon hover */
+        .category-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .bg-secondary {
-            background-color: var(--secondary-color);
+
+        .category-icon:hover {
+            transform: scale(1.1) rotate(5deg);
         }
-        
-        .text-primary {
-            color: var(--primary-color);
+
+        /* Product card hover */
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .text-secondary {
-            color: var(--secondary-color);
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        
-        .border-primary {
-            border-color: var(--primary-color);
+
+        /* Search input glow */
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(139, 95, 191, 0.1), 
+                        0 0 20px rgba(139, 95, 191, 0.2);
         }
-        
-        .hover\:bg-primary:hover {
-            background-color: var(--primary-color);
+
+        /* Loading dots */
+        .loading-dots {
+            display: inline-flex;
+            align-items: center;
         }
-        
-        .hover\:bg-primary-hover:hover {
-            background-color: var(--primary-hover);
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            animation: dotPulse 1.5s infinite ease-in-out;
         }
-        
-        .hover\:text-primary:hover {
-            color: var(--primary-color);
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
         }
-        
-        .hover\:text-secondary:hover {
-            color: var(--secondary-color);
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
         }
-        
-        .focus\:ring-primary:focus {
-            --tw-ring-color: var(--primary-color);
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.5); opacity: 0.5; }
         }
-        
-        .bg-accent {
-            background-color: var(--accent-color);
+
+        /* Gradient border */
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(var(--card-background), var(--card-background)) padding-box,
+                        linear-gradient(135deg, var(--primary-color), var(--secondary-color)) border-box;
+            border: 2px solid transparent;
         }
-        
-        .hover\:bg-accent-hover:hover {
-            background-color: var(--accent-hover);
+
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #FF6B8B, #FF8E53);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+            }
+            
+            .search-drawer {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        /* Smooth transitions */
+        .transition-all-custom {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 
@@ -170,17 +294,34 @@
                         'secondary-hover': 'var(--secondary-hover)',
                         'accent': 'var(--accent-color)',
                         'accent-hover': 'var(--accent-hover)',
-                        'text-on-primary': 'var(--text-on-primary)',
-                        'text-on-secondary': 'var(--text-on-secondary)',
-                        'dark-gray': '#333333',
-                        'light-gray': '#f8f9fa'
+                        'background': 'var(--background-color)',
+                        'card': 'var(--card-background)',
+                        'border': 'var(--border-color)'
                     },
                     fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                        'sans': ['Outfit', 'system-ui', 'sans-serif'],
+                        'heading': ['Poppins', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s infinite',
+                        'shimmer': 'shimmer 1.5s infinite',
+                        'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        'bounce': 'bounce 2s infinite',
+                        'dot-pulse': 'dotPulse 1.5s infinite ease-in-out'
                     },
                     boxShadow: {
-                        'smooth': '0 2px 20px rgba(0,0,0,0.08)',
-                        'smooth-lg': '0 5px 30px rgba(0,0,0,0.1)'
+                        'glass': '0 8px 32px rgba(31, 38, 135, 0.1)',
+                        'hover': '0 20px 40px rgba(0, 0, 0, 0.1)',
+                        'glow': '0 0 20px rgba(139, 95, 191, 0.2)',
+                        'inner-glow': 'inset 0 0 20px rgba(139, 95, 191, 0.1)'
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                        'sm': '4px',
+                        'md': '8px',
+                        'lg': '12px',
+                        'xl': '20px'
                     }
                 }
             }
@@ -188,484 +329,798 @@
     </script>
 </head>
 
-<body class="font-sans bg-light-gray">
+<body class="font-sans bg-background">
     <!-- Navigation Bar -->
-    <nav class="bg-white text-dark-gray shadow-smooth sticky top-0 z-50">
+    <nav class="glass-effect shadow-glass fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
-                <!-- Logo -->
+                <!-- Logo with Animation -->
                 <div class="flex items-center space-x-3">
-                    <div class="bg-primary p-2 rounded-xl">
-                        <i class="fas fa-home text-white text-xl"></i>
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-primary to-secondary p-3 rounded-2xl shadow-lg floating">
+                            <i class="fas fa-home text-white text-2xl"></i>
+                        </div>
+                        <div class="absolute -inset-1 bg-gradient-to-br from-primary to-secondary rounded-2xl blur opacity-30"></div>
                     </div>
-                    <span class="text-2xl font-bold text-primary">HomeCollection</span>
+                    <div>
+                        <span class="text-3xl font-heading font-bold gradient-text">HomeCollection</span>
+                        <p class="text-xs text-gray-500 -mt-1">Premium Home Decor</p>
+                    </div>
                 </div>
 
-                <!-- Desktop Menu -->
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="{{ route('home') }}" 
+                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
+                       <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="{{ route('product') }}" 
+                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
+                       <i class="fas fa-th-large mr-2"></i>Products
+                    </a>
+                    <a href="{{ route('category') }}" 
+                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
+                       <i class="fas fa-tags mr-2"></i>Categories
+                    </a>
+                    <a href="{{ route('about') }}" 
+                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
+                       <i class="fas fa-info-circle mr-2"></i>About
+                    </a>
+                    <a href="{{ route('contact') }}" 
+                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
+                       <i class="fas fa-phone-alt mr-2"></i>Contact
+                    </a>
+                </div>
 
-<div class="hidden lg:flex space-x-8 font-[Poppins] text-[17px] tracking-wide">
-  <a href="{{ route('home') }}" class="nav-link font-medium text-gray-700 hover:text-primary transition-all duration-300 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:left-0 after:-bottom-1 after:bg-primary hover:after:w-full after:transition-all after:duration-300">Home</a>
-  <a href="{{ route('product') }}" class="nav-link font-medium text-gray-700 hover:text-primary transition-all duration-300 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:left-0 after:-bottom-1 after:bg-primary hover:after:w-full after:transition-all after:duration-300">Products</a>
-  <a href="{{ route('category') }}" class="nav-link font-medium text-gray-700 hover:text-primary transition-all duration-300 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:left-0 after:-bottom-1 after:bg-primary hover:after:w-full after:transition-all after:duration-300">Category</a>
-  <a href="{{ route('about') }}" class="nav-link font-medium text-gray-700 hover:text-primary transition-all duration-300 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:left-0 after:-bottom-1 after:bg-primary hover:after:w-full after:transition-all after:duration-300">About</a>
-  <a href="{{ route('contact') }}" class="nav-link font-medium text-gray-700 hover:text-primary transition-all duration-300 relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:left-0 after:-bottom-1 after:bg-primary hover:after:w-full after:transition-all after:duration-300">Contact</a>
-</div>
-
-
-                <!-- Icons -->
-                <div class="flex items-center space-x-5">
+                <!-- Action Buttons -->
+                <div class="flex items-center space-x-6">
                     <!-- Search Button -->
-                    <button id="search-button" class="relative group">
-                        <div class="p-2 rounded-full bg-light-gray group-hover:bg-primary group-hover:text-white transition-all">
-                            <i class="fas fa-search text-lg"></i>
+                    <button id="search-button" 
+                            class="btn-hover-effect relative group p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-search text-lg text-gray-600 group-hover:text-primary transition-colors"></i>
+                            <span class="hidden md:inline text-sm text-gray-500 group-hover:text-primary">Search</span>
                         </div>
-                        <span class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity">?</span>
+                        <div class="absolute -top-2 -right-2 bg-secondary text-white text-xs px-2 py-1 rounded-full font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                            ⌘K
+                        </div>
                     </button>
 
-                 
                     <!-- Cart Button -->
-                    <a href="{{ route('cart.index') }}" class="relative group">
-    <div class="p-2 rounded-full bg-light-gray group-hover:bg-primary group-hover:text-white transition-all">
-        <i class="fas fa-shopping-cart text-lg"></i>
-    </div>
+                    <a href="{{ route('cart.index') }}" 
+                       class="btn-hover-effect relative group p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
+                        <i class="fas fa-shopping-cart text-lg text-gray-600 group-hover:text-secondary transition-colors"></i>
+                        
+                        @php
+                            use Illuminate\Support\Facades\Auth;
+                            use Illuminate\Support\Facades\Session;
+                            use App\Models\Cart;
 
-    @php
-        use Illuminate\Support\Facades\Auth;
-        use Illuminate\Support\Facades\Session;
-        use App\Models\Cart;
+                            $cartCount = 0;
 
-        $cartCount = 0;
+                            if (Auth::check()) {
+                                $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
+                            } else {
+                                $guestToken = Session::get('guest_token');
+                                if ($guestToken) {
+                                    $cartCount = Cart::where('guest_token', $guestToken)->sum('quantity');
+                                } else {
+                                    $sessionCart = session('cart', []);
+                                    $cartCount = collect($sessionCart)->sum('quantity') ?: count($sessionCart);
+                                }
+                            }
+                        @endphp
 
-        if (Auth::check()) {
-            $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
-        } else {
-            $guestToken = Session::get('guest_token');
-
-            if ($guestToken) {
-                $cartCount = Cart::where('guest_token', $guestToken)->sum('quantity');
-            } else {
-                $sessionCart = session('cart', []);
-                $cartCount = collect($sessionCart)->sum('quantity') ?: count($sessionCart);
-            }
-        }
-    @endphp
-
-    @if($cartCount > 0)
-        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-            {{ $cartCount }}
-        </span>
-    @endif
-</a>
-
+                        @if($cartCount > 0)
+                            <span class="notification-badge pulse-glow">
+                                {{ $cartCount > 99 ? '99+' : $cartCount }}
+                            </span>
+                        @endif
+                    </a>
 
                     <!-- User Menu -->
-                    <div class="relative inline-block text-left">
-                        <!-- User Menu Button -->
-                        <div class="relative">
-                            <button class="group flex items-center" id="userMenuButton">
-                                <div class="p-2 rounded-full bg-light-gray group-hover:bg-primary group-hover:text-white transition-all">
-                                    <i class="fas fa-user text-lg"></i>
+                    <div class="relative">
+                        <button id="userMenuButton" 
+                                class="btn-hover-effect group p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
+                            <i class="fas fa-user text-lg text-gray-600 group-hover:text-accent transition-colors"></i>
+                        </button>
+
+                        <!-- User Dropdown -->
+                        <div id="userMenuDropdown" 
+                             class="absolute right-0 mt-3 w-64 glass-effect rounded-2xl shadow-glass overflow-hidden hidden slide-in-right">
+                            @auth
+                                <div class="p-4 border-b border-border">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                            <span class="text-white font-bold text-lg">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
+                                            <p class="text-sm text-gray-500">{{ auth()->user()->email }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </button>
-
-                            <!-- Dropdown -->
-                            <div id="userMenuDropdown" class="hidden absolute right-0 mt-3 w-56 glass-effect shadow-smooth-lg rounded-xl overflow-hidden animate-fadeIn">
-                                <div class="py-2">
-
-                                    <!-- If Logged In -->
-                                    @auth
-                                        <div class="px-4 py-3 border-b border-gray-100">
-                                            <p class="text-sm text-gray-500">Welcome back</p>
-                                            <p class="font-medium text-dark-gray">{{ auth()->user()->name }}</p>
-                                        </div>
-                                        <div class="py-2">
-                                           
-                                        
-                                        </div>
-                                        <div class="border-t border-gray-100 mt-2 pt-2">
-                                            <form action="" method="POST">
-                                                @csrf
-                                                <button type="submit" class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 transition-all">
-                                                    <i class="fas fa-sign-out-alt mr-3 text-primary"></i>Logout
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endauth
-
-                                    <!-- If Not Logged In -->
-                                    @guest
-                                        <div class="guest-section">
-                                            <a href="" class="block px-4 py-3 text-gray-700 hover:bg-gray-50 transition-all">
-                                                <i class="fas fa-sign-in-alt mr-3 text-primary"></i>Login
-                                            </a>
-                                            <a href="" class="block px-4 py-3 text-gray-700 hover:bg-gray-50 transition-all">
-                                                <i class="fas fa-user-plus mr-3 text-primary"></i>Register
-                                            </a>
-                                        </div>
-                                    @endguest
-
+                                
+                            
+                                <div class="border-t border-border pt-2">
+                                    <form action="{{ route('logout') }}" method="POST" class="w-full">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="flex items-center w-full px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all-custom">
+                                            <i class="fas fa-sign-out-alt mr-3"></i>
+                                            <span>Logout</span>
+                                        </button>
+                                    </form>
                                 </div>
-                            </div>
+                            @else
+                                <div class="p-4">
+                                    <p class="text-sm text-gray-500 mb-3">Welcome to HomeCollection</p>
+                                    <div class="space-y-2">
+                                        <a href="{{ route('user.login') }}" 
+                                           class="block w-full text-center bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+                                           Login
+                                        </a>
+                                        <a href="{{ route('user.register') }}" 
+                                           class="block w-full text-center border-2 border-primary text-primary py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all duration-300">
+                                           Register
+                                        </a>
+                                    </div>
+                                </div>
+                            @endauth
                         </div>
                     </div>
-                </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-lg bg-light-gray hover:bg-primary hover:text-white transition-all">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" 
+                            class="lg:hidden p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
+                        <i class="fas fa-bars text-lg text-gray-600"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="lg:hidden mt-4 hidden bg-white rounded-xl shadow-smooth-lg p-4 animate-fadeIn">
-                <div class="flex flex-col space-y-2">
-                    <a href="" class="mobile-menu-item font-medium text-dark-gray hover:text-primary hover:bg-primary/5 py-3 px-4 transition-all rounded-lg">Home</a>
-                    <a href="{{ route('product') }}" class="mobile-menu-item font-medium text-dark-gray hover:text-primary hover:bg-primary/5 py-3 px-4 transition-all rounded-lg">Products</a>
-                    <a href="#featured" class="mobile-menu-item font-medium text-dark-gray hover:text-primary hover:bg-primary/5 py-3 px-4 transition-all rounded-lg">Furniture</a>
-                    <a href="#offers" class="mobile-menu-item font-medium text-dark-gray hover:text-primary hover:bg-primary/5 py-3 px-4 transition-all rounded-lg">Decor</a>
-                    <a href="#" class="mobile-menu-item font-medium text-dark-gray hover:text-primary hover:bg-primary/5 py-3 px-4 transition-all rounded-lg">Lighting</a>
-                    
-                    <div class="border-t border-gray-100 pt-4 mt-2">
-                        <div class="flex space-x-4">
-                            <a href="#" class="flex-1 text-center bg-primary text-white py-2 rounded-lg font-medium btn-gradient transition-all">
-                                My Account
+            <div id="mobile-menu" 
+                 class="lg:hidden mt-4 hidden glass-effect rounded-2xl shadow-glass p-4 slide-in-right mobile-menu">
+                <div class="space-y-1">
+                    <a href="{{ route('home') }}" 
+                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
+                       <i class="fas fa-home mr-3 text-primary"></i>
+                       <span class="font-medium">Home</span>
+                    </a>
+                    <a href="{{ route('product') }}" 
+                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
+                       <i class="fas fa-th-large mr-3 text-primary"></i>
+                       <span class="font-medium">Products</span>
+                    </a>
+                    <a href="{{ route('category') }}" 
+                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
+                       <i class="fas fa-tags mr-3 text-primary"></i>
+                       <span class="font-medium">Categories</span>
+                    </a>
+                    <a href="{{ route('about') }}" 
+                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
+                       <i class="fas fa-info-circle mr-3 text-primary"></i>
+                       <span class="font-medium">About Us</span>
+                    </a>
+                    <a href="{{ route('contact') }}" 
+                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
+                       <i class="fas fa-phone-alt mr-3 text-primary"></i>
+                       <span class="font-medium">Contact</span>
+                    </a>
+                </div>
+
+                @guest
+                    <div class="mt-6 pt-4 border-t border-border">
+                        <div class="flex space-x-3">
+                            <a href="{{ route('user.login') }}" 
+                               class="flex-1 text-center bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+                               Login
                             </a>
-                            <a href="" class="flex-1 text-center bg-primary text-white py-2 rounded-lg font-medium btn-gradient transition-all">
-                                Login
+                            <a href="{{ route('user.register') }}" 
+                               class="flex-1 text-center border-2 border-primary text-primary py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all duration-300">
+                               Register
                             </a>
                         </div>
                     </div>
-                </div>
+                @endguest
             </div>
         </div>
     </nav>
 
+    <!-- Spacer for fixed navbar -->
+    <div class="h-20"></div>
+
     <!-- Search Drawer -->
-    <div id="search-drawer" class="fixed inset-y-0 right-0 w-full md:w-2/5 lg:w-1/3 bg-white shadow-smooth-lg transform translate-x-full z-50 transition-all duration-300">
-        <div class="p-6 h-full flex flex-col">
-            <!-- Header -->
-            <div class="flex justify-between items-center pb-4 border-b">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-primary p-2 rounded-lg">
-                        <i class="fas fa-search text-white"></i>
+    <div id="search-drawer" 
+         class="fixed inset-y-0 right-0 w-full md:w-3/4 lg:w-1/2 xl:w-2/5 bg-card shadow-2xl transform translate-x-full z-[60] transition-transform duration-500 ease-out">
+        <div class="h-full flex flex-col">
+            <!-- Drawer Header -->
+            <div class="p-6 border-b border-border">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-primary to-secondary">
+                            <i class="fas fa-search text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-heading font-bold text-gray-800">Discover Products</h2>
+                            <p class="text-sm text-gray-500">Search across 10,000+ home decor items</p>
+                        </div>
                     </div>
-                    <h2 class="text-xl font-bold text-dark-gray">Search Products</h2>
+                    <button id="close-search" 
+                            class="p-3 rounded-xl hover:bg-gray-100 transition-all duration-200">
+                        <i class="fas fa-times text-xl text-gray-500 hover:text-gray-700"></i>
+                    </button>
                 </div>
-                <button id="close-search" class="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-100 transition-all">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
             </div>
 
-            <!-- Search Input -->
-            <div class="py-6">
+            <!-- Search Input Section -->
+            <div class="p-6 border-b border-border bg-gradient-to-r from-gray-50 to-white">
                 <div class="relative">
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Search for furniture, decor, lighting..."
-                        class="w-full p-4 pl-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+                    <input type="text" 
+                           id="search-input" 
+                           placeholder="Search furniture, decor, lighting, textiles..." 
+                           class="search-input w-full pl-12 pr-20 py-4 rounded-2xl border-2 border-border bg-white focus:outline-none focus:border-primary transition-all duration-300 shadow-sm">
+                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
+                        <kbd class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md hidden md:inline">⌘K</kbd>
+                        <span id="results-count" class="text-sm text-gray-500 hidden">0 results</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Popular Searches -->
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-dark-gray mb-3">Popular Searches</h3>
-                @php
-                use App\Models\Product;
-                $product = Product::latest()->take(5)->get();
-                $popularSearches = $product->pluck('name');
-                    @endphp
-                <div class="flex flex-wrap gap-2">
-                  
-                    @foreach($popularSearches as $search)
-                        <span class="bg-light-gray text-dark-gray px-3 py-2 rounded-full text-sm cursor-pointer hover:bg-primary hover:text-white transition-all">{{ $search }}</span>
-                    @endforeach
-                </div>
-            </div>
-
-            <!-- Search Results -->
-            <div id="search-results" class="flex-1 overflow-y-auto custom-scrollbar hidden">
-                <!-- Search results will be populated here -->
-            </div>
-
-            <!-- Default content when no search is active -->
-            <div id="popular-recent" class="flex-1 overflow-y-auto custom-scrollbar">
-                <h3 class="text-lg font-semibold text-dark-gray mb-3">Recent Searches</h3>
-                <div class="space-y-2">
-                    <div class="flex items-center p-3 hover:bg-light-gray rounded-xl cursor-pointer transition-all">
-                        <i class="fas fa-history text-gray-400 mr-3"></i>
-                        <span class="text-gray-700">Leather Sofa</span>
-                        <button class="ml-auto text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200 transition-all">
-                            <i class="fas fa-times text-sm"></i>
-                        </button>
-                    </div>
-                    <div class="flex items-center p-3 hover:bg-light-gray rounded-xl cursor-pointer transition-all">
-                        <i class="fas fa-history text-gray-400 mr-3"></i>
-                        <span class="text-gray-700">Coffee Table</span>
-                        <button class="ml-auto text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200 transition-all">
-                            <i class="fas fa-times text-sm"></i>
-                        </button>
-                    </div>
-                    <div class="flex items-center p-3 hover:bg-light-gray rounded-xl cursor-pointer transition-all">
-                        <i class="fas fa-history text-gray-400 mr-3"></i>
-                        <span class="text-gray-700">Bookshelf</span>
-                        <button class="ml-auto text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200 transition-all">
-                            <i class="fas fa-times text-sm"></i>
-                        </button>
+            <!-- Drawer Content -->
+            <div class="flex-1 overflow-hidden">
+                <!-- Loading State -->
+                <div id="search-loading" class="hidden p-8">
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <div class="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <p class="text-gray-500">Searching our collection...</p>
                     </div>
                 </div>
 
-                <!-- Suggested Categories -->
-                <h3 class="text-lg font-semibold text-dark-gray mt-6 mb-3">Browse Categories</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-light-gray p-4 rounded-xl text-center cursor-pointer hover:bg-primary hover:text-white transition-all group">
-                        <i class="fas fa-couch text-xl mb-2 group-hover:text-white text-primary"></i>
-                        <p class="text-sm font-medium">Furniture</p>
+                <!-- Empty State -->
+                <div id="search-empty" class="hidden p-8">
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                            <i class="fas fa-search text-gray-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700">No results found</h3>
+                        <p class="text-gray-500 text-center">Try different keywords or browse categories below</p>
                     </div>
-                    <div class="bg-light-gray p-4 rounded-xl text-center cursor-pointer hover:bg-primary hover:text-white transition-all group">
-                        <i class="fas fa-palette text-xl mb-2 group-hover:text-white text-primary"></i>
-                        <p class="text-sm font-medium">Decor</p>
+                </div>
+
+                <!-- Main Content Container -->
+                <div class="h-full overflow-y-auto custom-scrollbar p-6">
+                    <!-- Results Section (Initially hidden) -->
+                    <div id="search-results" class="space-y-6 hidden">
+                        <!-- Results will be populated here -->
                     </div>
-                    <div class="bg-light-gray p-4 rounded-xl text-center cursor-pointer hover:bg-primary hover:text-white transition-all group">
-                        <i class="fas fa-lightbulb text-xl mb-2 group-hover:text-white text-primary"></i>
-                        <p class="text-sm font-medium">Lighting</p>
+
+                    <!-- Default Content (Visible when no search) -->
+                    <div id="search-default-content">
+                        <!-- Recent Searches -->
+                        <div id="recent-searches-section" class="mb-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Recent Searches</h3>
+                                <button id="clear-recent" class="text-sm text-gray-500 hover:text-red-500 transition-colors">
+                                    Clear all
+                                </button>
+                            </div>
+                            <div id="recent-searches-list" class="space-y-2">
+                                <!-- Recent searches will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Trending Now -->
+                        <div id="trending-section" class="mb-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">🔥 Trending Now</h3>
+                            <div id="trending-products" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                <!-- Trending products will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Popular Categories -->
+                        <div id="categories-section">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">✨ Popular Categories</h3>
+                            <div id="categories-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <!-- Categories will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Quick Suggestions -->
+                        <div id="suggestions-section" class="mt-8 pt-6 border-t border-border">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">💡 Quick Suggestions</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <!-- Suggestions will be loaded here -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="bg-light-gray p-4 rounded-xl text-center cursor-pointer hover:bg-primary hover:text-white transition-all group">
-                        <i class="fas fa-blanket text-xl mb-2 group-hover:text-white text-primary"></i>
-                        <p class="text-sm font-medium">Textiles</p>
+                </div>
+            </div>
+
+            <!-- Drawer Footer -->
+            <div class="p-4 border-t border-border bg-gray-50">
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <div class="flex items-center space-x-4">
+                        <span><i class="fas fa-shipping-fast mr-1"></i> Free shipping over $50</span>
+                        <span><i class="fas fa-shield-alt mr-1"></i> Secure checkout</span>
                     </div>
+                    <span><i class="fas fa-bolt mr-1"></i> Live search powered by AI</span>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Overlay -->
-    <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none z-40 transition-opacity duration-300"></div>
+    <div id="search-overlay" 
+         class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[55] opacity-0 pointer-events-none transition-opacity duration-300 drawer-overlay"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-$(document).ready(function(){
-            // User dropdown
-            $('#userMenuButton').on('click', function(e){
+        $(document).ready(function() {
+            // Initialize variables
+            let searchTimeout = null;
+            let recentSearches = JSON.parse(localStorage.getItem('homecollection_recent_searches')) || [];
+            let isSearching = false;
+
+            // User dropdown toggle
+            $('#userMenuButton').on('click', function(e) {
                 e.stopPropagation();
                 $('#userMenuDropdown').toggleClass('hidden');
             });
 
-            $(document).on('click', function(){
-                $('#userMenuDropdown').addClass('hidden');
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#userMenuButton, #userMenuDropdown').length) {
+                    $('#userMenuDropdown').addClass('hidden');
+                }
             });
 
-            // Mobile menu
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+            // Mobile menu toggle
+            $('#mobile-menu-button').on('click', function() {
+                $('#mobile-menu').toggleClass('hidden');
             });
 
             // Search drawer functionality
-            const searchButton = document.getElementById('search-button');
-            const searchDrawer = document.getElementById('search-drawer');
-            const closeSearch = document.getElementById('close-search');
-            const overlay = document.getElementById('overlay');
+            const searchButton = $('#search-button');
+            const searchDrawer = $('#search-drawer');
+            const closeSearch = $('#close-search');
+            const overlay = $('#search-overlay');
 
             function openSearchDrawer() {
-                searchDrawer.classList.remove('translate-x-full');
-                overlay.classList.remove('opacity-0', 'pointer-events-none');
-                overlay.classList.add('opacity-50', 'pointer-events-auto');
-                document.body.style.overflow = 'hidden';
+                searchDrawer.removeClass('translate-x-full');
+                overlay.removeClass('opacity-0 pointer-events-none');
+                overlay.addClass('opacity-100 pointer-events-auto');
+                $('body').css('overflow', 'hidden');
+                $('#search-input').focus();
+                loadDefaultContent();
             }
 
             function closeSearchDrawer() {
-                searchDrawer.classList.add('translate-x-full');
-                overlay.classList.add('opacity-0', 'pointer-events-none');
-                overlay.classList.remove('opacity-50', 'pointer-events-auto');
-                document.body.style.overflow = '';
+                searchDrawer.addClass('translate-x-full');
+                overlay.removeClass('opacity-100 pointer-events-auto');
+                overlay.addClass('opacity-0 pointer-events-none');
+                $('body').css('overflow', '');
+                $('#search-input').val('');
+                showDefaultContent();
             }
 
-            const searchInput = document.getElementById('search-input');
-const searchResults = document.getElementById('search-results');
-const popularRecent = document.getElementById('popular-recent');
-
-// --- Load recent searches when drawer opens ---
-document.addEventListener('DOMContentLoaded', showRecentSearches);
-
-// --- Search input handler ---
-searchInput.addEventListener('input', function () {
-    const query = this.value.trim();
-
-    if (query.length > 0) {
-        popularRecent.classList.add('hidden');
-        searchResults.classList.remove('hidden');
-
-        // --- Save search query to localStorage ---
-        saveSearchQuery(query);
-
-        // --- AJAX search ---
-        fetch(`/search-products?q=${encodeURIComponent(query)}`)
-            .then(res => res.json())
-            .then(data => {
-                searchResults.innerHTML = '';
-
-                if (data.length === 0) {
-                    searchResults.innerHTML = `
-                        <div class="flex flex-col items-center justify-center py-10">
-                            <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
-                            <p class="text-gray-500 text-lg">No products found</p>
-                            <p class="text-gray-400 text-sm mt-2">Try different keywords</p>
-                        </div>
-                    `;
-                    return;
+            // Keyboard shortcut for search
+            $(document).on('keydown', function(e) {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    openSearchDrawer();
                 }
-
-                data.forEach(product => {
-    // Calculate discount percentage if offer exists
-    let discountBadge = '';
-    if (product.offer_price) {
-        const percent = Math.round(((product.price - product.offer_price) / product.price) * 100);
-        discountBadge = `<span class="absolute top-0 left-0 bg-[var(--secondary-color)] text-white text-[10px] font-bold px-2 py-0.5 rounded-br-lg rounded-tl-lg shadow-sm z-10">-${percent}%</span>`;
-    }
-
-    searchResults.innerHTML += `
-        <a href="/product/${product.id}" class="group block border-b border-[var(--border-color)] last:border-0">
-            <div class="relative flex items-center gap-4 p-4 hover:bg-[var(--background-color)] transition-all duration-300 ease-out hover:pl-6">
-                
-                <div class="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border border-[var(--border-color)] shadow-sm group-hover:shadow-md transition-shadow">
-                    ${discountBadge}
-                    <img src="/storage/${product.image}" class="h-full w-full object-cover transform group-hover:scale-110 transition-transform duration-700">
-                </div>
-
-                <div class="flex-1 min-w-0">
-                    <h4 class="text-[var(--primary-color)] font-bold truncate group-hover:text-[var(--secondary-color)] transition-colors text-lg font-['Outfit']">
-                        ${product.name}
-                    </h4>
-                    
-                    <div class="flex items-center gap-2 mt-1">
-                        <span class="text-[var(--accent-color)] font-bold">
-                            $${product.offer_price ?? product.price}
-                        </span>
-
-                        ${product.offer_price ? `
-                            <span class="text-gray-400 text-xs line-through decoration-[var(--primary-color)]/30">
-                                $${product.price}
-                            </span>
-                        ` : ''}
-                    </div>
-                </div>
-
-                <div class="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                    <div class="h-10 w-10 flex items-center justify-center rounded-full bg-[var(--primary-color)] text-white shadow-lg hover:bg-[var(--secondary-color)] transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </div>
-                </div>
-
-            </div>
-        </a>
-    `;
-
-                });
-            });
-    } else {
-        // --- show recent searches when input is cleared ---
-        popularRecent.classList.remove('hidden');
-        searchResults.classList.add('hidden');
-        showRecentSearches();
-    }
-});
-
-// --- Save search query ---
-function saveSearchQuery(query) {
-    let searches = JSON.parse(localStorage.getItem('recentSearches')) || [];
-
-    // remove duplicates (case-insensitive)
-    searches = searches.filter(item => item.toLowerCase() !== query.toLowerCase());
-
-    // add latest at top
-    searches.unshift(query);
-
-    // keep only last 10
-    if (searches.length > 10) searches.pop();
-
-    localStorage.setItem('recentSearches', JSON.stringify(searches));
-}
-
-// --- Show recent searches dynamically ---
-function showRecentSearches() {
-    const searches = JSON.parse(localStorage.getItem('recentSearches')) || [];
-
-    if (searches.length === 0) {
-        popularRecent.innerHTML = `
-            <h3 class="text-lg font-semibold text-dark-gray mb-3">Recent Searches</h3>
-            <p class="text-gray-500 text-center py-4">No recent searches</p>`;
-        return;
-    }
-
-    const listHTML = searches.map(query => `
-        <div class="flex items-center p-3 hover:bg-light-gray rounded-xl cursor-pointer transition-all recent-item" data-query="${query}">
-            <i class="fas fa-history text-gray-400 mr-3"></i>
-            <span class="text-gray-700 flex-1">${query}</span>
-            <button class="ml-auto text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200 transition-all remove-btn" data-query="${query}">
-                <i class="fas fa-times text-sm"></i>
-            </button>
-        </div>
-    `).join('');
-
-    popularRecent.innerHTML = `
-        <h3 class="text-lg font-semibold text-dark-gray mb-3">Recent Searches</h3>
-        <div class="space-y-2">${listHTML}</div>
-    `;
-
-    // --- Click to re-search ---
-    document.querySelectorAll('.recent-item').forEach(item => {
-        item.addEventListener('click', function (e) {
-            if (e.target.closest('.remove-btn')) return; // ignore delete clicks
-            const query = this.dataset.query;
-            searchInput.value = query;
-            searchInput.dispatchEvent(new Event('input')); // trigger live search
-        });
-    });
-
-    // --- Remove recent search ---
-    document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            removeSearchQuery(this.dataset.query);
-        });
-    });
-}
-
-// --- Remove query from localStorage ---
-function removeSearchQuery(query) {
-    let searches = JSON.parse(localStorage.getItem('recentSearches')) || [];
-    searches = searches.filter(item => item.toLowerCase() !== query.toLowerCase());
-    localStorage.setItem('recentSearches', JSON.stringify(searches));
-    showRecentSearches();
-}
-
-            searchButton.addEventListener('click', openSearchDrawer);
-            closeSearch.addEventListener('click', closeSearchDrawer);
-            overlay.addEventListener('click', closeSearchDrawer);
-
-            // Close search drawer with Escape key
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
+                if (e.key === 'Escape') {
                     closeSearchDrawer();
                 }
             });
 
-            // Popular search tags click handler
-            document.querySelectorAll('.bg-light-gray.text-dark-gray').forEach(tag => {
-                tag.addEventListener('click', () => {
-                    document.getElementById('search-input').value = tag.textContent.trim();
-                    document.getElementById('search-input').focus();
-                    // Trigger the input event to show results
-                    const event = new Event('input', { bubbles: true });
-                    document.getElementById('search-input').dispatchEvent(event);
-                });
-            });
-        });
+            // Load default content (trending, categories, recent searches)
+            function loadDefaultContent() {
+                // Load recent searches
+                loadRecentSearches();
+                
+                // Load trending products
+                loadTrendingProducts();
+                
+                // Load categories
+                loadCategories();
+                
+                // Load suggestions
+                loadSuggestions();
+            }
 
+            function loadRecentSearches() {
+                const recentList = $('#recent-searches-list');
+                if (recentSearches.length === 0) {
+                    recentList.html(`
+                        <div class="text-center py-8">
+                            <i class="fas fa-history text-3xl text-gray-300 mb-3"></i>
+                            <p class="text-gray-500">No recent searches</p>
+                        </div>
+                    `);
+                    return;
+                }
+
+                let html = '';
+                recentSearches.slice(0, 5).forEach((search, index) => {
+                    html += `
+                        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-200 group recent-search-item" data-query="${search.query}">
+                            <div class="flex items-center space-x-3 flex-1 cursor-pointer">
+                                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <i class="fas fa-history text-primary text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <span class="text-gray-700 group-hover:text-primary transition-colors">${search.query}</span>
+                                    <span class="text-xs text-gray-400 ml-2">${search.time}</span>
+                                </div>
+                            </div>
+                            <button class="p-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all remove-recent-search" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                recentList.html(html);
+            }
+
+            function loadTrendingProducts() {
+                $.ajax({
+                    url: '/navbar/trending',
+                    method: 'GET',
+                    success: function(products) {
+                        const container = $('#trending-products');
+                        if (products.length === 0) return;
+
+                        let html = '';
+                        products.forEach(product => {
+                            const discount = product.offer_price ? 
+                                Math.round(((product.price - product.offer_price) / product.price) * 100) : null;
+                            
+                            html += `
+                                <a href="/product/${product.id}" class="product-card block p-3 rounded-xl bg-white border border-border hover:border-primary/30 transition-all">
+                                    <div class="relative h-32 w-full mb-3 overflow-hidden rounded-lg">
+                                        ${discount ? `
+                                            <span class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-md z-10">
+                                                -${discount}%
+                                            </span>
+                                        ` : ''}
+                                        <img src="${product.image}" alt="${product.name}" 
+                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                    <h4 class="font-medium text-gray-800 truncate mb-1">${product.name}</h4>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold text-primary">$${product.offer_price || product.price}</span>
+                                            ${product.offer_price ? `
+                                                <span class="text-sm text-gray-400 line-through">$${product.price}</span>
+                                            ` : ''}
+                                        </div>
+                                        <span class="text-xs text-gray-500">${product.category}</span>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                        container.html(html);
+                    }
+                });
+            }
+
+            function loadCategories() {
+                // You can make this dynamic by fetching from API
+                const categories = [
+                    { icon: 'fas fa-couch', name: 'Living Room', color: 'from-blue-500 to-cyan-400' },
+                    { icon: 'fas fa-bed', name: 'Bedroom', color: 'from-purple-500 to-pink-500' },
+                    { icon: 'fas fa-utensils', name: 'Dining', color: 'from-green-500 to-emerald-400' },
+                    { icon: 'fas fa-lightbulb', name: 'Lighting', color: 'from-yellow-500 to-orange-500' },
+                    { icon: 'fas fa-palette', name: 'Decor', color: 'from-red-500 to-pink-500' },
+                    { icon: 'fas fa-rug', name: 'Textiles', color: 'from-indigo-500 to-purple-400' }
+                ];
+
+                const container = $('#categories-grid');
+                let html = '';
+                categories.forEach(category => {
+                    html += `
+                        <div class="category-card cursor-pointer group">
+                            <div class="p-4 rounded-xl bg-gradient-to-br ${category.color} text-white text-center transition-all duration-300 transform group-hover:scale-105">
+                                <i class="${category.icon} text-2xl mb-2"></i>
+                                <p class="font-semibold">${category.name}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.html(html);
+            }
+
+            function loadSuggestions() {
+                const suggestions = [
+                    'Modern Sofa', 'Coffee Table', 'Dining Chair', 'Wall Art', 
+                    'Floor Lamp', 'Bookshelf', 'Area Rug', 'Throw Pillow'
+                ];
+                
+                const container = $('#suggestions-section .flex');
+                let html = '';
+                suggestions.forEach(suggestion => {
+                    html += `
+                        <button class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-primary hover:text-white transition-all duration-300 suggestion-tag">
+                            ${suggestion}
+                        </button>
+                    `;
+                });
+                container.html(html);
+            }
+
+            // Search functionality
+            $('#search-input').on('input', function() {
+                const query = $(this).val().trim();
+                
+                if (query.length === 0) {
+                    showDefaultContent();
+                    return;
+                }
+
+                if (query.length < 2) return;
+
+                // Show loading
+                $('#search-default-content').hide();
+                $('#search-results').hide();
+                $('#search-loading').show();
+                $('#search-empty').hide();
+
+                // Clear previous timeout
+                if (searchTimeout) clearTimeout(searchTimeout);
+
+                // Set new timeout for debouncing
+                searchTimeout = setTimeout(() => {
+                    performSearch(query);
+                }, 300);
+            });
+
+            function performSearch(query) {
+                isSearching = true;
+
+                $.ajax({
+                    url: '{{ route("navbar.search") }}',
+                    method: 'GET',
+                    data: { q: query },
+                    success: function(response) {
+                        $('#search-loading').hide();
+                        
+                        if (response.products.length === 0) {
+                            showNoResults();
+                            return;
+                        }
+
+                        displaySearchResults(response);
+                        saveRecentSearch(query);
+                    },
+                    error: function() {
+                        $('#search-loading').hide();
+                        $('#search-empty').show().find('p').text('Error loading results. Please try again.');
+                    }
+                });
+            }
+
+            function displaySearchResults(response) {
+                const container = $('#search-results');
+                const resultsCount = $('#results-count');
+                
+                resultsCount.text(`${response.products.length} results`).show();
+                
+                let html = '';
+                
+                // Group products by category
+                const groupedProducts = {};
+                response.products.forEach(product => {
+                    if (!groupedProducts[product.category]) {
+                        groupedProducts[product.category] = [];
+                    }
+                    groupedProducts[product.category].push(product);
+                });
+
+                // Render grouped results
+                Object.entries(groupedProducts).forEach(([category, products]) => {
+                    html += `
+                        <div class="category-results mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-heading font-semibold text-gray-800">${category}</h3>
+                                <span class="text-sm text-gray-500">${products.length} items</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    `;
+
+                    products.forEach(product => {
+                        const discount = product.discount_percent;
+                        
+                        html += `
+                            <a href="/product/${product.id}" class="product-card group block p-4 rounded-xl bg-white border border-border hover:border-primary transition-all">
+                                <div class="flex space-x-4">
+                                    <div class="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
+                                        ${discount ? `
+                                            <span class="absolute top-0 left-0 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-br-lg z-10">
+                                                -${discount}%
+                                            </span>
+                                        ` : ''}
+                                        ${product.in_stock ? '' : `
+                                            <span class="absolute top-0 right-0 bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg">
+                                                Out of stock
+                                            </span>
+                                        `}
+                                        <img src="${product.image}" alt="${product.name}" 
+                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h4 class="font-semibold text-gray-800 group-hover:text-primary transition-colors line-clamp-1">${product.name}</h4>
+                                            ${product.is_featured ? `
+                                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Featured</span>
+                                            ` : ''}
+                                        </div>
+                                        
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <div class="flex items-center">
+                                                ${generateStars(product.rating)}
+                                                <span class="text-xs text-gray-500 ml-2">(${product.review_count})</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-xl font-bold text-primary">$${product.offer_price || product.price}</span>
+                                                ${product.offer_price ? `
+                                                    <span class="text-sm text-gray-400 line-through">$${product.price}</span>
+                                                ` : ''}
+                                            </div>
+                                            <button class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 rounded-full bg-primary text-white hover:bg-primary-hover">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Add suggestions section
+                if (response.suggestions.length > 0) {
+                    html += `
+                        <div class="suggestions-section mt-8 pt-6 border-t border-border">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">💡 Related Searches</h3>
+                            <div class="flex flex-wrap gap-2">
+                    `;
+                    
+                    response.suggestions.forEach(suggestion => {
+                        html += `
+                            <button class="suggestion-chip px-4 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-primary hover:text-white transition-all duration-300" data-suggestion="${suggestion.text}">
+                                ${suggestion.text}
+                                <span class="text-xs text-gray-500 ml-1">in ${suggestion.category}</span>
+                            </button>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.html(html).show();
+                $('#search-default-content').hide();
+                $('#search-empty').hide();
+            }
+
+            function generateStars(rating) {
+                let stars = '';
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 >= 0.5;
+                
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= fullStars) {
+                        stars += '<i class="fas fa-star text-yellow-400 text-xs"></i>';
+                    } else if (i === fullStars + 1 && hasHalfStar) {
+                        stars += '<i class="fas fa-star-half-alt text-yellow-400 text-xs"></i>';
+                    } else {
+                        stars += '<i class="far fa-star text-yellow-400 text-xs"></i>';
+                    }
+                }
+                return stars;
+            }
+
+            function showNoResults() {
+                $('#search-results').hide();
+                $('#search-empty').show();
+                $('#results-count').hide();
+            }
+
+            function showDefaultContent() {
+                $('#search-default-content').show();
+                $('#search-results').hide();
+                $('#search-loading').hide();
+                $('#search-empty').hide();
+                $('#results-count').hide();
+                isSearching = false;
+            }
+
+            function saveRecentSearch(query) {
+                const searchData = {
+                    query: query,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    timestamp: Date.now()
+                };
+
+                // Remove duplicates
+                recentSearches = recentSearches.filter(s => s.query.toLowerCase() !== query.toLowerCase());
+                
+                // Add to beginning
+                recentSearches.unshift(searchData);
+                
+                // Keep only last 10
+                recentSearches = recentSearches.slice(0, 10);
+                
+                // Save to localStorage
+                localStorage.setItem('homecollection_recent_searches', JSON.stringify(recentSearches));
+                
+                // Update UI
+                if (!$('#search-default-content').is(':visible')) {
+                    loadRecentSearches();
+                }
+            }
+
+            // Event listeners
+            searchButton.on('click', openSearchDrawer);
+            closeSearch.on('click', closeSearchDrawer);
+            overlay.on('click', closeSearchDrawer);
+
+            // Clear recent searches
+            $('#clear-recent').on('click', function() {
+                recentSearches = [];
+                localStorage.removeItem('homecollection_recent_searches');
+                loadRecentSearches();
+            });
+
+            // Handle suggestion clicks
+            $(document).on('click', '.suggestion-tag, .suggestion-chip', function() {
+                const query = $(this).data('suggestion') || $(this).text();
+                $('#search-input').val(query).focus().trigger('input');
+            });
+
+            // Handle recent search clicks
+            $(document).on('click', '.recent-search-item', function(e) {
+                if (!$(e.target).closest('.remove-recent-search').length) {
+                    const query = $(this).data('query');
+                    $('#search-input').val(query).focus().trigger('input');
+                }
+            });
+
+            // Remove recent search
+            $(document).on('click', '.remove-recent-search', function(e) {
+                e.stopPropagation();
+                const index = $(this).data('index');
+                recentSearches.splice(index, 1);
+                localStorage.setItem('homecollection_recent_searches', JSON.stringify(recentSearches));
+                loadRecentSearches();
+            });
+
+            // Category clicks
+            $(document).on('click', '.category-card', function() {
+                const category = $(this).find('p').text();
+                $('#search-input').val(category).focus().trigger('input');
+            });
+
+            // Initialize
+            loadDefaultContent();
+        });
     </script>
 </body>
 </html>

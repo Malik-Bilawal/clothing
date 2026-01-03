@@ -1,363 +1,933 @@
 @extends("user.layouts.master-layouts.plain")
+
+<title>Home Collection | Shopping Cart</title>
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
-<title>Cart | Grocery Store </title>
-
-@push("script")
-@endpush
-
 
 @push("style")
 <style>
-    
+    :root {
+        --primary-color: #8B7355;
+        --primary-hover: #7A6244;
+        --secondary-color: #C19A6B;
+        --secondary-hover: #B08A5B;
+        --accent-color: #A67C52;
+        --accent-hover: #956C42;
+        --text-on-primary: #FFFFFF;
+        --text-on-secondary: #1A1A1A;
+        --background-color: #FAF7F2;
+        --card-background: #FFFFFF;
+        --border-color: #E8DECD;
+        --success-color: #10B981;
+        --error-color: #EF4444;
+        --warning-color: #F59E0B;
+    }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+    /* Modern Cart Styles */
+    .cart-container {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .cart-item {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .cart-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px rgba(139, 115, 85, 0.15);
+    }
+
+    .cart-item-image {
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .cart-item-image:hover {
+        transform: scale(1.05);
+    }
+
+    .cart-quantity-control {
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        overflow: hidden;
+        background: white;
+    }
+
+    .cart-quantity-btn {
+        transition: all 0.2s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--background-color);
+    }
+
+    .cart-quantity-btn:hover:not(:disabled) {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .cart-quantity-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .cart-remove-btn {
+        transition: all 0.3s ease;
+        opacity: 0.6;
+    }
+
+    .cart-remove-btn:hover {
+        opacity: 1;
+        transform: rotate(90deg);
+        color: var(--error-color);
+    }
+
+    .order-summary {
+        position: sticky;
+        top: 100px;
+        border-radius: 1.5rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f9f7f3 100%);
+        box-shadow: 0 10px 40px rgba(139, 115, 85, 0.1);
+    }
+
+    .badge-discount {
+        background: linear-gradient(135deg, #EF4444, #DC2626);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 4px 12px;
+        border-radius: 20px;
+        animation: pulse 2s infinite;
+    }
+
+    .progress-bar-cart {
+        height: 6px;
+        background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+        border-radius: 3px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .progress-bar-cart::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    .empty-cart-state {
+        text-align: center;
+        padding: 4rem 2rem;
+    }
+
+    .empty-cart-icon {
+        font-size: 5rem;
+        color: var(--border-color);
+        margin-bottom: 2rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .floating-checkout-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        box-shadow: 0 10px 30px rgba(139, 115, 85, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .floating-checkout-btn:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(139, 115, 85, 0.4);
+    }
+
+    .cart-item-deleting {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
         }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+
+        to {
+            opacity: 0;
+            transform: translateX(-100px);
         }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-color);
-            border-radius: 4px;
+    }
+
+    .cart-item-updating {
+        animation: pulse 0.5s ease-in-out;
+    }
+
+    .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid var(--border-color);
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
         }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-hover);
+    }
+
+    .mobile-cart-item {
+        border-radius: 1rem;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .floating-checkout-btn {
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            font-size: 14px;
         }
-    </style>
+
+        .order-summary {
+            position: static;
+            margin-top: 2rem;
+        }
+    }
+
+    /* Custom scrollbar for cart items */
+    .cart-items-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .cart-items-container::-webkit-scrollbar-track {
+        background: rgba(139, 115, 85, 0.1);
+        border-radius: 10px;
+    }
+
+    .cart-items-container::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 10px;
+    }
+
+    /* Price animation */
+    .price-change {
+        animation: pricePulse 0.5s ease-in-out;
+    }
+
+    @keyframes pricePulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    /* Coupon input animation */
+    .coupon-input:focus {
+        box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+    }
+
+    /* Shipping progress animation */
+    .free-shipping-progress {
+        transition: width 0.6s ease-in-out;
+    }
+</style>
 @endpush
-
 
 @section("content")
 
-<div class="bg-gray-50">
-    
+<!-- Breadcrumb Navigation -->
+<nav class="bg-white shadow-sm py-4">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center space-x-2 text-sm">
+            <a href="{{ route('home') }}" class="breadcrumb-item text-gray-600 hover:text-primary transition-all">
+                <i class="fas fa-home mr-1"></i> Home
+            </a>
+            <span class="text-gray-400"><i class="fas fa-chevron-right"></i></span>
+            <a href="{{ route('product') }}" class="breadcrumb-item text-gray-600 hover:text-primary transition-all">
+                Products
+            </a>
+            <span class="text-gray-400"><i class="fas fa-chevron-right"></i></span>
+            <span class="text-primary font-medium">Shopping Cart</span>
+        </div>
+    </div>
+</nav>
 
-    <!-- Cart Section -->
-    <section class="py-8">
-        <div class="container mx-auto px-4">
-            <h1 class="text-3xl font-bold text-[var(--primary-color)] mb-2">Your Shopping Cart</h1>
-            <p class="text-gray-600 mb-6">Review your items and proceed to checkout</p>
-            
-            <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Cart Items -->
-                <div class="lg:w-2/3">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <!-- Cart Header -->
-                        <div class="bg-[var(--primary-color)]/10 px-6 py-4 border-b border-gray-200">
-                            <div class="flex justify-between items-center">
-                                <h2 class="text-lg font-semibold text-[var(--primary-color)]">Cart Items (3)</h2>
-                                <button class="text-red-500 hover:text-red-700 text-sm font-medium">
-                                    <i class="fas fa-trash-alt mr-1"></i> Clear All
-                                </button>
+<!-- Main Cart Section -->
+<div class="container mx-auto px-4 py-8 cart-container">
+
+    {{-- LOGIC: Check if cart has items at the TOP level --}}
+    @if($cartItems->count() > 0)
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <div class="lg:col-span-2">
+            <div class="mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                    Your Shopping Cart
+                </h1>
+                <div class="flex items-center justify-between">
+                    <p class="text-gray-600">
+                        <span id="cart-count">{{ $cartItems->count() }}</span> item(s)
+                    </p>
+                    <a href="{{ route('product') }}" class="text-primary hover:text-primary-hover font-semibold flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i>
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+
+            @if($cartItems->sum('total') < 50)
+                <div class="mb-8 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <i class="fas fa-shipping-fast text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Free Shipping!</p>
+                            <p class="text-sm text-gray-600">Get free shipping on orders over $50</p>
+                        </div>
+                    </div>
+                    <span class="font-bold text-primary">
+                        ${{ number_format(50 - $cartItems->sum('total'), 2) }} away
+                    </span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="progress-bar-cart free-shipping-progress"
+                        style="width: {{ min(($cartItems->sum('total') / 50) * 100, 100) }}%"></div>
+                </div>
+        </div>
+        @endif
+
+        <div class="space-y-4 cart-items-container">
+            @foreach($cartItems as $item)
+            <div class="cart-item p-6" id="cart-item-{{ $item->id }}">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <div class="md:col-span-3">
+                        <div class="cart-item-image">
+                            <img src="{{ $item->product->images->first() ? asset('storage/' . $item->product->images->first()->image_path) : asset('images/default-product.jpg') }}"
+                                alt="{{ $item->product->name }}"
+                                class="w-full h-48 object-cover rounded-lg">
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-6">
+                        <div class="h-full flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900 mb-2">
+                                    {{ $item->product->name }}
+                                </h3>
+
+                                @if($item->color_name || $item->size_name)
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    @if($item->color_name)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                                        <span class="w-3 h-3 rounded-full mr-2" style="background-color: {{ $item->color_hex ?? '#ccc' }}"></span>
+                                        {{ $item->color_name }}
+                                    </span>
+                                    @endif
+
+                                    @if($item->size_name)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                                        <i class="fas fa-expand-alt mr-2"></i>
+                                        {{ $item->size_name }}
+                                    </span>
+                                    @endif
+                                </div>
+                                @endif
+
+                                <p class="text-sm text-gray-500 mb-1">
+                                    SKU: {{ $item->product->sku ?? 'N/A' }}
+                                </p>
+
+                                <div class="flex items-center gap-2">
+                                    @if($item->product->stock_quantity > 0)
+                                    <span class="inline-flex items-center text-sm text-success-color">
+                                        <i class="fas fa-check-circle mr-1"></i> In Stock
+                                    </span>
+                                    @else
+                                    <span class="inline-flex items-center text-sm text-error-color">
+                                        <i class="fas fa-times-circle mr-1"></i> Out of Stock
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl font-bold text-primary price-change">
+                                        ${{ number_format($item->price * $item->quantity, 2) }}
+                                    </span>
+                                    <span class="text-sm text-gray-500 mt-1">
+                                        ${{ number_format($item->price, 2) }} each
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        
-                        <!-- Cart Items List -->
-                        <div class="divide-y divide-gray-200">
-                        @forelse($cartItems as $cart)
-    @php
-        $product = $cart->product;
-        $image = $product->defaultImage ?? null;
-        $totalPrice = $cart->quantity * $cart->price;
-    @endphp
+                    </div>
 
-    <div class="cart-item p-6 flex flex-col md:flex-row gap-4" data-price="{{ $cart->price }}">
-        <div class="md:w-24 md:h-24 flex-shrink-0 bg-[var(--primary-color)]/10 rounded-lg flex items-center justify-center">
-            @if($image)
-                <img src="{{ asset('storage/' . $image->image_path) }}" 
-                     alt="{{ $product->name }}" 
-                     class="h-20 w-20 object-cover rounded">
-            @else
-                <span class="text-gray-400 text-sm">No Image</span>
-            @endif
-        </div>
+                    <div class="md:col-span-3">
+                        <div class="h-full flex flex-col justify-between items-end">
+                            <div class="flex items-center gap-4">
+                                <div class="cart-quantity-control flex items-center">
+                                    <button class="cart-quantity-btn decrease-quantity"
+                                        data-id="{{ $item->id }}"
+                                        {{ $item->quantity <= 1 ? 'disabled' : '' }}>
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="w-12 text-center font-semibold cart-quantity"
+                                        data-id="{{ $item->id }}">
+                                        {{ $item->quantity }}
+                                    </span>
+                                    <button class="cart-quantity-btn increase-quantity"
+                                        data-id="{{ $item->id }}"
+                                        {{ $item->quantity >= 10 ? 'disabled' : '' }}>
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
 
-        <div class="flex-grow">
-            <div class="flex justify-between">
-                <h3 class="font-semibold text-[var(--primary-color)]">{{ $product->name }}</h3>
-                <span class="font-bold text-[var(--accent-color)]">PKR. {{ number_format($cart->price, 2) }}</span>
-            </div>
+                                <button class="cart-remove-btn text-gray-400 hover:text-error-color"
+                                    data-id="{{ $item->id }}"
+                                    title="Remove item">
+                                    <i class="fas fa-trash-alt text-lg"></i>
+                                </button>
+                            </div>
 
-            @if($cart->size)
-    <p class="text-gray-600 text-sm mt-1">Size: {{ $cart->size->name }}</p>
-@endif
-
-@if($cart->color)
-    <p class="text-gray-600 text-sm">Color: {{ $cart->color->name }}</p>
-@endif
-
-
-            <div class="flex items-center justify-between mt-4">
-                <div class="flex items-center border border-gray-300 rounded-lg">
-                    <button class="quantity-btn decrease-qty w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100" data-id="{{ $cart->id }}">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <span class="quantity-display w-10 text-center font-medium">{{ $cart->quantity }}</span>
-                    <button class="quantity-btn increase-qty w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100" data-id="{{ $cart->id }}">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <span class="font-semibold text-[var(--accent-color)] item-total">PKR.{{ number_format($totalPrice, 2) }}</span>
-                    <button class="text-red-500 hover:text-red-700 remove-item" data-id="{{ $cart->id }}">
-    <i class="fas fa-trash-alt"></i>
-</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-@empty
-    <div class="p-6 text-center text-gray-600">
-        Your cart is empty 😢
-    </div>
-@endforelse
-
-</div>
-
-                        
-                        <!-- Continue Shopping -->
-                        <div class="p-6 bg-gray-50 border-t border-gray-200">
-                            <a href="index.html" class="inline-flex items-center text-[var(--primary-color)] hover:text-[var(--primary-hover)] font-medium">
-                                <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
-                            </a>
+                            <div class="text-right mt-4">
+                                <p class="text-sm text-gray-500">Item Total</p>
+                                <p class="text-lg font-bold text-primary item-total" data-id="{{ $item->id }}">
+                                    ${{ number_format($item->total, 2) }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Order Summary -->
-              <!-- Order Summary -->
-<div class="lg:w-1/3" id="order-summary">
-    <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
-        <h2 class="text-xl font-bold text-[var(--primary-color)] mb-4">Order Summary</h2>
-@php
-    $subtotal = $cartItems->sum(fn($c) => $c->price * $c->quantity);
-    $shipping = 250;
-    $discountAmount = 0;
-
-    if (isset($activeSale)) {
-        $discountAmount = ($subtotal * $activeSale->discount_percent) / 100;
-    }
-
-    $grandTotal = $subtotal - $discountAmount + $shipping;
-@endphp
-<div class="space-y-3 mb-6">
-    <div class="flex justify-between">
-        <span class="text-gray-600">
-            Subtotal (<span id="total-items">{{ $cartItems->sum('quantity') }}</span> items)
-        </span>
-        <span class="font-medium">PKR <span id="subtotal">{{ number_format($subtotal, 2) }}</span></span>
-    </div>
-
-    @if(isset($activeSale))
-        <div id="sale-discount" class="flex justify-between text-[var(--accent-color)] font-medium" 
-             data-percent="{{ $activeSale->discount_percent }}">
-            <span>Sale Discount ({{ $activeSale->discount_percent }}%)</span>
-            <span>-PKR <span id="discount-amount">{{ number_format($discountAmount, 2) }}</span></span>
+            </div>
+            @endforeach
         </div>
-    @endif
 
-    <div class="flex justify-between">
-        <span class="text-gray-600">Shipping</span>
-        <span class="font-medium">PKR <span id="shipping">{{ number_format($shipping, 2) }}</span></span>
-    </div>
-
-    <div class="flex justify-between">
-        <span class="text-gray-600">Tax</span>
-        <span class="font-medium">PKR <span id="tax">0.00</span></span>
-    </div>
-
-    <div class="border-t border-gray-200 pt-3">
-        <div class="flex justify-between">
-            <span class="text-lg font-bold text-[var(--primary-color)]">Total</span>
-            <span class="text-lg font-bold text-[var(--accent-color)]">
-                PKR <span id="grand-total">{{ number_format($grandTotal, 2) }}</span>
-            </span>
-        </div>
-    </div>
-</div>
-
-
-
-        <a href="{{ route('checkout.index') }}" class="w-full bg-[var(--primary-color)] text-[var(--text-on-primary)] font-bold py-3 px-4 rounded-lg hover:bg-[var(--primary-hover)] transition flex items-center justify-center">
-            <i class="fas fa-lock mr-2"></i> Proceed to Checkout
-    </a>
-
-        <div class="mt-4 text-center text-sm text-gray-500">
-            <i class="fas fa-shield-alt mr-1"></i> Secure checkout guaranteed
-        </div>
-    </div>
-</div>
-
+        <div class="mt-8 bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 text-white">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
+                        <i class="fas fa-gift text-2xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold">Special Offer!</h4>
+                        <p class="text-white/90">Buy 3 items, get 10% off</p>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-2xl font-bold">
+                        {{ $cartItems->count() }}/3 items
+                    </span>
+                    <p class="text-white/90 text-sm">Add {{ max(0, 3 - $cartItems->count()) }} more to unlock</p>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="lg:col-span-1">
+        <div class="order-summary p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
+
+            <div class="space-y-4 mb-6">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span class="font-semibold" id="subtotal">
+                        ${{ number_format($cartItems->sum('total'), 2) }}
+                    </span>
+                </div>
+
+                {{-- Shipping logic --}}
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Shipping</span>
+                    @if($cartItems->sum('total') >= 50)
+                    <span class="font-semibold text-success-color">FREE</span>
+                    @else
+                    <span class="font-semibold">$5.99</span>
+                    @endif
+                </div>
+
+                {{-- Tax Estimate --}}
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Tax Estimate</span>
+                    <span class="font-semibold" id="tax">
+                        ${{ number_format($cartItems->sum('total') * 0.08, 2) }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 my-6"></div>
+
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-lg font-bold text-gray-900">Total</span>
+                <div>
+                    <div class="text-2xl font-bold text-primary" id="total">
+                        ${{ number_format($cartItems->sum('total') + ($cartItems->sum('total') * 0.08) + ($cartItems->sum('total') >= 50 ? 0 : 5.99), 2) }}
+                    </div>
+                    <p class="text-sm text-gray-500 text-right">USD</p>
+                </div>
+            </div>
+
+            <button id="checkout-btn"
+                class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-all mb-4">
+                <i class="fas fa-lock mr-3"></i> Proceed to Checkout
+            </button>
+
+            <a href="{{ route('product') }}"
+                class="block w-full text-center py-3 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary/5 transition-all">
+                Continue Shopping
+            </a>
+
+            <div class="mt-8 p-4 bg-green-50 rounded-xl border border-green-200 text-center">
+                <div class="flex items-center justify-center gap-2 text-green-800 font-semibold">
+                    <i class="fas fa-shield-alt"></i> Secure Checkout
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@else
+{{-- LOGIC: This Block Only Runs if Cart is Empty --}}
+
+<div class="empty-cart-state bg-white rounded-3xl shadow-sm border border-gray-100 p-12 text-center max-w-2xl mx-auto mt-10">
+    <div class="empty-cart-icon mb-6">
+        <div class="w-32 h-32 bg-gray-50 rounded-full flex items-center justify-center mx-auto">
+            <i class="fas fa-shopping-cart text-5xl text-gray-300"></i>
+        </div>
+    </div>
+    <h3 class="text-3xl font-bold text-gray-800 mb-4">Your cart is empty</h3>
+    <p class="text-gray-500 mb-8 max-w-md mx-auto text-lg">
+        Looks like you haven't added any products to your cart yet.
+        Start shopping to find amazing products!
+    </p>
+    <a href="{{ route('product') }}"
+        class="inline-flex items-center gap-2 bg-primary text-white px-10 py-4 rounded-full font-bold hover:bg-primary-hover transition-all shadow-lg shadow-primary/30 hover:-translate-y-1">
+        <i class="fas fa-store mr-2"></i>
+        Start Shopping
+    </a>
+</div>
+
+@endif
+</div>
+@php
+// dd($cartItems);
+@endphp
+
+</div>
+
+<!-- Floating Checkout Button (Mobile) -->
+@if($cartItems->isNotEmpty())
+<a href="{{ route('checkout.index') }}" class="floating-checkout-btn md:hidden">
+    <i class="fas fa-shopping-cart"></i>
+    <span>Checkout</span>
+    <span class="bg-white text-primary px-2 py-1 rounded-full text-sm">
+        ${{ number_format($cartItems->sum('total'), 2) }}
+    </span>
+</a>
+@endif
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+    <div class="bg-white rounded-2xl p-8 flex flex-col items-center gap-4">
+        <div class="loading-spinner"></div>
+        <p class="text-gray-700 font-semibold">Updating cart...</p>
+    </div>
+</div>
+
 @endsection
 
-
 @push("script")
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).ready(function() {
-
-// Increase or Decrease Quantity
-$('.increase-qty, .decrease-qty').click(function(e) {
-    e.preventDefault();
-
-    const button = $(this);
-    const id = button.data('id');
-    const action = button.hasClass('increase-qty') ? 'increase' : 'decrease';
-    const item = button.closest('.cart-item');
-    const quantityDisplay = item.find('.quantity-display');
-    const totalElement = item.find('.item-total');
-    const unitPrice = parseFloat(item.data('price'));
-
-    let quantity = parseInt(quantityDisplay.text());
-
-    // Update visually before backend
-    if (action === 'increase') quantity++;
-    else if (action === 'decrease' && quantity > 1) quantity--;
-
-    quantityDisplay.text(quantity);
-    totalElement.text(`$${(quantity * unitPrice).toFixed(2)}`);
-
-    // Send AJAX to backend
-    $.ajax({
-        url: `/cart/update/${id}`,
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            action: action
-        },
-        success: function(res) {
-            updateCartSummary();
-        },
-        error: function() {
-            alert('Error updating cart');
-        }
-    });
-});
-function updateCartSummary() {
-    let subtotal = 0;
-    let totalItems = 0;
-
-    // Loop through all cart items
-    $('.cart-item').each(function() {
-        const price = parseFloat($(this).data('price'));
-        const quantity = parseInt($(this).find('.quantity-display').text());
-        subtotal += price * quantity;
-        totalItems += quantity;
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeCartPage();
+        initializeEventListeners();
     });
 
-    const shipping = 250;
-    const tax = 0;
-
-    const discountPercent = parseFloat($('#sale-discount').data('percent')) || 0;
-    const discountAmount = (subtotal * discountPercent) / 100;
-
-    const grandTotal = subtotal - discountAmount + shipping + tax;
-
-    $('#subtotal').text(subtotal.toFixed(2));
-    $('#total-items').text(totalItems);
-
-    if (discountPercent > 0) {
-        $('#sale-discount').show();
-        $('#discount-amount').text(discountAmount.toFixed(2));
-    } else {
-        $('#sale-discount').hide();
+    function initializeCartPage() {
+        updateCartSummary();
     }
 
-    $('#grand-total').text(grandTotal.toFixed(2));
-}
+    function initializeEventListeners() {
+        // Quantity increase buttons
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+            button.addEventListener('click', function() {
+                updateQuantity(this.dataset.id, 'increase');
+            });
+        });
 
+        // Quantity decrease buttons
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+            button.addEventListener('click', function() {
+                updateQuantity(this.dataset.id, 'decrease');
+            });
+        });
 
-function updateQuantity(id, action, button) {
-    const itemRow = button.closest('.cart-item');
-    const quantityDisplay = itemRow.find('.quantity-display');
-    const totalElement = itemRow.find('.item-total');
-    const unitPrice = parseFloat(itemRow.data('price'));
-    
-    let quantity = parseInt(quantityDisplay.text());
+        // Remove item buttons
+        document.querySelectorAll('.cart-remove-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                removeItem(this.dataset.id);
+            });
+        });
 
-    if (action === 'increase') quantity++;
-    else if (action === 'decrease' && quantity > 1) quantity--;
+        // Checkout button
+        const checkoutBtn = document.getElementById('checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', proceedToCheckout);
+        }
 
-    quantityDisplay.text(quantity);
-    totalElement.text(`PKR ${(quantity * unitPrice).toFixed(2)}`);
-
-    $.ajax({
-        url: `/cart/update/${id}`,
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            action: action,
-            guest_token: getGuestToken(),
-        },
-        xhrFields: { withCredentials: true },
-        success: function (res) {
-            if (res.success) {
-                // Update summary after backend confirms
-                recalculateCartSummary();
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '+' && e.ctrlKey) {
+                e.preventDefault();
+                // Find first increase button
+                const increaseBtn = document.querySelector('.increase-quantity');
+                if (increaseBtn && !increaseBtn.disabled) {
+                    updateQuantity(increaseBtn.dataset.id, 'increase');
+                }
             }
-        },
-        error: function () {
-            alert(' Error updating cart quantity.');
-        }
-    });
-}
-
-
-function getGuestToken() {
-    const name = "guest_token=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookies = decodedCookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        let c = cookies[i].trim();
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return null;
-}
-
-$(document).on('click', '.remove-item', function(e) {
-    e.preventDefault();
-
-    const button = $(this);
-    const cartId = button.data('id');
-
-    if (confirm('Are you sure you want to remove this item from your cart?')) {
-        $.ajax({
-            url: `/cart/remove/${cartId}`,
-            type: 'DELETE',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                // Remove item from UI
-                button.closest('.cart-item').remove();
-
-                const cartCount = $('.absolute.bg-yellow-400');
-                let count = parseInt(cartCount.text());
-                cartCount.text(count > 0 ? count - 1 : 0);
-
-                updateCartSummary();
-
-                Swal.fire('Removed!', 'Item removed from your cart.', 'success');
-            },
-            error: function(err) {
-                console.error('Error removing item:', err);
-                Swal.fire('Error', 'Failed to remove item.', 'error');
+            if (e.key === '-' && e.ctrlKey) {
+                e.preventDefault();
+                // Find first decrease button
+                const decreaseBtn = document.querySelector('.decrease-quantity');
+                if (decreaseBtn && !decreaseBtn.disabled) {
+                    updateQuantity(decreaseBtn.dataset.id, 'decrease');
+                }
+            }
+            if (e.key === 'Delete' && e.ctrlKey) {
+                e.preventDefault();
+                const removeBtn = document.querySelector('.cart-remove-btn');
+                if (removeBtn) {
+                    removeItem(removeBtn.dataset.id);
+                }
             }
         });
     }
-});
-});
-    </script>
+
+    async function updateQuantity(itemId, action) {
+        const quantityElement = document.querySelector(`.cart-quantity[data-id="${itemId}"]`);
+        const decreaseBtn = document.querySelector(`.decrease-quantity[data-id="${itemId}"]`);
+        const increaseBtn = document.querySelector(`.increase-quantity[data-id="${itemId}"]`);
+        const cartItem = document.getElementById(`cart-item-${itemId}`);
+
+        if (!quantityElement) return;
+
+        // Show loading
+        showLoading(true);
+
+        try {
+            const response = await fetch(`/cart/update-quantity/${itemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: action
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Update quantity display
+                quantityElement.textContent = data.quantity;
+
+                // Animate quantity change
+                cartItem.classList.add('cart-item-updating');
+                setTimeout(() => {
+                    cartItem.classList.remove('cart-item-updating');
+                }, 500);
+
+                // Update buttons state
+                if (decreaseBtn) {
+                    decreaseBtn.disabled = data.quantity <= 1;
+                }
+                if (increaseBtn) {
+                    increaseBtn.disabled = data.quantity >= 10;
+                }
+
+                // Update cart totals
+                await updateCartTotals(itemId);
+
+                // Show success notification
+                showNotification('Quantity updated', 'success');
+
+            } else {
+                throw new Error(data.message || 'Failed to update quantity');
+            }
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+            showNotification(error.message || 'Failed to update quantity', 'error');
+        } finally {
+            showLoading(false);
+        }
+    }
+
+    async function updateCartTotals(itemId) {
+        try {
+            // Fetch updated cart data
+            const response = await fetch('{{ route("cart.index") }}');
+            const html = await response.text();
+
+            // Create temporary DOM to extract updated totals
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Update individual item total if needed
+            const itemTotalElement = document.querySelector(`.item-total[data-id="${itemId}"]`);
+            if (itemTotalElement) {
+                const newTotal = doc.querySelector(`.item-total[data-id="${itemId}"]`);
+                if (newTotal) {
+                    itemTotalElement.textContent = newTotal.textContent;
+                    itemTotalElement.classList.add('price-change');
+                    setTimeout(() => {
+                        itemTotalElement.classList.remove('price-change');
+                    }, 500);
+                }
+            }
+
+            // Update cart summary
+            updateCartSummaryFromHTML(doc);
+
+            // Update cart count
+            updateCartCount();
+
+        } catch (error) {
+            console.error('Error updating cart totals:', error);
+        }
+    }
+
+    function updateCartSummaryFromHTML(doc) {
+        // Extract summary data from the HTML
+        const subtotalElement = doc.getElementById('subtotal');
+        const totalElement = doc.getElementById('total');
+        const cartCountElement = doc.getElementById('cart-count');
+
+        if (subtotalElement) {
+            document.getElementById('subtotal').textContent = subtotalElement.textContent;
+        }
+
+        if (totalElement) {
+            document.getElementById('total').textContent = totalElement.textContent;
+
+            // Animate total change
+            const totalEl = document.getElementById('total');
+            totalEl.classList.add('price-change');
+            setTimeout(() => {
+                totalEl.classList.remove('price-change');
+            }, 500);
+        }
+
+        if (cartCountElement) {
+            document.getElementById('cart-count').textContent = cartCountElement.textContent;
+        }
+    }
+
+    async function removeItem(itemId) {
+        // Confirmation dialog
+        const result = await Swal.fire({
+            title: 'Remove Item',
+            text: 'Are you sure you want to remove this item from your cart?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--primary-color)',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Yes, remove it',
+            cancelButtonText: 'Cancel'
+        });
+
+        if (!result.isConfirmed) return;
+
+        const cartItem = document.getElementById(`cart-item-${itemId}`);
+
+        // Show loading
+        showLoading(true);
+
+        try {
+            const response = await fetch(`/cart/remove/${itemId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Animate removal
+                cartItem.classList.add('cart-item-deleting');
+
+                setTimeout(async () => {
+                    cartItem.remove();
+
+                    // Check if cart is now empty
+                    const cartItems = document.querySelectorAll('.cart-item');
+                    if (cartItems.length === 0) {
+                        // Reload page to show empty cart state
+                        window.location.reload();
+                    } else {
+                        // Update cart summary
+                        await updateCartTotals(itemId);
+                        updateCartCount();
+                    }
+
+                    showNotification('Item removed from cart', 'success');
+                }, 300);
+
+            } else {
+                throw new Error('Failed to remove item');
+            }
+        } catch (error) {
+            console.error('Error removing item:', error);
+            showNotification('Failed to remove item', 'error');
+        } finally {
+            showLoading(false);
+        }
+    }
+
+    function proceedToCheckout() {
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const originalText = checkoutBtn.innerHTML;
+
+        checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+        checkoutBtn.disabled = true;
+
+        // Simulate processing delay
+        setTimeout(() => {
+            window.location.href = '{{ route("checkout.index") }}';
+        }, 1000);
+    }
+
+    function showLoading(show) {
+        const overlay = document.getElementById('loading-overlay');
+        if (show) {
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+        } else {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+        }
+    }
+
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg animate-slide-in 
+                            ${type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                              type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                              type === 'warning' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                              'bg-blue-100 text-blue-800 border border-blue-200'}`;
+        notification.innerHTML = `
+        <div class="flex items-center">
+            <i class="${type === 'success' ? 'fas fa-check-circle' :
+                       type === 'error' ? 'fas fa-exclamation-circle' :
+                       type === 'warning' ? 'fas fa-exclamation-triangle' :
+                       'fas fa-info-circle'} mr-3"></i>
+            <span class="font-medium">${message}</span>
+        </div>
+    `;
+
+        document.body.appendChild(notification);
+
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
+    function updateCartCount() {
+        fetch('{{ route("cart.count") }}')
+            .then(response => response.json())
+            .then(data => {
+                const cartCountElements = document.querySelectorAll('#cart-count, #floating-cart-count');
+                cartCountElements.forEach(element => {
+                    if (element) {
+                        element.textContent = data.count;
+                        if (data.count > 0) {
+                            element.style.display = 'flex';
+                        } else {
+                            element.style.display = 'none';
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error updating cart count:', error));
+    }
+
+    function updateCartSummary() {
+        // Update shipping progress
+        const subtotal = parseFloat(document.getElementById('subtotal')?.textContent.replace('$', '') || 0);
+        const progressBar = document.querySelector('.free-shipping-progress');
+        if (progressBar) {
+            const progress = Math.min((subtotal / 50) * 100, 100);
+            progressBar.style.width = `${progress}%`;
+        }
+    }
+
+    // Handle page visibility change
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Page became visible, refresh cart data
+            updateCartCount();
+            updateCartSummary();
+        }
+    });
+
+    // Refresh cart every 30 seconds if page is visible
+    setInterval(() => {
+        if (!document.hidden) {
+            updateCartCount();
+            updateCartSummary();
+        }
+    }, 30000);
+
+    // Initialize animations
+    function initializeAnimations() {
+        // Add staggered animation to cart items
+        document.querySelectorAll('.cart-item').forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+    }
+
+    // Call on load
+    initializeAnimations();
+</script>
 @endpush

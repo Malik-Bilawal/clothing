@@ -1,141 +1,121 @@
-<!-- FOOTER SECTION -->
-<footer class="relative mt-32 pt-20 pb-10 overflow-hidden"
-    style="background-color: var(--primary-color); color: var(--surface-color); font-family: 'Outfit', sans-serif;">
+<footer class="relative mt-32 pt-24 pb-12 overflow-hidden bg-[var(--primary-color)] text-[var(--surface-color)]">
 
-    <!-- 1. TEXTURE OVERLAY (Adds depth/premium feel) -->
-    <div class="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay"
-         style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');"></div>
+    <div class="absolute inset-0 opacity-[0.08] pointer-events-none mix-blend-overlay"
+         style="background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');"></div>
 
-    <!-- 2. DECORATIVE GLOWS -->
-    <div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-[var(--secondary-color)]/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-[var(--accent-color)]/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-[var(--secondary-color)] to-transparent"></div>
 
     <div class="container mx-auto px-6 relative z-10">
         
-        <!-- TOP SECTION: CTA & NEWSLETTER -->
-        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-20 border-b border-white/10 pb-16">
-            <div class="max-w-2xl">
-                <h3 class="text-4xl md:text-5xl font-light leading-tight mb-6">
-                    Elevate your living space.<br>
-                    <span class="font-bold text-[var(--secondary-color)]">Join the exclusive list.</span>
+        <div class="flex flex-col lg:flex-row justify-between items-start gap-16 mb-24 pb-16 border-b border-white/5">
+            <div class="max-w-xl">
+                <span class="text-[var(--secondary-color)] uppercase tracking-[0.4em] text-xs font-bold mb-6 block">Stay Connected</span>
+                <h3 class="text-4xl md:text-5xl font-serif italic leading-tight mb-8">
+                    Join the inner circle for <br>
+                    <span class="not-italic font-light opacity-90">curated inspirations.</span>
                 </h3>
-                <p class="text-white/60 text-lg font-light">
-                    Get early access to new collections and interior design tips.
-                </p>
             </div>
 
-            <!-- Modern Input Field -->
-            <div class="w-full lg:w-auto min-w-[350px]">
+            <div class="w-full lg:w-1/3">
                 <form class="relative group">
-                    <input type="email" placeholder="Email Address" 
-                           class="w-full bg-transparent border-b border-white/20 py-4 pr-12 text-lg text-white placeholder-white/30 focus:outline-none focus:border-[var(--secondary-color)] transition-colors duration-300">
+                    <input type="email" placeholder="Your Distinguished Email" 
+                           class="w-full bg-transparent border-b border-white/20 py-4 text-sm uppercase tracking-widest text-white placeholder-white/30 focus:outline-none focus:border-[var(--secondary-color)] transition-all duration-500">
                     <button type="submit" 
-                            class="absolute right-0 top-1/2 -translate-y-1/2 text-[var(--secondary-color)] opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            class="absolute right-0 bottom-4 text-[var(--secondary-color)] uppercase text-[10px] tracking-[0.2em] font-bold hover:text-white transition-colors">
+                        Subscribe
                     </button>
                 </form>
+                <p class="mt-4 text-[10px] text-white/30 uppercase tracking-widest">Privacy is our ultimate luxury.</p>
             </div>
         </div>
 
-        <!-- MIDDLE SECTION: LINKS GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
             
-            <!-- Brand Info -->
-            <div class="md:col-span-4 space-y-6">
-                <a href="/" class="text-3xl font-bold tracking-tighter text-white">
+            <div class="col-span-2 lg:col-span-2 space-y-8">
+                <a href="/" class="text-3xl font-serif tracking-widest text-white">
                     HOME<span class="text-[var(--secondary-color)]">.</span>
                 </a>
-                <p class="text-white/50 leading-relaxed max-w-sm">
-                    Crafting premium home experiences with sustainable materials and timeless design. Comfort meets luxury in every detail.
+                <p class="text-white/50 font-light leading-relaxed max-w-xs text-sm">
+                    Elevating the art of living through sustainable craftsmanship and timeless aesthetic. Your sanctuary, perfected.
                 </p>
-                <div class="flex gap-4 pt-4">
-                    <!-- Social Icons (Hover Effect) -->
-                    @foreach(['facebook', 'instagram', 'twitter', 'linkedin'] as $social)
-                    <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-[var(--text-on-secondary)] hover:bg-[var(--secondary-color)] hover:border-[var(--secondary-color)] transition-all duration-300">
-                        <img src="https://simpleicons.org/icons/{{$social}}.svg" class="w-4 h-4 invert opacity-80" alt="{{$social}}">
+                <div class="flex gap-6 opacity-60">
+                    <a href="#" class="hover:text-[var(--secondary-color)] hover:-translate-y-1 transition-all duration-300">
+                        <i class="fab fa-instagram text-xl"></i>
                     </a>
-                    @endforeach
+                    <a href="#" class="hover:text-[var(--secondary-color)] hover:-translate-y-1 transition-all duration-300">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-[var(--secondary-color)] hover:-translate-y-1 transition-all duration-300">
+                        <i class="fab fa-pinterest-p text-xl"></i>
+                    </a>
                 </div>
             </div>
 
-            <!-- Links Column 1 -->
-            <div class="md:col-span-2 md:col-start-6">
-                <h4 class="text-[var(--secondary-color)] font-medium tracking-widest text-sm uppercase mb-6">Shop</h4>
+            <div>
+                <h4 class="text-[var(--secondary-color)] font-bold tracking-[0.2em] text-[10px] uppercase mb-8">Collections</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">New Arrivals</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Best Sellers</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Furniture</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Decor</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">The Lounge</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">The Dining</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">The Bedroom</a></li>
                 </ul>
             </div>
 
-            <!-- Links Column 2 -->
-            <div class="md:col-span-2">
-                <h4 class="text-[var(--secondary-color)] font-medium tracking-widest text-sm uppercase mb-6">Company</h4>
+            <div>
+                <h4 class="text-[var(--secondary-color)] font-bold tracking-[0.2em] text-[10px] uppercase mb-8">Heritage</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Our Story</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Sustainability</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Careers</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Journal</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Our Story</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Artisans</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Journal</a></li>
                 </ul>
             </div>
 
-            <!-- Links Column 3 -->
-            <div class="md:col-span-2">
-                <h4 class="text-[var(--secondary-color)] font-medium tracking-widest text-sm uppercase mb-6">Support</h4>
+            <div>
+                <h4 class="text-[var(--secondary-color)] font-bold tracking-[0.2em] text-[10px] uppercase mb-8">Services</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">FAQ</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Shipping</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Returns</a></li>
-                    <li><a href="#" class="footer-link inline-block text-white/70 hover:text-white transition-colors">Contact Us</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Shipping</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Concierge</a></li>
+                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Returns</a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- BOTTOM: MASSIVE TYPOGRAPHY -->
-        <div class="relative w-full border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p class="text-white/40 text-sm">© {{ date('Y') }} Home Collection. All rights reserved.</p>
+        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-white/20 text-[10px] uppercase tracking-[0.2em]">© {{ date('Y') }} Home Collection. International.</p>
             
-            <div class="flex gap-8 text-sm text-white/40">
-                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+            <div class="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none opacity-[0.02]">
+                <h2 class="text-[18vw] font-serif leading-none translate-y-1/2">SIGNATURE</h2>
+            </div>
+
+            <div class="flex gap-8 text-[10px] uppercase tracking-[0.2em] text-white/30">
+                <a href="#" class="hover:text-[var(--secondary-color)] transition-colors">Privacy</a>
+                <a href="#" class="hover:text-[var(--secondary-color)] transition-colors">Terms</a>
             </div>
         </div>
-
-        <!-- THE "BIG TEXT" EFFECT (Common in high-end design) -->
-        <div class="w-full text-center mt-12 select-none pointer-events-none opacity-[0.03]">
-            <h1 class="text-[12vw] leading-none font-black tracking-tighter text-white mix-blend-overlay">
-                COLLECTION
-            </h1>
-        </div>
-
     </div>
 </footer>
 
 <style>
-    /* Custom Hover Animation for Links */
+    /* Premium Hover Animation */
     .footer-link {
+        display: inline-block;
+        transition: all 0.4s ease;
         position: relative;
     }
-    .footer-link::before {
+    .footer-link::after {
         content: '';
         position: absolute;
-        left: -15px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
         background-color: var(--secondary-color);
-        border-radius: 50%;
-        opacity: 0;
-        transition: all 0.3s ease;
+        transition: width 0.4s ease;
     }
     .footer-link:hover {
-        transform: translateX(10px);
-        color: var(--secondary-color);
+        color: white;
+        letter-spacing: 0.2em;
     }
-    .footer-link:hover::before {
-        opacity: 1;
-        left: -12px;
+    .footer-link:hover::after {
+        width: 100%;
     }
 </style>
