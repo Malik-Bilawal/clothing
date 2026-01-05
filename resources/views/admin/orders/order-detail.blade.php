@@ -3,15 +3,33 @@
 @section("title", "Order Detail | Admin Panel")
 
 @section("content")
-<div class="flex h-screen overflow-hidden bg-gray-50">
-    {{-- Sidebar --}}
-    <aside class="w-64 bg-white shadow-xl h-screen fixed top-0 left-0 z-30 transition-all duration-300">
+<div 
+    x-data="{ sidebarOpen: false }" 
+    @close-sidebar.window="sidebarOpen = false" 
+    class="flex h-screen overflow-hidden"
+>
+
+    <!-- Mobile backdrop -->
+    <div
+        x-show="sidebarOpen"
+        x-cloak
+        x-transition.opacity
+        class="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden"
+        @click="sidebarOpen = false"
+    ></div>
+
+
+    <!-- Sidebar -->
+    <aside
+        class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0"
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        x-cloak
+    >
         @include("admin.layouts.partial.sidebar")
     </aside>
 
-    {{-- Main Content --}}
-    <div class="ml-64 flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-        <div class="max-w-7xl mx-auto">
+
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64 bg-gradient-to-br from-gray-50 to-gray-100">
 
             {{-- Header --}}
             <div class="flex justify-between items-center mb-8 fade-in">

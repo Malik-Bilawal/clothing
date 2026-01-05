@@ -18,13 +18,34 @@
 @endpush
 
 @section("content")
-<aside class="w-64 bg-white shadow h-screen fixed top-0 left-0">
-    @include("admin.layouts.partial.sidebar")
-</aside>
+<div 
+    x-data="{ sidebarOpen: false }" 
+    @close-sidebar.window="sidebarOpen = false" 
+    class="flex h-screen overflow-hidden"
+>
 
-<div class="ml-64 flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <!-- Mobile backdrop -->
+    <div
+        x-show="sidebarOpen"
+        x-cloak
+        x-transition.opacity
+        class="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden"
+        @click="sidebarOpen = false"
+    ></div>
+
+
+    <!-- Sidebar -->
+    <aside
+        class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0"
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        x-cloak
+    >
+        @include("admin.layouts.partial.sidebar")
+    </aside>
+
+
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64 bg-gradient-to-br from-gray-50 to-gray-100">
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
         <!-- Top Bar -->
         <header class="bg-white shadow-sm z-10">
             <div class="flex justify-between items-center p-4">

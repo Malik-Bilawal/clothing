@@ -1,10 +1,16 @@
    <!-- Sidebar -->
-   <div class="bg-gray-900 text-white w-64 h-screen p-0 flex flex-col shadow-lg">
+   <div class="h-full flex flex-col">
        <div class="p-4 border-b border-gray-700">
            <h1 class="text-xl font-bold flex items-center">
-               <i class="fas fa-store mr-2 text-red-500"></i>
-               Home Collection 
+               <i class="fas fa-store mr-2 text-secondary"></i>
+               Home Collectino Admin
            </h1>
+           <button
+               @click="$dispatch('close-sidebar')"
+               class="lg:hidden text-gray-400 hover:text-white text-xl focus:outline-none"
+               aria-label="Close sidebar">
+               <i class="fas fa-times"></i>
+           </button>
        </div>
 
        <nav class="flex-1 p-4">
@@ -38,7 +44,7 @@
                    </a>
                </li>
 
-               
+
                <li>
                    <a href="{{ route('admin.orders.index') }}"
                        class="flex items-center p-2 rounded-lg 
@@ -48,7 +54,7 @@
                    </a>
                </li>
 
-               
+
                <li>
                    <a href="{{ route('admin.products') }}"
                        class="flex items-center p-2 rounded-lg 
@@ -102,4 +108,3 @@
            </div>
        </div>
    </div>
-
