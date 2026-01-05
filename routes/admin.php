@@ -18,7 +18,7 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login'])->name('admin.login.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-Route::middleware('auth:admin')->name('admin.')->group(function () {
+Route::name('admin.')->group(function () {
 
     //Categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories');

@@ -33,6 +33,7 @@
                     'name'        => $request->name,
                     'email'       => $request->email,
                     'password'    => Hash::make($request->password),
+                    'role'        => User::ROLE_USER,
                     'is_approved' => false,
                 ]);
         

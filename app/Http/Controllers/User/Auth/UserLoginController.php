@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User; // Make sure to import the User model
 
 class UserLoginController extends Controller
 {
@@ -28,7 +30,11 @@ class UserLoginController extends Controller
                     ->with('error', 'Please verify your email before logging in.');
             }
 
-            return redirect('/');
+            if ($user->role === User::ROLE_ADMIN) {
+                return redirect()->intended('/admin/product');
+            }
+
+            return redirect()->intended('/'); 
         }
 
         return back()->withErrors(['email' => 'Invalid credentials.']);
@@ -37,6 +43,6 @@ class UserLoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login.show');
+        return redirect()->route('login.show'); 
     }
 }

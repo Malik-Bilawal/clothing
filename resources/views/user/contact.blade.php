@@ -829,20 +829,16 @@
     </div>
 </section>
 
-<!-- GSAP Core -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-lzTRe5slJYRCf0aXolSlYy/n7ExkWQ7/yA6xyt4gDN7M6q6nCicGmcKXnAk6xexKv0Bge7u0F92qolx/2Vf83A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<!-- Optional Plugins -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha512-2y6c/3VLCjK/Xg3/BV6zWgxQeHn+u5c6YF6iH+VfBBHx1CO2uJiwf/0k5rFRkYhYk47wGh6wXqxxz1VrHDNTLw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 @endsection
 
 @push("script")
 <script>
-    // Initialize GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero animation
     gsap.from(".hero-title", {
         duration: 1.5,
         y: 50,
@@ -858,7 +854,6 @@
         ease: "power3.out"
     });
 
-    // Scroll animations
     gsap.utils.toArray('.fade-in').forEach((el, i) => {
         gsap.from(el, {
             scrollTrigger: {
@@ -875,7 +870,6 @@
         });
     });
 
-    // Form handling
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('luxury-contact-form');
         
@@ -886,14 +880,11 @@
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 
-                // Show loading state
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
                 submitBtn.disabled = true;
                 
-                // Get form data
                 const formData = new FormData(form);
                 
-                // Send AJAX request
                 fetch(form.action, {
                     method: 'POST',
                     body: formData,
@@ -904,7 +895,6 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Success message
                     Swal.fire({
                         icon: 'success',
                         title: 'Message Sent',
@@ -917,11 +907,9 @@
                         }
                     });
                     
-                    // Reset form
                     form.reset();
                 })
                 .catch(error => {
-                    // Error message
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -931,29 +919,24 @@
                     });
                 })
                 .finally(() => {
-                    // Reset button
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                 });
             });
         }
         
-        // FAQ toggle function
         window.toggleFAQ = function(element) {
             const isActive = element.classList.contains('active');
             
-            // Close all FAQ items
             document.querySelectorAll('.faq-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            // If clicked item wasn't active, open it
             if (!isActive) {
                 element.classList.add('active');
             }
         };
         
-        // Input label animation
         document.querySelectorAll('.luxury-input').forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.classList.add('focused');
@@ -965,13 +948,11 @@
                 }
             });
             
-            // Check initial value
             if (input.value !== '') {
                 input.parentElement.classList.add('focused');
             }
         });
         
-        // Checkbox animation
         document.querySelectorAll('.checkbox-input').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const box = this.nextElementSibling;
@@ -986,7 +967,6 @@
             });
         });
         
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
@@ -1004,7 +984,6 @@
         });
     });
 
-    // Parallax effect for hero
     gsap.to(".luxury-hero", {
         backgroundPosition: "50% 100%",
         ease: "none",
@@ -1016,7 +995,6 @@
         }
     });
 
-    // Stagger animation for contact cards
     gsap.utils.toArray('.luxury-contact-card').forEach((card, i) => {
         card.addEventListener('mouseenter', () => {
             gsap.to(card, {

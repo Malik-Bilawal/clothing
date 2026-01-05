@@ -3,17 +3,19 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        Admin::create([
+        User::create([
             'name' => 'Super Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('password'), // Change this!
+            'role' => User::ROLE_ADMIN, // Assigns 'admin'
+            'email_verified_at' => now(),
         ]);
     }
 }
