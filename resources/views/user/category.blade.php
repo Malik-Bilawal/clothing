@@ -186,7 +186,7 @@ body {
           
           <div class="relative h-[450px] overflow-hidden bg-[var(--background-color)]">
             <img 
-              src="{{ $category->image ? asset('storage/' . $category->image) : asset('images/default-category.jpg') }}" 
+              src="{{ $category->image ? asset('storage/app/public/' . $category->image) : asset('images/default-category.jpg') }}" 
               alt="{{ $category->name }}" 
               class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
             >

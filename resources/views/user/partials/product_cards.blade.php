@@ -14,7 +14,7 @@
     
     <div class="w-full md:w-2/5 p-5 flex items-center justify-center bg-[var(--background-color)]">
         <img id="product-image-{{ $product->id }}"
-             src="{{ asset('storage/'. $defaultImagePath) }}"
+             src="{{ asset('storage/app/public/'. $defaultImagePath) }}"
              alt="{{ $product->name }}"
              class="w-full h-64 object-contain rounded-md transition-all duration-300">
     </div>
@@ -47,7 +47,7 @@
                                     hover:scale-110"
                             style="background-color: {{ $color->hex_code }};"
                             title="{{ $color->name }}"
-                            data-image-src="{{ asset('storage/'. $colorImagePath) }}"
+                            data-image-src="{{ asset('storage/app/public/'. $colorImagePath) }}"
                             data-target-image="product-image-{{ $product->id }}"
                             data-product-id="{{ $product->id }}"
                             data-color-id="{{ $color->id }}">

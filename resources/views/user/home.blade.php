@@ -426,7 +426,7 @@ h1, h2, h3, h4, h5, h6 {
                 @else
                     <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-[10s] ease-linear"
                          :class="{ 'scale-110': activeSlide === {{ $index }}, 'scale-100': activeSlide !== {{ $index }} }"
-                         style="background-image: url('{{ asset('storage/' . $banner->image) }}')">
+                         style="background-image: url('{{ asset('storage/app/public/' . $banner->image) }}')">
                     </div>
                 @endif
                 
@@ -549,7 +549,7 @@ h1, h2, h3, h4, h5, h6 {
                         
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 z-10 transition-opacity duration-500 group-hover:opacity-40"></div>
                         
-                        <img src="{{ $category->image ? asset('storage/' . $category->image) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800' }}"
+                        <img src="{{ $category->image ? asset('storage/app/public/' . $category->image) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800' }}"
                              alt="{{ $category->name }}"
                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[20%] group-hover:grayscale-0">
                              

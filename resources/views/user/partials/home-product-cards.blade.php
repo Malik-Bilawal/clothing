@@ -3,7 +3,7 @@
                 <div class="relative w-full aspect-[4/5] overflow-hidden bg-[#F3EFEC]">
                     @if($product->defaultImage)
                         <img 
-                            src="{{ asset('storage/' . $product->defaultImage->image_path) }}" 
+                            src="{{ asset('storage/app/public/' . $product->defaultImage->image_path) }}" 
                             alt="{{ $product->name }}" 
                             class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                         >

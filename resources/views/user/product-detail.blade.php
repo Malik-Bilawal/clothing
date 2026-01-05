@@ -605,7 +605,7 @@ body {
                     <!-- Main Image -->
                     <div class="image-zoom-container rounded-3xl overflow-hidden shadow-2xl">
                         <img id="main-image" 
-                             src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->image_path) : asset('images/default-product.jpg') }}" 
+                             src="{{ $product->images->first() ? asset('storage/app/public/' . $product->images->first()->image_path) : asset('images/default-product.jpg') }}" 
                              alt="{{ $product->name }}"
                              class="image-zoom w-full h-auto max-h-[600px] object-cover cursor-zoom-in">
                     </div>
@@ -995,7 +995,7 @@ body {
             @foreach($featuredProducts->take(4) as $relatedProduct)
                 <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
                     <div class="relative overflow-hidden">
-                        <img src="{{ $relatedProduct->images->first() ? asset('storage/' . $relatedProduct->images->first()->image_path) : asset('images/default-product.jpg') }}" 
+                        <img src="{{ $relatedProduct->images->first() ? asset('storage/app/public/' . $relatedProduct->images->first()->image_path) : asset('images/default-product.jpg') }}" 
                              alt="{{ $relatedProduct->name }}"
                              class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
                         @if($relatedProduct->offer_price)
@@ -1176,7 +1176,7 @@ function loadProductImages(product) {
     
     // Set main image
     if (product.images && product.images.length > 0) {
-        mainImage.src = '{{ asset("storage/") }}/' + product.images[0].image_path;
+        mainImage.src = '{{ asset("storage/app/public/") }}/' + product.images[0].image_path;
     }
     
     // Create thumbnails
@@ -1188,7 +1188,7 @@ function loadProductImages(product) {
         thumbDiv.style.cursor = 'pointer';
         
         const thumbImg = document.createElement('img');
-        thumbImg.src = '{{ asset("storage/") }}/' + img.image_path;
+        thumbImg.src = '{{ asset("storage/app/public/") }}/' + img.image_path;
         thumbImg.alt = `${product.name} - Image ${index + 1}`;
         thumbImg.className = 'w-full h-24 object-cover rounded-lg';
         
@@ -1241,7 +1241,7 @@ function selectColor(color) {
     
     if (color.images && color.images.length > 0) {
         const mainImage = document.getElementById('main-image');
-        mainImage.src = '{{ asset("storage/") }}/' + color.images[0].image_path;
+        mainImage.src = '{{ asset("storage/app/public/") }}/' + color.images[0].image_path;
     }
     
     showNotification(`Color selected: ${color.name}`, 'success');
