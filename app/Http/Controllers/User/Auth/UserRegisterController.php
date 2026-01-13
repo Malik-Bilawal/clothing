@@ -17,7 +17,7 @@
     {
 
         public function index(){
-            return view('user.auth.register');
+            return view('user.Auth.register');
         }
 
         public function register(Request $request)

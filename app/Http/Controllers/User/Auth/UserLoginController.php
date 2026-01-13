@@ -11,7 +11,7 @@ class UserLoginController extends Controller
 {
     public function index()
     {
-        return view('user.auth.login');
+        return view('user.Auth.login');
     }
 
     public function login(Request $request)
