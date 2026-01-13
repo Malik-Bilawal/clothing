@@ -701,12 +701,12 @@ body {
                 <div class="mb-8">
                     <div class="flex items-center gap-4">
                         <span id="product-price" class="text-4xl font-bold text-primary price-tag">
-                            ${{ number_format($product->offer_price ?? $product->price, 2) }}
+                            Rs.{{ number_format($product->offer_price ?? $product->price, 2) }}
                         </span>
                         @if($product->offer_price)
                             <span class="text-2xl text-gray-400 line-through">${{ number_format($product->price, 2) }}</span>
                             <span class="bg-red-100 text-red-600 text-sm font-bold px-3 py-1 rounded-full">
-                                Save ${{ number_format($product->price - $product->offer_price, 2) }}
+                                Save Rs.{{ number_format($product->price - $product->offer_price, 2) }}
                             </span>
                         @endif
                     </div>
@@ -1118,14 +1118,11 @@ function initializeProductPage() {
         updateStockStatus(product);
     }
     
-    // Update initial quantity display
     updateQuantityDisplay();
     
-    // Update cart count
     updateCartCount();
 }
 function loadProductData() {
-    // Additional product data loading if needed
     console.log('Product loaded');
 }
 
@@ -1301,13 +1298,10 @@ function loadSizeOptions(sizes) {
         }
     });
     
-    // Update price if size has specific price
     updatePriceDisplay();
     
-    // Update stock status based on size only
     updateStockStatus(size);
     
-    // Update quantity controls based on selected size stock
     updateQuantityDisplay();
     
     showNotification(`Size selected: ${size.name}`, 'success');
@@ -1358,7 +1352,7 @@ function updateStockStatus(item) {
     if (product.sizes && product.sizes.length > 0) {
         // If product has sizes
         if (selectedSize) {
-            maxQuantity = selectedSize.stock_quantity;
+            maxQuantity = selectedSize.stock;
         } else {
             maxQuantity = 0; // No size selected
         }

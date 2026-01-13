@@ -259,6 +259,25 @@
     .free-shipping-progress {
         transition: width 0.6s ease-in-out;
     }
+
+    /* Additional styles for discount display */
+    .line-through {
+        text-decoration: line-through;
+    }
+
+    .badge-discount {
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: white;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 12px;
+        white-space: nowrap;
+    }
+
+    .text-success-color {
+        color: var(--success-color);
+    }
 </style>
 @endpush
 
@@ -305,8 +324,8 @@
                 </div>
             </div>
 
-            @if($cartItems->sum('total') < 50)
-                <div class="mb-8 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6">
+            @if($grandTotal < 50)
+            <div class="mb-8 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -314,248 +333,295 @@
                         </div>
                         <div>
                             <p class="font-semibold text-gray-900">Free Shipping!</p>
-                            <p class="text-sm text-gray-600">Get free shipping on orders over $50</p>
+                            <p class="text-sm text-gray-600">Get free shipping on orders over Rs.50</p>
                         </div>
                     </div>
                     <span class="font-bold text-primary">
-                        ${{ number_format(50 - $cartItems->sum('total'), 2) }} away
+                        Rs.{{ number_format(50 - $grandTotal, 2) }} away
                     </span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
                     <div class="progress-bar-cart free-shipping-progress"
-                        style="width: {{ min(($cartItems->sum('total') / 50) * 100, 100) }}%"></div>
-                </div>
-        </div>
-        @endif
-
-        <div class="space-y-4 cart-items-container">
-            @foreach($cartItems as $item)
-            <div class="cart-item p-6" id="cart-item-{{ $item->id }}">
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                    <div class="md:col-span-3">
-                        <div class="cart-item-image">
-                            <img src="{{ $item->product->images->first() ? asset('storage/' . $item->product->images->first()->image_path) : asset('images/default-product.jpg') }}"
-                                alt="{{ $item->product->name }}"
-                                class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                    </div>
-
-                    <div class="md:col-span-6">
-                        <div class="h-full flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-900 mb-2">
-                                    {{ $item->product->name }}
-                                </h3>
-
-                                @if($item->color_name || $item->size_name)
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    @if($item->color_name)
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
-                                        <span class="w-3 h-3 rounded-full mr-2" style="background-color: {{ $item->color_hex ?? '#ccc' }}"></span>
-                                        {{ $item->color_name }}
-                                    </span>
-                                    @endif
-
-                                    @if($item->size_name)
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
-                                        <i class="fas fa-expand-alt mr-2"></i>
-                                        {{ $item->size_name }}
-                                    </span>
-                                    @endif
-                                </div>
-                                @endif
-
-                                <p class="text-sm text-gray-500 mb-1">
-                                    SKU: {{ $item->product->sku ?? 'N/A' }}
-                                </p>
-
-                                <div class="flex items-center gap-2">
-                                    @if($item->product->stock_quantity > 0)
-                                    <span class="inline-flex items-center text-sm text-success-color">
-                                        <i class="fas fa-check-circle mr-1"></i> In Stock
-                                    </span>
-                                    @else
-                                    <span class="inline-flex items-center text-sm text-error-color">
-                                        <i class="fas fa-times-circle mr-1"></i> Out of Stock
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="mt-4">
-                                <div class="flex items-center gap-3">
-                                    <span class="text-xl font-bold text-primary price-change">
-                                        ${{ number_format($item->price * $item->quantity, 2) }}
-                                    </span>
-                                    <span class="text-sm text-gray-500 mt-1">
-                                        ${{ number_format($item->price, 2) }} each
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="md:col-span-3">
-                        <div class="h-full flex flex-col justify-between items-end">
-                            <div class="flex items-center gap-4">
-                                <div class="cart-quantity-control flex items-center">
-                                    <button class="cart-quantity-btn decrease-quantity"
-                                        data-id="{{ $item->id }}"
-                                        {{ $item->quantity <= 1 ? 'disabled' : '' }}>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span class="w-12 text-center font-semibold cart-quantity"
-                                        data-id="{{ $item->id }}">
-                                        {{ $item->quantity }}
-                                    </span>
-                                    <button class="cart-quantity-btn increase-quantity"
-                                        data-id="{{ $item->id }}"
-                                        {{ $item->quantity >= 10 ? 'disabled' : '' }}>
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-
-                                <button class="cart-remove-btn text-gray-400 hover:text-error-color"
-                                    data-id="{{ $item->id }}"
-                                    title="Remove item">
-                                    <i class="fas fa-trash-alt text-lg"></i>
-                                </button>
-                            </div>
-
-                            <div class="text-right mt-4">
-                                <p class="text-sm text-gray-500">Item Total</p>
-                                <p class="text-lg font-bold text-primary item-total" data-id="{{ $item->id }}">
-                                    ${{ number_format($item->total, 2) }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        style="width: {{ min(($grandTotal / 50) * 100, 100) }}%"></div>
                 </div>
             </div>
-            @endforeach
-        </div>
+            @endif
 
-        <div class="mt-8 bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 text-white">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-                        <i class="fas fa-gift text-2xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold">Special Offer!</h4>
-                        <p class="text-white/90">Buy 3 items, get 10% off</p>
+            <div class="space-y-4 cart-items-container">
+                @foreach($cartItems as $item)
+                <div class="cart-item p-6" id="cart-item-{{ $item->id }}">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                        <div class="md:col-span-3">
+                            <div class="cart-item-image">
+                                <img src="{{ $item->product->images->first() ? asset('storage/' . $item->product->images->first()->image_path) : asset('images/default-product.jpg') }}"
+                                    alt="{{ $item->product->name }}"
+                                    class="w-full h-48 object-cover rounded-lg">
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-6">
+                            <div class="h-full flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900 mb-2">
+                                        {{ $item->product->name }}
+                                    </h3>
+
+                                    @if($item->color_name || $item->size_name)
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        @if($item->color_name)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                                            <span class="w-3 h-3 rounded-full mr-2 bg-{{ $item->color_name }}-500"></span>
+                                            {{ $item->color_name }}
+                                        </span>
+                                        @endif
+
+                                        @if($item->size_name)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                                            <i class="fas fa-expand-alt mr-2"></i>
+                                            {{ $item->size_name }}
+                                        </span>
+                                        @endif
+                                    </div>
+                                    @endif
+
+                                    <p class="text-sm text-gray-500 mb-1">
+                                        SKU: {{ $item->product->sku ?? 'N/A' }}
+                                    </p>
+
+                                    <div class="flex items-center gap-2">
+                                        <span class="inline-flex items-center text-sm text-green-700">
+                                            <i class="fas fa-check-circle mr-1"></i> In Stock
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    @if($item->is_sale_applied)
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="badge-discount">{{ $item->discount_percent }}% OFF</span>
+                                    </div>
+                                    @endif
+                                    
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl font-bold text-primary price-change">
+                                            Rs.{{ number_format($item->final_line_total, 2) }}
+                                        </span>
+                                        @if($item->is_sale_applied)
+                                        <span class="text-lg text-gray-400 line-through">
+                                            Rs.{{ number_format($item->original_line_total, 2) }}
+                                        </span>
+                                        @endif
+                                    </div>
+                                    
+                                    <div class="flex items-center gap-2 mt-1">
+                                        @if($item->is_sale_applied)
+                                        <span class="text-sm text-gray-500">
+                                            Rs.{{ number_format($item->final_unit_price, 2) }} each
+                                        </span>
+                                        <span class="text-sm text-gray-400 line-through">
+                                            Rs.{{ number_format($item->price, 2) }}
+                                        </span>
+                                        @else
+                                        <span class="text-sm text-gray-500">
+                                            Rs.{{ number_format($item->price, 2) }} each
+                                        </span>
+                                        @endif
+                                    </div>
+                                    
+                                    @if($item->is_sale_applied)
+                                    <div class="mt-1">
+                                        <span class="text-xs text-green-600 font-semibold">
+                                            You save Rs.{{ number_format($item->line_saved_amount, 2) }}
+                                        </span>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-3">
+                            <div class="h-full flex flex-col justify-between items-end">
+                                <div class="flex items-center gap-4">
+                                    <div class="cart-quantity-control flex items-center">
+                                        <button class="cart-quantity-btn decrease-quantity"
+                                            data-id="{{ $item->id }}"
+                                            {{ $item->quantity <= 1 ? 'disabled' : '' }}>
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <span class="w-12 text-center font-semibold cart-quantity"
+                                            data-id="{{ $item->id }}">
+                                            {{ $item->quantity }}
+                                        </span>
+                                        <button class="cart-quantity-btn increase-quantity"
+                                            data-id="{{ $item->id }}"
+                                            {{ $item->quantity >= 10 ? 'disabled' : '' }}>
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    <button class="cart-remove-btn text-gray-400 hover:text-error-color"
+                                        data-id="{{ $item->id }}"
+                                        title="Remove item">
+                                        <i class="fas fa-trash-alt text-lg"></i>
+                                    </button>
+                                </div>
+
+                                <div class="text-right mt-4">
+                                    <p class="text-sm text-gray-500">Item Total</p>
+                                    <p class="text-lg font-bold text-primary item-total" data-id="{{ $item->id }}">
+                                        Rs.{{ number_format($item->final_line_total, 2) }}
+                                    </p>
+                                    @if($item->is_sale_applied)
+                                    <p class="text-xs text-gray-400 line-through">
+                                        Rs.{{ number_format($item->original_line_total, 2) }}
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <span class="text-2xl font-bold">
-                        {{ $cartItems->count() }}/3 items
-                    </span>
-                    <p class="text-white/90 text-sm">Add {{ max(0, 3 - $cartItems->count()) }} more to unlock</p>
-                </div>
+                @endforeach
             </div>
         </div>
-    </div>
 
-    <div class="lg:col-span-1">
-        <div class="order-summary p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
+        <div class="lg:col-span-1">
+            <div class="order-summary p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
 
-            <div class="space-y-4 mb-6">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Subtotal</span>
-                    <span class="font-semibold" id="subtotal">
-                        ${{ number_format($cartItems->sum('total'), 2) }}
-                    </span>
-                </div>
-
-                {{-- Shipping logic --}}
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Shipping</span>
-                    @if($cartItems->sum('total') >= 50)
-                    <span class="font-semibold text-success-color">FREE</span>
-                    @else
-                    <span class="font-semibold">$5.99</span>
+                @if($activeSale)
+                <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div class="flex items-center gap-2 text-green-800">
+                        <i class="fas fa-tag"></i>
+                        <span class="font-semibold">{{ $activeSale->discount_percent }}% Sale Active!</span>
+                    </div>
+                    @if($activeSale->name)
+                    <p class="text-sm text-green-700 mt-1">{{ $activeSale->name }}</p>
                     @endif
                 </div>
+                @endif
 
-                {{-- Tax Estimate --}}
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Tax Estimate</span>
-                    <span class="font-semibold" id="tax">
-                        ${{ number_format($cartItems->sum('total') * 0.08, 2) }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-200 my-6"></div>
-
-            <div class="flex justify-between items-center mb-8">
-                <span class="text-lg font-bold text-gray-900">Total</span>
-                <div>
-                    <div class="text-2xl font-bold text-primary" id="total">
-                        ${{ number_format($cartItems->sum('total') + ($cartItems->sum('total') * 0.08) + ($cartItems->sum('total') >= 50 ? 0 : 5.99), 2) }}
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Original Subtotal</span>
+                        <span class="font-semibold" id="original-subtotal">
+                            Rs.{{ number_format($cartItems->sum('original_line_total'), 2) }}
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-500 text-right">USD</p>
+
+                    @if($totalSaved > 0)
+                    <div class="flex justify-between text-green-600">
+                        <span class="text-gray-600">Discount Applied</span>
+                        <span class="font-semibold" id="discount-total">
+                            -Rs.{{ number_format($totalSaved, 2) }}
+                        </span>
+                    </div>
+                    
+                    <div class="flex justify-between border-t border-gray-100 pt-2">
+                        <span class="text-gray-600">Subtotal after Discount</span>
+                        <span class="font-semibold" id="subtotal-after-discount">
+                            Rs.{{ number_format($grandTotal, 2) }}
+                        </span>
+                    </div>
+                    @endif
+
+                    {{-- Shipping logic --}}
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Shipping</span>
+                        @if($grandTotal >= 50)
+                        <span class="font-semibold text-success-color">FREE</span>
+                        @else
+                        <span class="font-semibold">Rs.250</span>
+                        @endif
+                    </div>
+
+                    {{-- Tax Estimate --}}
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Tax Estimate</span>
+                        <span class="font-semibold" id="tax">
+                            Rs.{{ number_format($grandTotal * 0.08, 2) }}
+                        </span>
+                    </div>
                 </div>
-            </div>
 
-            <button id="checkout-btn"
-                class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-all mb-4">
-                <i class="fas fa-lock mr-3"></i> Proceed to Checkout
-            </button>
+                <div class="border-t border-gray-200 my-6"></div>
 
-            <a href="{{ route('product') }}"
-                class="block w-full text-center py-3 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary/5 transition-all">
-                Continue Shopping
-            </a>
+                <div class="flex justify-between items-center mb-8">
+                    <span class="text-lg font-bold text-gray-900">Total</span>
+                    <div>
+                        @php
+                            $shipping = $grandTotal >= 50 ? 0 : 250;
+                            $tax = $grandTotal * 0.08;
+                            $finalTotal = $grandTotal + $shipping + $tax;
+                        @endphp
+                        <div class="text-2xl font-bold text-primary" id="total">
+                            Rs.{{ number_format($finalTotal, 2) }}
+                        </div>
+                        @if($totalSaved > 0)
+                        <p class="text-sm text-green-600 text-right">
+                            You save Rs.{{ number_format($totalSaved, 2) }}
+                        </p>
+                        @endif
+                    </div>
+                </div>
 
-            <div class="mt-8 p-4 bg-green-50 rounded-xl border border-green-200 text-center">
-                <div class="flex items-center justify-center gap-2 text-green-800 font-semibold">
-                    <i class="fas fa-shield-alt"></i> Secure Checkout
+                <button id="checkout-btn"
+                    class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-all mb-4">
+                    <i class="fas fa-lock mr-3"></i> Proceed to Checkout
+                </button>
+
+                <a href="{{ route('product') }}"
+                    class="block w-full text-center py-3 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary/5 transition-all">
+                    Continue Shopping
+                </a>
+
+                <div class="mt-8 p-4 bg-green-50 rounded-xl border border-green-200 text-center">
+                    <div class="flex items-center justify-center gap-2 text-green-800 font-semibold">
+                        <i class="fas fa-shield-alt"></i> Secure Checkout
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@else
-{{-- LOGIC: This Block Only Runs if Cart is Empty --}}
+    @else
+    {{-- LOGIC: This Block Only Runs if Cart is Empty --}}
 
-<div class="empty-cart-state bg-white rounded-3xl shadow-sm border border-gray-100 p-12 text-center max-w-2xl mx-auto mt-10">
-    <div class="empty-cart-icon mb-6">
-        <div class="w-32 h-32 bg-gray-50 rounded-full flex items-center justify-center mx-auto">
-            <i class="fas fa-shopping-cart text-5xl text-gray-300"></i>
+    <div class="empty-cart-state bg-white rounded-3xl shadow-sm border border-gray-100 p-12 text-center max-w-2xl mx-auto mt-10">
+        <div class="empty-cart-icon mb-6">
+            <div class="w-32 h-32 bg-gray-50 rounded-full flex items-center justify-center mx-auto">
+                <i class="fas fa-shopping-cart text-5xl text-gray-300"></i>
+            </div>
         </div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-4">Your cart is empty</h3>
+        <p class="text-gray-500 mb-8 max-w-md mx-auto text-lg">
+            Looks like you haven't added any products to your cart yet.
+            Start shopping to find amazing products!
+        </p>
+        <a href="{{ route('product') }}"
+            class="inline-flex items-center gap-2 bg-primary text-white px-10 py-4 rounded-full font-bold hover:bg-primary-hover transition-all shadow-lg shadow-primary/30 hover:-translate-y-1">
+            <i class="fas fa-store mr-2"></i>
+            Start Shopping
+        </a>
     </div>
-    <h3 class="text-3xl font-bold text-gray-800 mb-4">Your cart is empty</h3>
-    <p class="text-gray-500 mb-8 max-w-md mx-auto text-lg">
-        Looks like you haven't added any products to your cart yet.
-        Start shopping to find amazing products!
-    </p>
-    <a href="{{ route('product') }}"
-        class="inline-flex items-center gap-2 bg-primary text-white px-10 py-4 rounded-full font-bold hover:bg-primary-hover transition-all shadow-lg shadow-primary/30 hover:-translate-y-1">
-        <i class="fas fa-store mr-2"></i>
-        Start Shopping
-    </a>
-</div>
 
-@endif
-</div>
-@php
-// dd($cartItems);
-@endphp
-
+    @endif
 </div>
 
 <!-- Floating Checkout Button (Mobile) -->
 @if($cartItems->isNotEmpty())
-<a href="{{ route('checkout.index') }}" class="floating-checkout-btn md:hidden">
-    <i class="fas fa-shopping-cart"></i>
-    <span>Checkout</span>
-    <span class="bg-white text-primary px-2 py-1 rounded-full text-sm">
-        ${{ number_format($cartItems->sum('total'), 2) }}
-    </span>
-</a>
+    @php
+        $shipping = $grandTotal >= 50 ? 0 : 250;
+        $tax = $grandTotal * 0.08;
+        $finalTotal = $grandTotal + $shipping + $tax;
+    @endphp
+    <a href="{{ route('checkout.index') }}" class="floating-checkout-btn md:hidden">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Checkout</span>
+        <span class="bg-white text-primary px-2 py-1 rounded-full text-sm">
+            Rs.{{ number_format($finalTotal, 2) }}
+        </span>
+    </a>
 @endif
 
 <!-- Loading Overlay -->
@@ -699,11 +765,9 @@
 
     async function updateCartTotals(itemId) {
         try {
-            // Fetch updated cart data
             const response = await fetch('{{ route("cart.index") }}');
             const html = await response.text();
 
-            // Create temporary DOM to extract updated totals
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
 
@@ -733,12 +797,25 @@
 
     function updateCartSummaryFromHTML(doc) {
         // Extract summary data from the HTML
-        const subtotalElement = doc.getElementById('subtotal');
+        const originalSubtotalElement = doc.getElementById('original-subtotal');
+        const subtotalAfterDiscountElement = doc.getElementById('subtotal-after-discount');
+        const discountElement = doc.getElementById('discount-total');
         const totalElement = doc.getElementById('total');
         const cartCountElement = doc.getElementById('cart-count');
 
-        if (subtotalElement) {
-            document.getElementById('subtotal').textContent = subtotalElement.textContent;
+        if (originalSubtotalElement) {
+            document.getElementById('original-subtotal').textContent = originalSubtotalElement.textContent;
+        }
+
+        if (subtotalAfterDiscountElement) {
+            document.getElementById('subtotal-after-discount').textContent = subtotalAfterDiscountElement.textContent;
+        }
+
+        if (discountElement) {
+            const existingDiscount = document.getElementById('discount-total');
+            if (existingDiscount) {
+                existingDiscount.textContent = discountElement.textContent;
+            }
         }
 
         if (totalElement) {
@@ -894,7 +971,7 @@
 
     function updateCartSummary() {
         // Update shipping progress
-        const subtotal = parseFloat(document.getElementById('subtotal')?.textContent.replace('$', '') || 0);
+        const subtotal = parseFloat(document.getElementById('subtotal-after-discount')?.textContent.replace('Rs.', '') || 0);
         const progressBar = document.querySelector('.free-shipping-progress');
         if (progressBar) {
             const progress = Math.min((subtotal / 50) * 100, 100);

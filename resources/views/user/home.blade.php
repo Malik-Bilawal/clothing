@@ -426,7 +426,7 @@ h1, h2, h3, h4, h5, h6 {
                 @else
                     <div class="absolute inset-0 bg-cover bg-center transform transition-transform duration-[10s] ease-linear"
                          :class="{ 'scale-110': activeSlide === {{ $index }}, 'scale-100': activeSlide !== {{ $index }} }"
-                         style="background-image: url('{{ asset('storage/app/public/' . $banner->image) }}')">
+                         style="background-image:url('{{ asset('storage/' . $banner->image) }}')">
                     </div>
                 @endif
                 

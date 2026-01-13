@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Sale;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -15,150 +16,181 @@ class CartController extends Controller
 {
     public function index()
     {
-        // 1. Get a clean string version of the guest token
         $sessionToken = $this->getOrCreateGuestToken();
     
-        // 2. If Logged In: Merge guest items to this user
         if (Auth::check()) {
             $userId = Auth::id();
             
-            // Move items from guest_token to user_id
             Cart::where('guest_token', $sessionToken)
                 ->whereNull('user_id')
                 ->update([
                     'user_id' => $userId,
-                    'guest_token' => null // Optional: clear token in DB after merge
+                    'guest_token' => null 
                 ]);
                 
-            // Final query uses user_id
             $query = Cart::where('user_id', $userId);
         } else {
-            // Final query uses guest_token
             $query = Cart::where('guest_token', $sessionToken);
         }
     
-        // 3. Get items and filter out those with missing products
         $cartItems = $query->with([
             'product' => fn($q) => $q->with(['images', 'sizes', 'colors'])
         ])->get()->filter(fn($item) => $item->product !== null);
     
-        // 4. Get active sales
-        $activeSale = Sale::where('starts_at', '<=', now())
-                          ->where('ends_at', '>=', now())
-                          ->first();
+        $now = Carbon::now();
+        $activeSale = Sale::where('is_active', true)
+            ->where(function($q) use ($now) {
+                $q->whereNull('starts_at')->orWhere('starts_at', '<=', $now);
+            })
+            ->where(function($q) use ($now) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', $now);
+            })
+            ->orderBy('discount_percent', 'desc')
+            ->first();
     
-        return view('user.cart', compact('cartItems', 'activeSale'));
+        // Calculate Totals & Discounts for the View
+        $grandTotal = 0;
+        $totalSaved = 0;
+    
+        // We transform the collection to add temporary properties for the view
+        $cartItems->transform(function($cart) use ($activeSale) {
+            $basePrice = $cart->price; 
+            
+            // Default values (No Sale)
+            $finalUnitPrice = $basePrice;
+            $cart->discount_percent = 0;
+            $cart->is_sale_applied = false;
+    
+            // Apply Sale Calculation
+            if ($activeSale) {
+                $cart->discount_percent = $activeSale->discount_percent;
+                $cart->is_sale_applied = true;
+                
+                $discountAmount = $basePrice * ($activeSale->discount_percent / 100);
+                $finalUnitPrice = $basePrice - $discountAmount;
+            }
+    
+            $cart->final_unit_price = $finalUnitPrice;
+            $cart->original_line_total = $basePrice * $cart->quantity;
+            $cart->final_line_total = $finalUnitPrice * $cart->quantity;
+            
+            $cart->line_saved_amount = $cart->original_line_total - $cart->final_line_total;
+    
+            return $cart;
+        });
+    
+        $grandTotal = $cartItems->sum('final_line_total');
+        $totalSaved = $cartItems->sum('line_saved_amount');
+    
+        return view('user.cart', compact('cartItems', 'activeSale', 'grandTotal', 'totalSaved'));
     }
-
 
     private function getOrCreateGuestToken()
-{
-    $token = session('guest_token');
+    {
+        $token = session('guest_token');
 
-    if (!$token) {
-        $token = (string) \Illuminate\Support\Str::uuid();
-        session(['guest_token' => $token]);
+        if (!$token) {
+            $token = (string) \Illuminate\Support\Str::uuid();
+            session(['guest_token' => $token]);
+        }
+
+        return is_object($token) ? (string) $token : $token;
     }
 
-    return is_object($token) ? (string) $token : $token;
-}
-public function updateQuantity(Request $request, $id)
-{
-    $action = $request->input('action');
-    $userId = auth()->id();
+    public function updateQuantity(Request $request, $id)
+    {
+        $action = $request->input('action');
+        $userId = auth()->id();
+        $guestToken = $this->getOrCreateGuestToken();
 
-    // Get guest token from multiple sources
-    $guestToken = $this->getOrCreateGuestToken();
-
-    Log::info('🔹 [Update Quantity Started]', [
-        'cart_id' => $id,
-        'user_id' => $userId,
-        'guest_token' => $guestToken,
-        'action' => $action,
-        'input' => $request->all(),
-    ]);
-
-    // Fetch cart item
-    $cart = Cart::where('id', $id)
-        ->where(function ($query) use ($userId, $guestToken) {
-            if ($userId) {
-                $query->where('user_id', $userId);
-            } else {
-                $query->where('guest_token', $guestToken);
-            }
-        })
-        ->first();
-
-    if (!$cart) {
-        Log::error('❌ [Cart Not Found]', [
+        Log::info('🔹 [Update Quantity Started]', [
             'cart_id' => $id,
             'user_id' => $userId,
-            'guest_token' => $guestToken
+            'action' => $action
         ]);
-        return response()->json(['error' => 'Cart not found'], 404);
-    }
 
-    Log::info('🛒 [Cart Found]', [
-        'cart_id' => $cart->id,
-        'current_quantity' => $cart->quantity,
-        'product_id' => $cart->product_id,
-        'price' => $cart->price,
-        'stock_quantity' => $cart->product->stock_quantity ?? 'N/A'
-    ]);
+        // Fetch cart item
+        $cart = Cart::where('id', $id)
+            ->where(function ($query) use ($userId, $guestToken) {
+                if ($userId) {
+                    $query->where('user_id', $userId);
+                } else {
+                    $query->where('guest_token', $guestToken);
+                }
+            })
+            ->first();
 
-    // Handle increase/decrease
-    if ($action === 'increase') {
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 404);
+        }
+
         $maxQuantity = $cart->product->stock_quantity ?? 10;
-        Log::info('🔼 [Increase Action]', [
-            'current_quantity' => $cart->quantity,
-            'max_quantity_allowed' => min($maxQuantity, 10)
+        
+        if ($action === 'increase') {
+            if ($cart->quantity < $maxQuantity && $cart->quantity < 10) {
+                $cart->quantity++;
+            } else {
+                return response()->json(['error' => 'Cannot increase quantity'], 400);
+            }
+        } elseif ($action === 'decrease') {
+            if ($cart->quantity > 1) {
+                $cart->quantity--;
+            } else {
+                return response()->json(['error' => 'Cannot decrease quantity below 1'], 400);
+            }
+        } else {
+            return response()->json(['error' => 'Invalid action'], 400);
+        }
+
+        $now = Carbon::now();
+        
+        $activeSale = Sale::where('is_active', true)
+            ->where(function($q) use ($now) {
+                $q->whereNull('starts_at')->orWhere('starts_at', '<=', $now);
+            })
+            ->where(function($q) use ($now) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', $now);
+            })
+            ->orderBy('discount_percent', 'desc') 
+            ->first();
+
+        $baseUnitPrice = $cart->price; 
+        $finalUnitPrice = $baseUnitPrice;
+        $discountPercent = 0;
+        $isSaleApplied = false;
+
+        if ($activeSale) {
+            $isSaleApplied = true;
+            $discountPercent = $activeSale->discount_percent;
+            
+            $discountAmountPerItem = $baseUnitPrice * ($discountPercent / 100);
+            $finalUnitPrice = $baseUnitPrice - $discountAmountPerItem;
+        }
+
+        $cart->total = $finalUnitPrice * $cart->quantity;
+        $cart->save();
+
+        $originalTotal = $baseUnitPrice * $cart->quantity;
+        $savedAmount = $originalTotal - $cart->total;
+
+        Log::info('💰 [Cart Updated with Sale]', [
+            'cart_id' => $cart->id,
+            'quantity' => $cart->quantity,
+            'sale_applied' => $isSaleApplied,
+            'discount_percent' => $discountPercent,
+            'final_total' => $cart->total
         ]);
 
-        if ($cart->quantity < $maxQuantity && $cart->quantity < 10) {
-            $cart->quantity++;
-            Log::info('✅ [Quantity Increased]', ['new_quantity' => $cart->quantity]);
-        } else {
-            Log::warning('⚠️ [Cannot Increase Quantity]', [
-                'current_quantity' => $cart->quantity,
-                'max_allowed' => min($maxQuantity, 10)
-            ]);
-            return response()->json([
-                'error' => 'Cannot increase quantity',
-                'max_quantity' => min($maxQuantity, 10)
-            ], 400);
-        }
-    } elseif ($action === 'decrease') {
-        Log::info('🔽 [Decrease Action]', ['current_quantity' => $cart->quantity]);
-        if ($cart->quantity > 1) {
-            $cart->quantity--;
-            Log::info('✅ [Quantity Decreased]', ['new_quantity' => $cart->quantity]);
-        } else {
-            Log::warning('⚠️ [Cannot Decrease Quantity Below 1]', ['current_quantity' => $cart->quantity]);
-            return response()->json([
-                'error' => 'Cannot decrease quantity below 1'
-            ], 400);
-        }
-    } else {
-        Log::warning('⚠️ [Invalid Action]', ['action' => $action]);
-        return response()->json(['error' => 'Invalid action'], 400);
+        return response()->json([
+            'success' => true,
+            'quantity' => $cart->quantity,
+            'item_total' => number_format($cart->total, 2),
+            'is_sale_active' => $isSaleApplied,
+            'discount_percent' => $discountPercent,
+            'original_total' => number_format($originalTotal, 2), 
+            'saved_amount' => number_format($savedAmount, 2),
+        ]);
     }
-
-    // Recalculate total
-    $cart->total = $cart->price * $cart->quantity;
-    $cart->save();
-
-    Log::info('💰 [Cart Updated]', [
-        'cart_id' => $cart->id,
-        'new_quantity' => $cart->quantity,
-        'new_total' => $cart->total
-    ]);
-
-    return response()->json([
-        'success' => true, 
-        'quantity' => $cart->quantity,
-        'item_total' => number_format($cart->total, 2)
-    ]);
-}
 
     public function remove($id)
     {
