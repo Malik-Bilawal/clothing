@@ -48,11 +48,9 @@ class CartController extends Controller
             ->orderBy('discount_percent', 'desc')
             ->first();
     
-        // Calculate Totals & Discounts for the View
         $grandTotal = 0;
         $totalSaved = 0;
     
-        // We transform the collection to add temporary properties for the view
         $cartItems->transform(function($cart) use ($activeSale) {
             $basePrice = $cart->price; 
             
@@ -257,7 +255,6 @@ class CartController extends Controller
 
     public function debugCart()
     {
-        // This is a debug method to check what's in the database
         $allCarts = Cart::with('product')->get();
         
         $userId = auth()->id();

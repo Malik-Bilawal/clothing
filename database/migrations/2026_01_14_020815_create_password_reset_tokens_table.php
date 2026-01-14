@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-     Schema::create('product_images', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('product_id')->constrained()->onDelete('cascade');
-        $table->string('image_path');
-        $table->boolean('is_default')->default(false);
-        $table->timestamps();
-    });
-    
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
     }
 
     /**
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_images');
+        Schema::dropIfExists('password_reset_tokens');
     }
 };

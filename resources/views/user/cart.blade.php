@@ -539,7 +539,7 @@
                     <div class="flex justify-between">
                         <span class="text-gray-600">Tax Estimate</span>
                         <span class="font-semibold" id="tax">
-                            Rs.{{ number_format($grandTotal * 0.08, 2) }}
+                            0
                         </span>
                     </div>
                 </div>
@@ -998,7 +998,6 @@
 
     // Initialize animations
     function initializeAnimations() {
-        // Add staggered animation to cart items
         document.querySelectorAll('.cart-item').forEach((item, index) => {
             item.style.animationDelay = `${index * 0.1}s`;
         });

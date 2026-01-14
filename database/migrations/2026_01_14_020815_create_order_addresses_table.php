@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_addresses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('order_id')->index('order_addresses_order_id_foreign');
             $table->enum('type', ['shipping', 'billing'])->default('shipping');
             $table->string('first_name');
             $table->string('last_name');
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('country')->default('Pakistan');
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('order_addresses');
     }
 };

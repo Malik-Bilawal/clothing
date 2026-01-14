@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_color_images', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('color_id')->constrained('product_colors')->onDelete('cascade');
-            $table->string('image_path'); // file path of uploaded image
-            $table->timestamps();
+        Schema::table('order_addresses', function (Blueprint $table) {
+            $table->foreign(['order_id'])->references(['id'])->on('orders')->onUpdate('restrict')->onDelete('cascade');
         });
-        
     }
 
     /**
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('color_images');
+        Schema::table('order_addresses', function (Blueprint $table) {
+            $table->dropForeign('order_addresses_order_id_foreign');
+        });
     }
 };

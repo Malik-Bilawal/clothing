@@ -12,19 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->uuid('guest_token')->nullable();
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('shipping', 10, 2)->default(0);
-            $table->decimal('tax', 10, 2)->default(0);
-            $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('total', 10, 2);
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->nullable()->index('orders_user_id_foreign');
+            $table->char('guest_token', 36)->nullable();
+            $table->decimal('subtotal', 10);
+            $table->decimal('shipping', 10)->default(0);
+            $table->decimal('tax', 10)->default(0);
+            $table->decimal('discount', 10)->default(0);
+            $table->decimal('total', 10);
             $table->string('payment_method')->default('cod');
             $table->string('status')->default('pending');
             $table->timestamps();
         });
-        
     }
 
     /**
