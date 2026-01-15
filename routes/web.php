@@ -33,7 +33,7 @@ Route::get('register', [UserRegisterController::class, 'index'])->name('register
 Route::post('register', [UserRegisterController::class, 'register'])->name('user.register');
 
 Route::get('/email/verify', function () {
-    return view('user.auth.verify-notice');
+    return view('user.Auth.verify-notice');
 })->name('verification.notice');
 
 
