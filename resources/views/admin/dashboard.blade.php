@@ -37,14 +37,17 @@
         .status-delivered { background-color: #dcfce7; color: #166534; }
         .status-cancelled { background-color: #fee2e2; color: #991b1b; }
     </style>
-
 <div 
     x-data="{ sidebarOpen: false }" 
     @close-sidebar.window="sidebarOpen = false" 
     class="flex h-screen overflow-hidden"
 >
 
-    <!-- Mobile backdrop -->
+    <button @click="sidebarOpen = true" 
+        class="fixed top-4 left-4 z-40 p-2 bg-gray-900 text-white rounded-md lg:hidden">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <div
         x-show="sidebarOpen"
         x-cloak
@@ -53,8 +56,6 @@
         @click="sidebarOpen = false"
     ></div>
 
-
-    <!-- Sidebar -->
     <aside
         class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0"
         :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
@@ -63,15 +64,17 @@
         @include("admin.layouts.partial.sidebar")
     </aside>
 
+    <div class="flex-1 flex p-5 flex-col overflow-y-auto lg:ml-64 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+            <p class="text-gray-600">Welcome back, Admin! Here's what's happening with your store today.</p>
+        </div>
 
-    <div class="flex-1 flex p-5 flex-col overflow-y-auto lg:ml-64 bg-gradient-to-br from-gray-50 to-gray-100">    <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
-        <p class="text-gray-600">Welcome back, Admin! Here's what's happening with your store today.</p>
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Total Revenue -->
         <div class="stat-card bg-white rounded-xl shadow p-6 border-l-4 border-blue-500">
             <div class="flex items-center justify-between">

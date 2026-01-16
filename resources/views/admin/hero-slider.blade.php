@@ -41,6 +41,11 @@
     class="flex h-screen overflow-hidden"
 >
 
+<button @click="sidebarOpen = true" 
+        class="fixed top-4 left-4 z-40 p-2 bg-gray-900 text-white rounded-md lg:hidden">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <!-- Mobile backdrop -->
     <div
         x-show="sidebarOpen"

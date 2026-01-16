@@ -1,19 +1,19 @@
-   <!-- Sidebar -->
-   <div class="h-full flex flex-col">
-       <div class="p-4 border-b border-gray-700">
-           <h1 class="text-xl font-bold flex items-center">
-               <i class="fas fa-store mr-2 text-secondary"></i>
-               Home Collectino Admin
-           </h1>
-           <button
-               @click="$dispatch('close-sidebar')"
-               class="lg:hidden text-gray-400 hover:text-white text-xl focus:outline-none"
-               aria-label="Close sidebar">
-               <i class="fas fa-times"></i>
-           </button>
-       </div>
+<div class="h-full flex flex-col">
+    <div class="p-4 border-b border-gray-700">
+        <h1 class="text-xl font-bold flex items-center">
+            <i class="fas fa-store mr-2 text-secondary"></i>
+            Home Collection Admin
+        </h1>
+        
+        <button
+            @click="sidebarOpen = false"
+            class="lg:hidden text-gray-400 hover:text-white text-xl focus:outline-none"
+            aria-label="Close sidebar">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
 
-       <nav class="flex-1 p-4">
+    <nav class="flex-1 p-4">
            <ul class="space-y-2">
                <li>
                    <a href="{{ route('admin.dashboard') }}"

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\InfoController;
 use App\Http\Controllers\User\AboutController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\ProductController;
@@ -138,3 +139,6 @@ Route::get('/products/{product}/quick-add', [ProductDetailController::class, 'qu
 Route::post('/products/{product}/reviews', [ProductDetailController::class, 'storeReview'])->name('review.store');
 Route::get('/debug/cart', [CartController::class, 'debugCart']);
 Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+
+
+Route::get('/policies', [InfoController::class , 'index'])->name('policy');

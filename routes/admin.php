@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Admin\ContactMessagesController;
+use App\Http\Controllers\User\InfoController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
@@ -22,9 +23,9 @@ Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 Route::name('admin.')->group(function () {
 
-        // Dashboard
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
 
     //Categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
@@ -64,18 +65,14 @@ Route::name('admin.')->group(function () {
 
 
     //Order
-     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
-     Route::post('/orders/{order}/ship', [OrderController::class, 'ship'])->name('order.ship');
-     Route::patch('/order/{id}', [OrderController::class, 'cancel'])->name('order.cancel');
-     Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
+    Route::post('/orders/{order}/ship', [OrderController::class, 'ship'])->name('order.ship');
+    Route::patch('/order/{id}', [OrderController::class, 'cancel'])->name('order.cancel');
+    Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
 
-     //Contact Messages
+    //Contact Messages
 
-     Route::get('contact', [ContactMessagesController::class, 'index'])->name('contact');
-Route::get('contact/destroy/{id}', [ContactMessagesController::class, 'destroy'])->name('contact.destroy');
-
+    Route::get('contact', [ContactMessagesController::class, 'index'])->name('contact');
+    Route::get('contact/destroy/{id}', [ContactMessagesController::class, 'destroy'])->name('contact.destroy');
 });
-
-
-
