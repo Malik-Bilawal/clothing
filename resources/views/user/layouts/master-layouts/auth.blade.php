@@ -9,17 +9,22 @@
 </head>
 <body class="bg-background text-text">
 
-    <nav class="bg-primary text-white p-4 flex justify-between">
-        <a href="{{ url('/') }}" class="font-bold text-xl">Grocery Store</a>
-        <div>
-            @auth
-                <a href="{{ route('home') }}" class="px-4">Dashboard</a>
-            @else
-                <a href="{{ route('user.login') }}" class="px-4">Login</a>
-                <a href="{{ route('user.register') }}" class="px-4">Register</a>
-            @endauth
-        </div>
-    </nav>
+<style>
+     
+              :root {
+            --primary-color: #6B4226;      
+            --primary-hover: #593721;       
+            --secondary-color: #C8A165;     
+            --secondary-hover: #B58F54;     
+            --accent-color: #8C5E3C;       
+            --accent-hover: #734C30;        
+            --text-on-primary: #FFFFFF;     
+            --text-on-secondary: #1A1A1A;   
+            --background-color: #F8F5F2;   
+            --surface-color: #FFFFFF;      
+            --border-color: #E5D5C3;
+        }
+</style>
 
     <main class="p-6">
         @yield('content')

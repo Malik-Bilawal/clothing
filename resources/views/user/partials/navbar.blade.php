@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,21 +11,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
-:root {
-    --primary-color: #6B4226;        /* was #8B5FBF */
-    --primary-hover: #593721;        /* was #7A4CAC */
-    --secondary-color: #C8A165;      /* was #FF6B8B */
-    --secondary-hover: #B58F54;      /* was #E55A78 */
-    --accent-color: #8C5E3C;         /* was #4ECDC4 */
-    --accent-hover: #734C30;         /* was #3DBBB2 */
-    --text-on-primary: #FFFFFF;      /* same */
-    --text-on-secondary: #1A1A1A;    /* was #FFFFFF */
-    --background-color: #F8F5F2;     /* was #F8F9FF */
-    --card-background: #FFFFFF;      /* same as previous surface-color */
-    --border-color: #E5D5C3;         /* was #E8EAED */
-}
+        :root {
+            --primary-color: #6B4226;
+            /* was #8B5FBF */
+            --primary-hover: #593721;
+            /* was #7A4CAC */
+            --secondary-color: #C8A165;
+            /* was #FF6B8B */
+            --secondary-hover: #B58F54;
+            /* was #E55A78 */
+            --accent-color: #8C5E3C;
+            /* was #4ECDC4 */
+            --accent-hover: #734C30;
+            /* was #3DBBB2 */
+            --text-on-primary: #FFFFFF;
+            /* same */
+            --text-on-secondary: #1A1A1A;
+            /* was #FFFFFF */
+            --background-color: #F8F5F2;
+            /* was #F8F9FF */
+            --card-background: #FFFFFF;
+            /* same as previous surface-color */
+            --border-color: #E5D5C3;
+            /* was #E8EAED */
+        }
 
 
         * {
@@ -66,8 +78,15 @@
 
         /* Floating animation */
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .floating {
@@ -76,17 +95,22 @@
 
         /* Shimmer effect for loading */
         .shimmer {
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.8) 50%, 
-                rgba(255,255,255,0) 100%);
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.8) 50%,
+                    rgba(255, 255, 255, 0) 100%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         /* Slide in animation */
@@ -95,6 +119,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -115,10 +140,13 @@
 
         /* Pulse animation for cart */
         @keyframes pulse-glow {
-            0%, 100% { 
+
+            0%,
+            100% {
                 box-shadow: 0 0 5px var(--secondary-color);
             }
-            50% { 
+
+            50% {
                 box-shadow: 0 0 20px var(--secondary-color), 0 0 30px rgba(255, 107, 139, 0.3);
             }
         }
@@ -162,10 +190,10 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.2), 
-                transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
             transition: left 0.7s;
             z-index: -1;
         }
@@ -201,8 +229,8 @@
 
         /* Search input glow */
         .search-input:focus {
-            box-shadow: 0 0 0 3px rgba(139, 95, 191, 0.1), 
-                        0 0 20px rgba(139, 95, 191, 0.2);
+            box-shadow: 0 0 0 3px rgba(139, 95, 191, 0.1),
+                0 0 20px rgba(139, 95, 191, 0.2);
         }
 
         /* Loading dots */
@@ -229,15 +257,24 @@
         }
 
         @keyframes dotPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.5); opacity: 0.5; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
         }
 
         /* Gradient border */
         .gradient-border {
             position: relative;
             background: linear-gradient(var(--card-background), var(--card-background)) padding-box,
-                        linear-gradient(135deg, var(--primary-color), var(--secondary-color)) border-box;
+                linear-gradient(135deg, var(--primary-color), var(--secondary-color)) border-box;
             border: 2px solid transparent;
         }
 
@@ -260,8 +297,15 @@
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
         }
 
         /* Responsive adjustments */
@@ -270,7 +314,7 @@
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
             }
-            
+
             .search-drawer {
                 width: 100% !important;
                 max-width: 100% !important;
@@ -330,209 +374,203 @@
 </head>
 
 <body class="font-sans bg-background">
-    <!-- Navigation Bar -->
-    <nav class="glass-effect shadow-glass fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <!-- Logo with Animation -->
-                <div class="flex items-center space-x-3">
-                    <div class="relative">
-                        <div class="bg-gradient-to-br from-primary to-secondary p-3 rounded-2xl shadow-lg floating">
-                            <i class="fas fa-home text-white text-2xl"></i>
-                        </div>
-                        <div class="absolute -inset-1 bg-gradient-to-br from-primary to-secondary rounded-2xl blur opacity-30"></div>
-                    </div>
-                    <div>
-                        <span class="text-3xl font-heading font-bold gradient-text">HomeCollection</span>
-                        <p class="text-xs text-gray-500 -mt-1">Premium Home Decor</p>
-                    </div>
+<style>
+    :root {
+        --primary-color: #6B4226;
+        --secondary-color: #C8A165;
+        --background-color: #F8F5F2;
+        --border-color: #E5D5C3;
+    }
+</style>
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#F8F5F2]/90 backdrop-blur-md border-b border-[#E5D5C3] transition-all duration-300">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            
+            <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
+                <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#6B4226] text-white shadow-md group-hover:scale-105 transition-transform duration-300">
+                    <i class="fas fa-home text-lg"></i>
                 </div>
+            </a>
 
-                <!-- Desktop Navigation -->
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="{{ route('home') }}" 
-                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
-                       <i class="fas fa-home mr-2"></i>Home
-                    </a>
-                    <a href="{{ route('product') }}" 
-                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
-                       <i class="fas fa-th-large mr-2"></i>Products
-                    </a>
-                    <a href="{{ route('category') }}" 
-                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
-                       <i class="fas fa-tags mr-2"></i>Categories
-                    </a>
-                    <a href="{{ route('about') }}" 
-                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
-                       <i class="fas fa-info-circle mr-2"></i>About
-                    </a>
-                    <a href="{{ route('contact') }}" 
-                       class="nav-link font-medium text-gray-700 hover:text-primary px-1 py-2 transition-all-custom relative">
-                       <i class="fas fa-phone-alt mr-2"></i>Contact
-                    </a>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex items-center space-x-6">
-                    <!-- Search Button -->
-                    <button id="search-button" 
-                            class="btn-hover-effect relative group p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-search text-lg text-gray-600 group-hover:text-primary transition-colors"></i>
-                            <span class="hidden md:inline text-sm text-gray-500 group-hover:text-primary">Search</span>
-                        </div>
-                        <div class="absolute -top-2 -right-2 bg-secondary text-white text-xs px-2 py-1 rounded-full font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                            ⌘K
-                        </div>
-                    </button>
-
-                    <!-- Cart Button -->
-                    <a href="{{ route('cart.index') }}" 
-                       class="btn-hover-effect relative group p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
-                        <i class="fas fa-shopping-cart text-lg text-gray-600 group-hover:text-secondary transition-colors"></i>
-                        
-                        @php
-                            use Illuminate\Support\Facades\Auth;
-                            use Illuminate\Support\Facades\Session;
-                            use App\Models\Cart;
-
-                            $cartCount = 0;
-
-                            if (Auth::check()) {
-                                $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
-                            } else {
-                                $guestToken = Session::get('guest_token');
-                                if ($guestToken) {
-                                    $cartCount = Cart::where('guest_token', $guestToken)->sum('quantity');
-                                } else {
-                                    $sessionCart = session('cart', []);
-                                    $cartCount = collect($sessionCart)->sum('quantity') ?: count($sessionCart);
-                                }
-                            }
-                        @endphp
-
-                        @if($cartCount > 0)
-                            <span class="notification-badge pulse-glow">
-                                {{ $cartCount > 99 ? '99+' : $cartCount }}
-                            </span>
-                        @endif
-                    </a>
-
-                    <!-- User Menu -->
-                    <div class="relative">
-                        <button id="userMenuButton" 
-                                class="btn-hover-effect group p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
-                            <i class="fas fa-user text-lg text-gray-600 group-hover:text-accent transition-colors"></i>
-                        </button>
-
-                        <!-- User Dropdown -->
-                        <div id="userMenuDropdown" 
-                             class="absolute right-0 mt-3 w-64 glass-effect rounded-2xl shadow-glass overflow-hidden hidden slide-in-right">
-                            @auth
-                                <div class="p-4 border-b border-border">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                                            <span class="text-white font-bold text-lg">{{ substr(auth()->user()->name, 0, 1) }}</span>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
-                                            <p class="text-sm text-gray-500">{{ auth()->user()->email }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            
-                                <div class="border-t border-border pt-2">
-                                    <form action="{{ route('logout') }}" method="POST" class="w-full">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="flex items-center w-full px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all-custom">
-                                            <i class="fas fa-sign-out-alt mr-3"></i>
-                                            <span>Logout</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            @else
-                                <div class="p-4">
-                                    <p class="text-sm text-gray-500 mb-3">Welcome to HomeCollection</p>
-                                    <div class="space-y-2">
-                                        <a href="{{ route('user.login') }}" 
-                                           class="block w-full text-center bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-                                           Login
-                                        </a>
-                                        <a href="{{ route('user.register') }}" 
-                                           class="block w-full text-center border-2 border-primary text-primary py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all duration-300">
-                                           Register
-                                        </a>
-                                    </div>
-                                </div>
-                            @endauth
-                        </div>
-                    </div>
-
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" 
-                            class="lg:hidden p-3 rounded-xl bg-gradient-to-br from-gray-50 to-white shadow-sm hover:shadow-glow transition-all duration-300">
-                        <i class="fas fa-bars text-lg text-gray-600"></i>
-                    </button>
-                </div>
+            <div class="hidden lg:flex items-center bg-white/50 px-2 py-1.5 rounded-full border border-[#E5D5C3]/50">
+                <a href="{{ route('home') }}"
+                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
+                    <i class="fas fa-home mr-2 text-xs opacity-70"></i>Home
+                </a>
+                <a href="{{ route('product') }}"
+                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
+                    <i class="fas fa-th-large mr-2 text-xs opacity-70"></i>Products
+                </a>
+                <a href="{{ route('category') }}"
+                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
+                    <i class="fas fa-tags mr-2 text-xs opacity-70"></i>Categories
+                </a>
+                <a href="{{ route('about') }}"
+                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
+                    <i class="fas fa-info-circle mr-2 text-xs opacity-70"></i>About
+                </a>
+                <a href="{{ route('contact') }}"
+                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
+                    <i class="fas fa-phone-alt mr-2 text-xs opacity-70"></i>Contact
+                </a>
             </div>
 
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" 
-                 class="lg:hidden mt-4 hidden glass-effect rounded-2xl shadow-glass p-4 slide-in-right mobile-menu">
-                <div class="space-y-1">
-                    <a href="{{ route('home') }}" 
-                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
-                       <i class="fas fa-home mr-3 text-primary"></i>
-                       <span class="font-medium">Home</span>
-                    </a>
-                    <a href="{{ route('product') }}" 
-                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
-                       <i class="fas fa-th-large mr-3 text-primary"></i>
-                       <span class="font-medium">Products</span>
-                    </a>
-                    <a href="{{ route('category') }}" 
-                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
-                       <i class="fas fa-tags mr-3 text-primary"></i>
-                       <span class="font-medium">Categories</span>
-                    </a>
-                    <a href="{{ route('about') }}" 
-                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
-                       <i class="fas fa-info-circle mr-3 text-primary"></i>
-                       <span class="font-medium">About Us</span>
-                    </a>
-                    <a href="{{ route('contact') }}" 
-                       class="flex items-center px-4 py-3 rounded-xl hover:bg-primary/5 transition-all-custom text-gray-700 hover:text-primary">
-                       <i class="fas fa-phone-alt mr-3 text-primary"></i>
-                       <span class="font-medium">Contact</span>
-                    </a>
-                </div>
+            <div class="flex flex-wrap items-center gap-3 justify-end">
+                
+                <button id="search-button"
+                    class="group flex items-center pl-3 pr-4 py-2 rounded-full bg-white border border-[#E5D5C3] hover:border-[#6B4226] transition-colors duration-300">
+                    <i class="fas fa-search text-[#6B4226] text-sm group-hover:scale-110 transition-transform"></i>
+                    <span class="hidden md:inline ml-2 text-sm font-medium text-gray-500 group-hover:text-[#6B4226]">Search</span>
+                    <span class="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-[#F8F5F2] text-gray-400 rounded border border-[#E5D5C3]">⌘K</span>
+                </button>
 
-                @guest
-                    <div class="mt-6 pt-4 border-t border-border">
-                        <div class="flex space-x-3">
-                            <a href="{{ route('user.login') }}" 
-                               class="flex-1 text-center bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-                               Login
-                            </a>
-                            <a href="{{ route('user.register') }}" 
-                               class="flex-1 text-center border-2 border-primary text-primary py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all duration-300">
-                               Register
-                            </a>
-                        </div>
-                    </div>
-                @endguest
+                <a href="{{ route('cart.index') }}"
+                    class="relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#E5D5C3] text-[#6B4226] hover:bg-[#6B4226] hover:text-white hover:border-[#6B4226] transition-all duration-300">
+                    <i class="fas fa-shopping-cart text-sm"></i>
+
+                    @php
+                    use Illuminate\Support\Facades\Auth;
+                    use Illuminate\Support\Facades\Session;
+                    use App\Models\Cart;
+
+                    $cartCount = 0;
+
+                    if (Auth::check()) {
+                        $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
+                    } else {
+                        $guestToken = Session::get('guest_token');
+                        if ($guestToken) {
+                            $cartCount = Cart::where('guest_token', $guestToken)->sum('quantity');
+                        } else {
+                            $sessionCart = session('cart', []);
+                            $cartCount = collect($sessionCart)->sum('quantity') ?: count($sessionCart);
+                        }
+                    }
+                    @endphp
+
+                    @if($cartCount > 0)
+                    <span class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#C8A165] text-white text-[10px] font-bold rounded-full border-2 border-[#F8F5F2]">
+                        {{ $cartCount > 99 ? '99+' : $cartCount }}
+                    </span>
+                    @endif
+                </a>
+                <div class="relative" x-data="{ open: false }">
+    <button @click="open = !open" 
+        class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#E5D5C3] text-[#6B4226] hover:bg-[#F8F5F2] transition-all duration-300 focus:outline-none">
+        <i class="fas fa-user text-sm"></i>
+    </button>
+
+    <div x-show="open" 
+            @click.away="open = false" 
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 translate-y-2"
+            class="fixed right-4 top-[70px] w-64 bg-white rounded-2xl shadow-xl border border-[#E5D5C3] overflow-hidden z-[100]">
+
+        @auth
+        <div class="p-4 w-full border-b border-[#E5D5C3] bg-[#F8F5F2]/50">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-[#6B4226] text-white flex items-center justify-center text-sm font-bold shadow-sm">
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                </div>
+                <div class="overflow-hidden">
+                    <p class="font-bold text-[#1A1A1A] text-sm truncate">{{ auth()->user()->name }}</p>
+                    <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Spacer for fixed navbar -->
+        <div class="py-1">
+            <form action="{{ route('logout') }}" method="POST" class="w-full">
+                @csrf
+                <button type="submit"
+                        class="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+        @else
+        <div class="p-5">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Account</p>
+            <div class="space-y-3">
+                <a href="{{ route('user.login') }}"
+                    class="block w-full text-center bg-[#6B4226] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#593721] transition-colors">
+                    Login
+                </a>
+                <a href="{{ route('user.register') }}"
+                    class="block w-full text-center border border-[#6B4226] text-[#6B4226] py-2.5 rounded-lg text-sm font-semibold hover:bg-[#6B4226] hover:text-white transition-colors">
+                    Register
+                </a>
+            </div>
+        </div>
+        @endauth
+    </div>
+</div>
+
+                <button id="mobile-menu-button"
+                    class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#E5D5C3] text-[#6B4226] hover:bg-[#F8F5F2] transition-colors">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu"
+            class="lg:hidden mt-4 hidden bg-white border border-[#E5D5C3] rounded-2xl shadow-xl p-2 slide-in-right mobile-menu">
+            <div class="space-y-1">
+                <a href="{{ route('home') }}"
+                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
+                    <div class="w-8 flex justify-center"><i class="fas fa-home text-[#C8A165]"></i></div>
+                    <span class="font-medium">Home</span>
+                </a>
+                <a href="{{ route('product') }}"
+                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
+                    <div class="w-8 flex justify-center"><i class="fas fa-th-large text-[#C8A165]"></i></div>
+                    <span class="font-medium">Products</span>
+                </a>
+                <a href="{{ route('category') }}"
+                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
+                    <div class="w-8 flex justify-center"><i class="fas fa-tags text-[#C8A165]"></i></div>
+                    <span class="font-medium">Categories</span>
+                </a>
+                <a href="{{ route('about') }}"
+                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
+                    <div class="w-8 flex justify-center"><i class="fas fa-info-circle text-[#C8A165]"></i></div>
+                    <span class="font-medium">About Us</span>
+                </a>
+                <a href="{{ route('contact') }}"
+                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
+                    <div class="w-8 flex justify-center"><i class="fas fa-phone-alt text-[#C8A165]"></i></div>
+                    <span class="font-medium">Contact</span>
+                </a>
+            </div>
+
+            @guest
+            <div class="mt-4 p-3 border-t border-[#E5D5C3]">
+                <div class="flex space-x-3">
+                    <a href="{{ route('user.login') }}"
+                        class="flex-1 text-center bg-[#6B4226] text-white py-2.5 rounded-lg font-semibold hover:bg-[#593721] transition-colors text-sm">
+                        Login
+                    </a>
+                    <a href="{{ route('user.register') }}"
+                        class="flex-1 text-center border border-[#6B4226] text-[#6B4226] py-2.5 rounded-lg font-semibold hover:bg-[#6B4226] hover:text-white transition-colors text-sm">
+                        Register
+                    </a>
+                </div>
+            </div>
+            @endguest
+        </div>
+    </div>
+</nav>    <!-- Spacer for fixed navbar -->
     <div class="h-20"></div>
 
     <!-- Search Drawer -->
-    <div id="search-drawer" 
-         class="fixed inset-y-0 right-0 w-full md:w-3/4 lg:w-1/2 xl:w-2/5 bg-card shadow-2xl transform translate-x-full z-[60] transition-transform duration-500 ease-out">
+    <div id="search-drawer"
+        class="fixed inset-y-0 right-0 w-full md:w-3/4 lg:w-1/2 xl:w-2/5 bg-card shadow-2xl transform translate-x-full z-[60] transition-transform duration-500 ease-out">
         <div class="h-full flex flex-col">
             <!-- Drawer Header -->
             <div class="p-6 border-b border-border">
@@ -546,8 +584,8 @@
                             <p class="text-sm text-gray-500">Search across 10,000+ home decor items</p>
                         </div>
                     </div>
-                    <button id="close-search" 
-                            class="p-3 rounded-xl hover:bg-gray-100 transition-all duration-200">
+                    <button id="close-search"
+                        class="p-3 rounded-xl hover:bg-gray-100 transition-all duration-200">
                         <i class="fas fa-times text-xl text-gray-500 hover:text-gray-700"></i>
                     </button>
                 </div>
@@ -557,10 +595,10 @@
             <div class="p-6 border-b border-border bg-gradient-to-r from-gray-50 to-white">
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
-                    <input type="text" 
-                           id="search-input" 
-                           placeholder="Search furniture, decor, lighting, textiles..." 
-                           class="search-input w-full pl-12 pr-20 py-4 rounded-2xl border-2 border-border bg-white focus:outline-none focus:border-primary transition-all duration-300 shadow-sm">
+                    <input type="text"
+                        id="search-input"
+                        placeholder="Search furniture, decor, lighting, textiles..."
+                        class="search-input w-full pl-12 pr-20 py-4 rounded-2xl border-2 border-border bg-white focus:outline-none focus:border-primary transition-all duration-300 shadow-sm">
                     <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
                         <kbd class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md hidden md:inline">⌘K</kbd>
                         <span id="results-count" class="text-sm text-gray-500 hidden">0 results</span>
@@ -656,8 +694,8 @@
     </div>
 
     <!-- Overlay -->
-    <div id="search-overlay" 
-         class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[55] opacity-0 pointer-events-none transition-opacity duration-300 drawer-overlay"></div>
+    <div id="search-overlay"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[55] opacity-0 pointer-events-none transition-opacity duration-300 drawer-overlay"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -724,13 +762,13 @@
             function loadDefaultContent() {
                 // Load recent searches
                 loadRecentSearches();
-                
+
                 // Load trending products
                 loadTrendingProducts();
-                
+
                 // Load categories
                 loadCategories();
-                
+
                 // Load suggestions
                 loadSuggestions();
             }
@@ -779,9 +817,9 @@
 
                         let html = '';
                         products.forEach(product => {
-                            const discount = product.offer_price ? 
+                            const discount = product.offer_price ?
                                 Math.round(((product.price - product.offer_price) / product.price) * 100) : null;
-                            
+
                             html += `
                                 <a href="/product/${product.id}" class="product-card block p-3 rounded-xl bg-white border border-border hover:border-primary/30 transition-all">
                                     <div class="relative h-32 w-full mb-3 overflow-hidden rounded-lg">
@@ -813,13 +851,36 @@
 
             function loadCategories() {
                 // You can make this dynamic by fetching from API
-                const categories = [
-                    { icon: 'fas fa-couch', name: 'Living Room', color: 'from-blue-500 to-cyan-400' },
-                    { icon: 'fas fa-bed', name: 'Bedroom', color: 'from-purple-500 to-pink-500' },
-                    { icon: 'fas fa-utensils', name: 'Dining', color: 'from-green-500 to-emerald-400' },
-                    { icon: 'fas fa-lightbulb', name: 'Lighting', color: 'from-yellow-500 to-orange-500' },
-                    { icon: 'fas fa-palette', name: 'Decor', color: 'from-red-500 to-pink-500' },
-                    { icon: 'fas fa-rug', name: 'Textiles', color: 'from-indigo-500 to-purple-400' }
+                const categories = [{
+                        icon: 'fas fa-couch',
+                        name: 'Living Room',
+                        color: 'from-blue-500 to-cyan-400'
+                    },
+                    {
+                        icon: 'fas fa-bed',
+                        name: 'Bedroom',
+                        color: 'from-purple-500 to-pink-500'
+                    },
+                    {
+                        icon: 'fas fa-utensils',
+                        name: 'Dining',
+                        color: 'from-green-500 to-emerald-400'
+                    },
+                    {
+                        icon: 'fas fa-lightbulb',
+                        name: 'Lighting',
+                        color: 'from-yellow-500 to-orange-500'
+                    },
+                    {
+                        icon: 'fas fa-palette',
+                        name: 'Decor',
+                        color: 'from-red-500 to-pink-500'
+                    },
+                    {
+                        icon: 'fas fa-rug',
+                        name: 'Textiles',
+                        color: 'from-indigo-500 to-purple-400'
+                    }
                 ];
 
                 const container = $('#categories-grid');
@@ -839,10 +900,10 @@
 
             function loadSuggestions() {
                 const suggestions = [
-                    'Modern Sofa', 'Coffee Table', 'Dining Chair', 'Wall Art', 
+                    'Modern Sofa', 'Coffee Table', 'Dining Chair', 'Wall Art',
                     'Floor Lamp', 'Bookshelf', 'Area Rug', 'Throw Pillow'
                 ];
-                
+
                 const container = $('#suggestions-section .flex');
                 let html = '';
                 suggestions.forEach(suggestion => {
@@ -858,7 +919,7 @@
             // Search functionality
             $('#search-input').on('input', function() {
                 const query = $(this).val().trim();
-                
+
                 if (query.length === 0) {
                     showDefaultContent();
                     return;
@@ -887,10 +948,12 @@
                 $.ajax({
                     url: '{{ route("navbar.search") }}',
                     method: 'GET',
-                    data: { q: query },
+                    data: {
+                        q: query
+                    },
                     success: function(response) {
                         $('#search-loading').hide();
-                        
+
                         if (response.products.length === 0) {
                             showNoResults();
                             return;
@@ -909,11 +972,11 @@
             function displaySearchResults(response) {
                 const container = $('#search-results');
                 const resultsCount = $('#results-count');
-                
+
                 resultsCount.text(`${response.products.length} results`).show();
-                
+
                 let html = '';
-                
+
                 // Group products by category
                 const groupedProducts = {};
                 response.products.forEach(product => {
@@ -936,7 +999,7 @@
 
                     products.forEach(product => {
                         const discount = product.discount_percent;
-                        
+
                         html += `
                             <a href="/product/${product.id}" class="product-card group block p-4 rounded-xl bg-white border border-border hover:border-primary transition-all">
                                 <div class="flex space-x-4">
@@ -971,9 +1034,9 @@
                                         
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center space-x-2">
-                                                <span class="text-xl font-bold text-primary">$${product.offer_price || product.price}</span>
+                                                <span class="text-xl font-bold text-primary">Rs.${product.offer_price || product.price}</span>
                                                 ${product.offer_price ? `
-                                                    <span class="text-sm text-gray-400 line-through">$${product.price}</span>
+                                                    <span class="text-sm text-gray-400 line-through">Rs.${product.price}</span>
                                                 ` : ''}
                                             </div>
                                             <button class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 rounded-full bg-primary text-white hover:bg-primary-hover">
@@ -999,7 +1062,7 @@
                             <h3 class="text-lg font-semibold text-gray-800 mb-4">💡 Related Searches</h3>
                             <div class="flex flex-wrap gap-2">
                     `;
-                    
+
                     response.suggestions.forEach(suggestion => {
                         html += `
                             <button class="suggestion-chip px-4 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-primary hover:text-white transition-all duration-300" data-suggestion="${suggestion.text}">
@@ -1008,7 +1071,7 @@
                             </button>
                         `;
                     });
-                    
+
                     html += `
                             </div>
                         </div>
@@ -1024,7 +1087,7 @@
                 let stars = '';
                 const fullStars = Math.floor(rating);
                 const hasHalfStar = rating % 1 >= 0.5;
-                
+
                 for (let i = 1; i <= 5; i++) {
                     if (i <= fullStars) {
                         stars += '<i class="fas fa-star text-yellow-400 text-xs"></i>';
@@ -1055,22 +1118,25 @@
             function saveRecentSearch(query) {
                 const searchData = {
                     query: query,
-                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    time: new Date().toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
                     timestamp: Date.now()
                 };
 
                 // Remove duplicates
                 recentSearches = recentSearches.filter(s => s.query.toLowerCase() !== query.toLowerCase());
-                
+
                 // Add to beginning
                 recentSearches.unshift(searchData);
-                
+
                 // Keep only last 10
                 recentSearches = recentSearches.slice(0, 10);
-                
+
                 // Save to localStorage
                 localStorage.setItem('homecollection_recent_searches', JSON.stringify(recentSearches));
-                
+
                 // Update UI
                 if (!$('#search-default-content').is(':visible')) {
                     loadRecentSearches();
@@ -1123,4 +1189,5 @@
         });
     </script>
 </body>
+
 </html>

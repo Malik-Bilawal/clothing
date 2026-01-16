@@ -16,7 +16,7 @@
        <nav class="flex-1 p-4">
            <ul class="space-y-2">
                <li>
-                   <a href=""
+                   <a href="{{ route('admin.dashboard') }}"
                        class="flex items-center p-2 rounded-lg 
        {{ request()->routeIs('admin.dashboard') ? 'bg-red-600 text-white' : 'hover:bg-gray-700' }}">
                        <i class="fas fa-tachometer-alt mr-3"></i>

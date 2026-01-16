@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -56,13 +57,24 @@ class OrderController extends Controller
     }
     
 
-    public function update(Request $request, $id)
+    
+public function update(Request $request, $id)
 {
     $order = Order::findOrFail($id);
 
     if ($request->has('status')) {
+        $oldStatus = $order->status;      // Store old status
         $order->status = $request->status;
         $order->save();
+
+        // Log the status change
+        Log::info('Order status updated', [
+            'order_id'   => $order->id,
+            'old_status' => $oldStatus,
+            'new_status' => $order->status,
+            'updated_by' => auth()->user() ? auth()->user()->id : null, // if using auth
+            'timestamp'  => now()->toDateTimeString(),
+        ]);
     }
 
     return redirect()->back()->with('success', 'Order status updated successfully!');

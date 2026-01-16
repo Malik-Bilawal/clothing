@@ -57,11 +57,11 @@ document.querySelectorAll('.add-btn').forEach(button => {
 
                     <div class="flex items-center justify-center gap-3">
                         <span class="text-base font-medium text-[var(--primary-color)]">
-                            ${{ number_format($product->price, 2) }}
+                            Rs.{{ number_format($product->price, 2) }}
                         </span>
                         @if($product->old_price)
                             <span class="text-sm text-neutral-400 line-through decoration-[var(--secondary-color)]">
-                                ${{ number_format($product->old_price, 2) }}
+                                Rs.{{ number_format($product->old_price, 2) }}
                             </span>
                         @endif
                     </div>

@@ -47,7 +47,7 @@
     </style>
 </head>
 
-<body class="bg-body">
+<body class="overflow-x-hidden bg-body">
 <div id="loader">
     <div class="spinner"></div>
 </div>

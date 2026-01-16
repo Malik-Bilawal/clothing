@@ -7,8 +7,10 @@ use App\Http\Controllers\Admin\SalesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Auth\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Admin\ContactMessagesController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('admin.login');
@@ -19,6 +21,10 @@ Route::post('login', [AuthController::class, 'login'])->name('admin.login.post')
 Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 Route::name('admin.')->group(function () {
+
+        // Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
 
     //Categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories');

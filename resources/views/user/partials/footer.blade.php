@@ -33,7 +33,8 @@
             
             <div class="col-span-2 lg:col-span-2 space-y-8">
                 <a href="/" class="text-3xl font-serif tracking-widest text-white">
-                    HOME<span class="text-[var(--secondary-color)]">.</span>
+                    INHOUSE<span class="text-[var(--secondary-color)]"> TEXTILES</span>
+
                 </a>
                 <p class="text-white/50 font-light leading-relaxed max-w-xs text-sm">
                     Elevating the art of living through sustainable craftsmanship and timeless aesthetic. Your sanctuary, perfected.
@@ -50,22 +51,28 @@
                     </a>
                 </div>
             </div>
-
+@php
+use App\Models\Category;
+$categories = Category::where('status', 1)->take('5')->orderBy('created_at', 'desc')->get();
+@endphp
             <div>
                 <h4 class="text-[var(--secondary-color)] font-bold tracking-[0.2em] text-[10px] uppercase mb-8">Collections</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">The Lounge</a></li>
-                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">The Dining</a></li>
-                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">The Bedroom</a></li>
+                    @foreach($categories as $cat)
+                    <li><a href="{{ route('product', ['category_id' => $cat->id]) }}" class="footer-link text-xs uppercase tracking-widest text-white/60">{{ $cat->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
 
             <div>
                 <h4 class="text-[var(--secondary-color)] font-bold tracking-[0.2em] text-[10px] uppercase mb-8">Heritage</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Our Story</a></li>
-                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Artisans</a></li>
-                    <li><a href="#" class="footer-link text-xs uppercase tracking-widest text-white/60">Journal</a></li>
+                <li><a href="{{ url('/') }}" class="footer-link text-xs uppercase tracking-widest text-white/60">Home</a></li>
+                    <li><a href="{{ url('/product')  }}" class="footer-link text-xs uppercase tracking-widest text-white/60">Product</a></li>
+                    <li><a href="{{ url('/category') }}" class="footer-link text-xs uppercase tracking-widest text-white/60">Category</a></li>
+                    <li><a href="{{ url('/about') }}" class="footer-link text-xs uppercase tracking-widest text-white/60">About</a></li>
+                    <li><a href="{{ url('/contact') }}" class="footer-link text-xs uppercase tracking-widest text-white/60">Contact</a></li>
+
                 </ul>
             </div>
 

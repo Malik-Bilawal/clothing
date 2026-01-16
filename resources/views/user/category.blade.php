@@ -157,13 +157,12 @@
   </div>
 
 </section>
-<section id="categories" class="relative py-28 bg-[var(--background-color)] overflow-hidden">
 
+<section id="categories" class="relative py-28 bg-[var(--background-color)] overflow-hidden">
   <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-[var(--border-color)] opacity-20 rounded-full blur-[120px]"></div>
   <div class="absolute bottom-0 left-0 w-1/4 h-1/4 bg-[var(--secondary-color)] opacity-10 rounded-full blur-[100px]"></div>
 
   <div class="container mx-auto px-6 relative z-10">
-
     <div class="max-w-3xl mx-auto text-center mb-20" data-aos="fade-up">
       <h2 class="text-4xl md:text-6xl font-serif text-[var(--primary-color)] mb-6 tracking-tight">
         The <span class="italic text-[var(--secondary-color)]">Signature</span> Series
@@ -180,28 +179,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
       @foreach ($categories as $index => $category)
-<<<<<<< HEAD
-        <div class="group relative bg-[var(--surface-color)] p-4 border border-[var(--border-color)] transition-all duration-700 hover:border-[var(--secondary-color)] shadow-sm hover:shadow-2xl"
-             data-aos="fade-up" 
-             data-aos-delay="{{ $index * 100 }}">
-          
-          <div class="relative h-[450px] overflow-hidden bg-[var(--background-color)]">
-            <img 
-              src="{{ $category->image ? asset('storage/app/public/' . $category->image) : asset('images/default-category.jpg') }}" 
-              alt="{{ $category->name }}" 
-              class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
-            >
-            
-            <div class="absolute top-4 right-4 bg-[var(--surface-color)]/90 backdrop-blur-md px-4 py-1 border border-[var(--border-color)]">
-                <p class="text-[10px] tracking-[0.2em] uppercase text-[var(--primary-color)]">
-                    Est. 2024
-                </p>
-            </div>
-=======
       <div class="group relative bg-[var(--surface-color)] p-4 border border-[var(--border-color)] transition-all duration-700 hover:border-[var(--secondary-color)] shadow-sm hover:shadow-2xl"
         data-aos="fade-up"
         data-aos-delay="{{ $index * 100 }}">
->>>>>>> c033c0f (samelogin for admin)
 
         <div class="relative h-[450px] overflow-hidden bg-[var(--background-color)]">
           <img
@@ -209,13 +189,13 @@
             alt="{{ $category->name }}"
             class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
 
-          <div class="absolute top-4 right-4 bg-[var(--surface-color)]/90 backdrop-blur-md px-4 py-1 border border-[var(--border-color)]">
+          <div class="absolute top-4 right-4 bg-[var(--surface-color)]/90 backdrop-blur-md px-4 py-1 border border-[var(--border-color)] z-20">
             <p class="text-[10px] tracking-[0.2em] uppercase text-[var(--primary-color)]">
               Est. 2024
             </p>
           </div>
 
-          <div class="absolute inset-0 bg-[var(--primary-color)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          <div class="absolute inset-0 bg-[var(--primary-color)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"></div>
         </div>
 
         <div class="pt-8 pb-4 text-center">
@@ -237,12 +217,10 @@
         </div>
 
         <div class="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-[var(--secondary-color)] transition-all duration-500 group-hover:w-8 group-hover:h-8"></div>
-      </div>
-      @endforeach
-    </div>
-
-  </div>
+      </div> @endforeach
+    </div> </div>
 </section>
+
 <!-- Featured Products Section -->
 <section id="featured" class="py-16 bg-white">
   <div class="container mx-auto px-4">

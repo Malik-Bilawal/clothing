@@ -528,11 +528,8 @@
                     {{-- Shipping logic --}}
                     <div class="flex justify-between">
                         <span class="text-gray-600">Shipping</span>
-                        @if($grandTotal >= 50)
-                        <span class="font-semibold text-success-color">FREE</span>
-                        @else
+                       
                         <span class="font-semibold">Rs.250</span>
-                        @endif
                     </div>
 
                     {{-- Tax Estimate --}}
@@ -550,9 +547,9 @@
                     <span class="text-lg font-bold text-gray-900">Total</span>
                     <div>
                         @php
-                            $shipping = $grandTotal >= 50 ? 0 : 250;
+                            $shipping = 250;
                             $tax = $grandTotal * 0.08;
-                            $finalTotal = $grandTotal + $shipping + $tax;
+                            $finalTotal = $grandTotal + $shipping ;
                         @endphp
                         <div class="text-2xl font-bold text-primary" id="total">
                             Rs.{{ number_format($finalTotal, 2) }}

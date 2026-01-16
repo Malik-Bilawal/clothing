@@ -53,6 +53,11 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+// in App\Models\Product.php
+public function orderItems()
+{
+    return $this->hasMany(OrderItem::class, 'product_id'); // link to order_items table
+}
 
     // Accessors
     public function getDiscountPercentageAttribute()

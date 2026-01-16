@@ -29,7 +29,7 @@
     </aside>
 
 
-    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="flex-1 flex flex-col overflow-y-auto p-4 lg:ml-64 bg-gradient-to-br from-gray-50 to-gray-100">
 
             {{-- Header --}}
             <div class="flex justify-between items-center mb-8 fade-in">
@@ -56,7 +56,7 @@
                     <span class="px-3 py-1 rounded-full text-sm font-semibold 
                         @if($order->status == 'pending') bg-yellow-100 text-yellow-800
                         @elseif($order->status == 'processing') bg-blue-100 text-blue-800
-                        @elseif($order->status == 'completed') bg-green-100 text-green-800
+                        @elseif($order->status == 'delievered') bg-green-100 text-green-800
                         @elseif($order->status == 'canceled') bg-red-100 text-red-800
                         @endif
                     ">
@@ -74,7 +74,7 @@
         class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-sm hover:bg-blue-100 transition-colors cursor-pointer">
         <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
         <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
-        <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+        <option value="delievered" {{ $order->status == 'delievered' ? 'selected' : '' }}>Delievered</option>
         <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
     </select>
 </form>
@@ -165,7 +165,7 @@
                             </div>
                             <div>
                                 <p class="text-gray-600 text-sm">Shipping</p>
-                                <p class="font-medium">Rs {{ number_format($order->shipping, 2) }}</p>
+                                <p class="font-medium">Rs 250</p>
                             </div>
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-600 font-medium">Shipping</span>
-                                <span class="font-semibold">Rs {{ number_format($order->shipping, 2) }}</span>
+                                <span class="font-semibold">Rs 250</span>
                             </div>
                             <div class="flex justify-between items-center text-lg font-bold border-t pt-2">
                                 <span>Grand Total</span>

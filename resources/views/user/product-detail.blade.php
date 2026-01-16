@@ -586,15 +586,20 @@ body {
                 <div class="relative mb-6">
                     <!-- Badges -->
                     <div class="absolute top-4 left-4 z-10 flex flex-col gap-2">
-                        @if($product->created_at->gt(now()->subDays(30)))
-                            <span class="tag tag-new animate-pulse">NEW</span>
-                        @endif
-                        @if($product->offer_price)
-                            <span class="tag tag-sale animate-bounce">-{{ round((($product->price - $product->offer_price) / $product->price) * 100) }}% OFF</span>
-                        @endif
-                        @if($product->is_featured)
-                            <span class="tag tag-featured">FEATURED</span>
-                        @endif
+                    @if(isset($showNewTag) && $showNewTag && $product->created_at->gt(now()->subDays(30)))
+    <span class="tag tag-new animate-pulse">NEW</span>
+@endif
+
+@if(isset($showSaleTag) && $showSaleTag && $product->offer_price)
+    <span class="tag tag-sale animate-bounce">
+        -{{ round((($product->price - $product->offer_price) / $product->price) * 100) }}% OFF
+    </span>
+@endif
+
+@if(isset($showFeaturedTag) && $showFeaturedTag && $product->is_featured)
+    <span class="tag tag-featured">FEATURED</span>
+@endif
+
                     </div>
                     
                     <!-- Favorite Button -->
@@ -631,8 +636,8 @@ body {
                             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3">
                                 <i class="fas fa-shipping-fast text-xl text-primary"></i>
                             </div>
-                            <p class="text-sm font-medium text-gray-700">Free Shipping</p>
-                            <p class="text-xs text-gray-500">Over $50</p>
+                            <p class="text-sm font-medium text-gray-700">Instant Delievery</p>
+                            <p class="text-xs text-gray-500">Max 5 days</p>
                         </div>
                         <div class="text-center">
                             <div class="w-12 h-12 mx-auto bg-secondary/10 rounded-xl flex items-center justify-center mb-3">
@@ -645,7 +650,7 @@ body {
                             <div class="w-12 h-12 mx-auto bg-success-color/10 rounded-xl flex items-center justify-center mb-3">
                                 <i class="fas fa-undo-alt text-xl text-success-color"></i>
                             </div>
-                            <p class="text-sm font-medium text-gray-700">30-Day Returns</p>
+                            <p class="text-sm font-medium text-gray-700">14-Day Returns</p>
                             <p class="text-xs text-gray-500">Easy Returns</p>
                         </div>
                         <div class="text-center">
@@ -821,7 +826,9 @@ body {
                         </div>
                         <div class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-calendar-alt text-primary mr-3"></i>
-                            <span>Added: {{ $product->created_at->format('M d, Y') }}</span>
+                            @if($product->created_at)
+    <span>Added: {{ $product->created_at->format('M d, Y') }}</span>
+@endif
                         </div>
                     </div>
                 </div>
@@ -924,7 +931,7 @@ body {
                             <i class="fas fa-user-circle text-3xl mb-3"></i>
                             <p class="font-semibold">Login to Review</p>
                             <p class="text-sm mb-4">Share your experience with others</p>
-                            <a href="{{ route('login') }}" 
+                            <a href="{{ url('/login') }}" 
                                class="inline-block bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-hover transition-all">
                                 Sign In
                             </a>
@@ -978,77 +985,6 @@ body {
     </div>
 </section>
 
-<!-- Related Products -->
-<section class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">You May Also Like</h2>
-                <p class="text-gray-600">Similar products you might be interested in</p>
-            </div>
-            <a href="{{ route('product') }}" class="text-primary font-semibold hover:underline">
-                View All <i class="fas fa-arrow-right ml-1"></i>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            @foreach($featuredProducts->take(4) as $relatedProduct)
-                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                    <div class="relative overflow-hidden">
-                        <img src="{{ $relatedProduct->images->first() ? asset('storage/app/public/' . $relatedProduct->images->first()->image_path) : asset('images/default-product.jpg') }}" 
-                             alt="{{ $relatedProduct->name }}"
-                             class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        @if($relatedProduct->offer_price)
-                            <span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                -{{ round((($relatedProduct->price - $relatedProduct->offer_price) / $relatedProduct->price) * 100) }}%
-                            </span>
-                        @endif
-                        <button class="absolute top-3 left-3 w-10 h-10 rounded-full bg-white/80 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-semibold text-gray-900 mb-2 truncate">{{ $relatedProduct->name }}</h3>
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center">
-                                @php
-                                    $rating = $relatedProduct->reviews->avg('rating') ?? 4.5;
-                                @endphp
-                                <div class="flex text-yellow-400 text-sm">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        @if($i <= floor($rating))
-                                            <i class="fas fa-star"></i>
-                                        @elseif($i == ceil($rating) && $rating - floor($rating) >= 0.5)
-                                            <i class="fas fa-star-half-alt"></i>
-                                        @else
-                                            <i class="far fa-star"></i>
-                                        @endif
-                                    @endfor
-                                </div>
-                                <span class="text-xs text-gray-500 ml-1">({{ $relatedProduct->reviews->count() }})</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-xl font-bold text-primary">
-                                    ${{ number_format($relatedProduct->offer_price ?? $relatedProduct->price, 2) }}
-                                </span>
-                                @if($relatedProduct->offer_price)
-                                    <span class="text-sm text-gray-400 line-through ml-2">
-                                        ${{ number_format($relatedProduct->price, 2) }}
-                                    </span>
-                                @endif
-                            </div>
-                            <button class="add-to-cart-btn w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-secondary transition-all">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
 
 <!-- Floating Cart Button -->
 <a href="{{ route('cart.index') }}" class="floating-cart-btn tooltip" data-tooltip="View Cart">
@@ -1104,13 +1040,13 @@ function initializeProductPage() {
         loadSizeOptions(product.sizes);
         
         // Try to select first available size
-        const firstAvailableSize = product.sizes.find(size => size.stock_quantity > 0);
+        const firstAvailableSize = product.sizes.find(size => size.stock > 0);
         if (firstAvailableSize) {
             selectSize(firstAvailableSize);
         } else {
             // If no sizes have stock, show out of stock message
             document.getElementById('selected-size-name').textContent = 'Select a size';
-            updateStockStatus({ stock_quantity: 0 });
+            updateStockStatus({ stock: 0 });
         }
     } else {
         document.getElementById('size-section').style.display = 'none';
@@ -1246,22 +1182,29 @@ function selectColor(color) {
 function loadSizeOptions(sizes) {
     const container = document.getElementById('size-options');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
+    let firstInStockSize = null;
+
     sizes.forEach(size => {
         const sizeBtn = document.createElement('button');
         sizeBtn.type = 'button';
-        
+
         // Check if this size has stock
         const hasStock = size.stock > 0;
-        
+
         sizeBtn.className = `size-option px-6 py-3 rounded-lg border-2 font-medium transition-all duration-300 
                            ${!hasStock ? 'out-of-stock bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed' : 
                            'bg-white text-gray-800 border-gray-300 hover:border-primary hover:bg-primary/5 hover:text-primary'}`;
         sizeBtn.textContent = size.name;
         sizeBtn.dataset.sizeId = size.id;
-        
+
+        // Save the first in-stock size
+        if (hasStock && !firstInStockSize) {
+            firstInStockSize = size;
+        }
+
         // Add event listener for ALL sizes (including out of stock)
         sizeBtn.addEventListener('click', () => {
             if (hasStock) {
@@ -1270,10 +1213,17 @@ function loadSizeOptions(sizes) {
                 showNotification('This size is out of stock', 'warning');
             }
         });
-        
+
         container.appendChild(sizeBtn);
     });
-}function selectSize(size) {
+
+    // Automatically select the first in-stock size
+    if (firstInStockSize) {
+        selectSize(firstInStockSize);
+    }
+}
+
+function selectSize(size) {
     selectedSize = size;
     
     // Update UI text
@@ -1291,7 +1241,7 @@ function loadSizeOptions(sizes) {
         
         // Add selected class to the clicked option (if it has stock)
         if (parseInt(option.dataset.sizeId) === size.id) {
-            if (size.stock_quantity > 0) {
+            if (size.stock > 0) {
                 option.classList.add('selected', 'bg-primary', 'text-white');
                 option.classList.remove('bg-white', 'text-gray-800', 'border-gray-300');
             }
@@ -1391,7 +1341,7 @@ function updateQuantityDisplay() {
     if (product.sizes && product.sizes.length > 0) {
         // If product has sizes
         if (selectedSize) {
-            maxQuantity = selectedSize.stock_quantity;
+            maxQuantity = selectedSize.stock;
         } else {
             maxQuantity = 0; // No size selected
         }
@@ -1436,7 +1386,7 @@ function updateQuantityDisplay() {
     }
     
     // Check if selected size is out of stock
-    if (selectedSize && selectedSize.stock_quantity <= 0) {
+    if (selectedSize && selectedSize.stock <= 0) {
         showNotification('Selected size is out of stock', 'warning');
         return;
     }
@@ -1444,7 +1394,7 @@ function updateQuantityDisplay() {
     // Check stock quantity
     let availableStock;
     if (product.sizes && product.sizes.length > 0) {
-        availableStock = selectedSize ? selectedSize.stock_quantity : 0;
+        availableStock = selectedSize ? selectedSize.stock : 0;
     } else {
         availableStock = product.stock_quantity;
     }
@@ -1565,8 +1515,8 @@ async function buyNow() {
     }
     
     // Check stock
-    if (selectedSize && selectedSize.stock_quantity < quantity) {
-        showNotification(`Only ${selectedSize.stock_quantity} items available in stock`, 'warning');
+    if (selectedSize && selectedSize.stock < quantity) {
+        showNotification(`Only ${selectedSize.stock} items available in stock`, 'warning');
         return;
     }
     

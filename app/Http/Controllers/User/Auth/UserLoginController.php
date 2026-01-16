@@ -31,7 +31,7 @@ class UserLoginController extends Controller
             }
 
             if ($user->role === User::ROLE_ADMIN) {
-                return redirect()->intended('/admin/product');
+                return redirect()->intended('/admin/dashboard');
             }
 
             return redirect()->intended('/'); 
