@@ -191,6 +191,22 @@
                                 class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary"
                                 value="{{ old('sku', $product->sku) }}">
                         </div>
+
+                        <!-- Is Featured -->
+<div class="flex items-center gap-3 mt-4">
+    <input
+        type="checkbox"
+        name="is_top_selling"
+        id="is_top_selling"
+        value="1"
+        class="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
+        {{ old('is_top_selling', $product->is_top_selling) ? 'checked' : '' }}
+    >
+    <label for="is_top_selling" class="text-sm font-medium text-gray-700">
+        Top Selling Product
+    </label>
+</div>
+
                         
                         <!-- Description -->
                         <div class="md:col-span-2">

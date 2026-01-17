@@ -693,6 +693,12 @@
         </div>
     </div>
 
+
+    @php
+    $categories = \App\Models\Category::where('status', 1)
+        ->limit(6)
+        ->get();
+@endphp
     <!-- Overlay -->
     <div id="search-overlay"
         class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[55] opacity-0 pointer-events-none transition-opacity duration-300 drawer-overlay"></div>
@@ -850,53 +856,49 @@
             }
 
             function loadCategories() {
-                // You can make this dynamic by fetching from API
-                const categories = [{
-                        icon: 'fas fa-couch',
-                        name: 'Living Room',
-                        color: 'from-blue-500 to-cyan-400'
-                    },
-                    {
-                        icon: 'fas fa-bed',
-                        name: 'Bedroom',
-                        color: 'from-purple-500 to-pink-500'
-                    },
-                    {
-                        icon: 'fas fa-utensils',
-                        name: 'Dining',
-                        color: 'from-green-500 to-emerald-400'
-                    },
-                    {
-                        icon: 'fas fa-lightbulb',
-                        name: 'Lighting',
-                        color: 'from-yellow-500 to-orange-500'
-                    },
-                    {
-                        icon: 'fas fa-palette',
-                        name: 'Decor',
-                        color: 'from-red-500 to-pink-500'
-                    },
-                    {
-                        icon: 'fas fa-rug',
-                        name: 'Textiles',
-                        color: 'from-indigo-500 to-purple-400'
-                    }
-                ];
+    const categories = [
+        @foreach($categories as $category)
+        {
+            id: {{ $category->id }},
+            name: @json($category->name),
+            image: @json(
+                $category->image
+                    ? asset('storage/'.$category->image)
+                    : asset('images/category-placeholder.jpg')
+            ),
+        },
+        @endforeach
+    ];
 
-                const container = $('#categories-grid');
-                let html = '';
-                categories.forEach(category => {
-                    html += `
-                        <div class="category-card cursor-pointer group">
-                            <div class="p-4 rounded-xl bg-gradient-to-br ${category.color} text-white text-center transition-all duration-300 transform group-hover:scale-105">
-                                <i class="${category.icon} text-2xl mb-2"></i>
-                                <p class="font-semibold">${category.name}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.html(html);
-            }
+    const container = $('#categories-grid');
+    let html = '';
+
+    categories.forEach(category => {
+        html += `
+            <div class="category-card cursor-pointer group" data-id="${category.id}">
+                <div class="relative overflow-hidden rounded-xl shadow-sm
+                            transition-all duration-300 transform group-hover:scale-105">
+
+                    <img src="${category.image}"
+                         alt="${category.name}"
+                         class="w-full h-32 object-cover">
+
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <p class="text-white font-semibold text-lg">
+                            ${category.name}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.html(html);
+}
+
+$(document).ready(function () {
+    loadCategories();
+});
 
             function loadSuggestions() {
                 const suggestions = [

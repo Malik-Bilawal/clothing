@@ -549,8 +549,179 @@
         </div>
     </div>
 </section>
+<section 
+    class="bg-[#F8F5F2] py-20 overflow-hidden select-none" 
+    x-data="infiniteCarousel()" 
+    x-init="initCarousel()"
+    @mouseenter="stopAutoplay()" 
+    @mouseleave="startAutoplay()"
+>
+    <div class="container mx-auto px-6 mb-12 text-center relative z-10">
+        <h2 class="text-4xl md:text-5xl font-serif text-[#6B4226] font-medium tracking-tight mb-4">Curated Best Sellers</h2>
+        <p class="text-[#8C5E3C] uppercase tracking-[0.2em] text-xs font-medium">Excellence in Every Detail</p>
+    </div>
 
+    <div class="relative w-full">
+        <div class="absolute left-0 top-0 bottom-0 w-12 md:w-40 bg-gradient-to-r from-[#F8F5F2] to-transparent z-20 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-12 md:w-40 bg-gradient-to-l from-[#F8F5F2] to-transparent z-20 pointer-events-none"></div>
 
+        <div 
+            x-ref="track"
+            class="flex ease-[cubic-bezier(0.25,1,0.5,1)]"
+            :style="`transform: translateX(-${currentIndex * (window.innerWidth < 768 ? 100 : 25)}%); transition-duration: ${transitionDuration}ms`"
+        >
+            @php 
+                // --- KEEPS THE INFINITE SCROLL WORKING ---
+                $originals = $topSellingProduct;
+                $clones = $originals->count() >= 4 ? $originals->take(4) : $originals;
+                while($clones->count() < 4 && $originals->isNotEmpty()) {
+                    $clones = $clones->concat($originals);
+                }
+                $clones = $clones->take(4);
+                $allProducts = $originals->concat($clones);
+            @endphp
+
+            @foreach($allProducts as $index => $product)
+                <div class="w-full md:w-1/4 flex-shrink-0 px-3 md:px-6 relative group">
+                    <div class="bg-white h-full flex flex-col relative overflow-hidden transition-all duration-500 hover:shadow-[0_10px_40px_-15px_rgba(107,66,38,0.15)] border border-transparent hover:border-[#E5D5C3]/30">
+                        
+                        <div class="relative aspect-[3/4] overflow-hidden bg-[#F0EBE6]">
+                             
+                             @if($product->offer_price && $product->offer_price < $product->price)
+                                <div class="absolute top-3 left-3 bg-white/95 backdrop-blur text-[#6B4226] text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-20 shadow-sm">
+                                    Sale
+                                </div>
+                             @endif
+
+                             <img 
+                                src="{{ $product->image_url ?? 'https://placehold.co/600x800/E5D5C3/6B4226?text=Image' }}" 
+                                alt="{{ $product->name }}" 
+                                class="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
+                            >
+
+                            <div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-20">
+                            <button
+    class="btn-cta w-full bg-[#6B4226] text-white py-4 uppercase text-xs tracking-[0.2em] font-medium hover:bg-[#54331D] transition-colors"
+    data-url="{{ route('product.detail', $product->id) }}">
+    Add to Cart
+</button>
+
+<script>
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-cta')) {
+        window.location.href = e.target.dataset.url;
+    }
+});
+</script>
+
+                            </div>
+                        </div>
+
+                        <div class="p-6 flex flex-col flex-grow text-center bg-white relative z-10">
+                            
+                            <div class="text-[#C8A165] text-[10px] font-bold uppercase tracking-widest mb-3">
+                                {{ $product->category->name ?? 'Signature Collection' }}
+                            </div>
+
+                            <h3 class="text-[#1A1A1A] text-xl font-serif mb-2 group-hover:text-[#6B4226] transition-colors duration-300 truncate">
+                                {{ $product->name }}
+                            </h3>
+
+                            <div class="flex justify-center gap-1 mb-3">
+                                @php $rating = $product->rating ?? 0; @endphp
+                                @for($i = 1; $i <= 5; $i++)
+                                    <svg class="w-3 h-3 {{ $i <= $rating ? 'text-[#C8A165] fill-current' : 'text-gray-200 fill-current' }}" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                @endfor
+                            </div>
+
+                            <div class="mt-auto pt-3 border-t border-gray-50 flex justify-center items-baseline gap-3">
+                                @if($product->offer_price)
+                                    <span class="text-gray-400 line-through text-xs font-light">
+                                        Rs.{{ number_format($product->price, 2) }}
+                                    </span>
+                                    <span class="text-[#6B4226] text-lg font-medium">
+                                        Rs.{{ number_format($product->offer_price, 2) }}
+                                    </span>
+                                @else
+                                    <span class="text-[#6B4226] text-lg font-medium">
+                                        Rs.{{ number_format($product->price, 2) }}
+                                    </span>
+                                @endif
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="flex justify-center mt-10 gap-2">
+            @foreach($topSellingProduct as $index => $p)
+                <button 
+                    @click="currentIndex = {{ $index }}" 
+                    class="h-1 rounded-full transition-all duration-500"
+                    :class="(currentIndex % {{ $topSellingProduct->count() }}) === {{ $index }} ? 'w-8 bg-[#6B4226]' : 'w-2 bg-[#E5D5C3]'"
+                ></button>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<script>
+    function infiniteCarousel() {
+        return {
+            currentIndex: 0,
+            totalItems: {{ $topSellingProduct->count() }}, 
+            transitionDuration: 1000,
+            interval: null,
+            autoplayDelay: 3000,
+            isResetting: false, 
+            initCarousel() {
+                this.startAutoplay();
+                window.addEventListener('resize', () => {
+                    this.transitionDuration = 0;
+                    this.currentIndex = 0;
+                    setTimeout(() => this.transitionDuration = 1000, 100);
+                });
+            },
+
+            startAutoplay() {
+                this.interval = setInterval(() => {
+                    this.next();
+                }, this.autoplayDelay);
+            },
+
+            stopAutoplay() {
+                clearInterval(this.interval);
+            },
+
+            next() {
+                if (this.isResetting) return;
+
+                this.transitionDuration = 1000;
+                this.currentIndex++;
+
+                if (this.currentIndex >= this.totalItems) {
+                    
+                    this.isResetting = true;
+
+                    setTimeout(() => {
+                        this.transitionDuration = 0;
+                        
+                        this.currentIndex = 0;
+
+                        setTimeout(() => {
+                            this.transitionDuration = 1000;
+                            this.isResetting = false; // Unlock
+                        }, 50);
+                    }, 1000); 
+                }
+            }
+        }
+    }
+</script>
 <!-- Premium Categories Section -->
 <section class="py-16 md:py-24 bg-[var(--background-color)] relative overflow-hidden">
 
