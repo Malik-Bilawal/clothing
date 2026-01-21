@@ -28,7 +28,7 @@
             </h2>
 
             <div class="mb-5">
-                <span class="product-price-display text-3xl font-extrabold text-[var(--accent-color)]">Rs.{{ number_format($product->price, 2) }}</span>
+                <span class="product-price-display text-3xl font-extrabold text-[var(--primary-color)]">Rs.{{ number_format($product->price, 2) }}</span>
             </div>
 
             {{-- Colors --}}

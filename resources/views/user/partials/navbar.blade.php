@@ -14,28 +14,8 @@
 
     <style>
         :root {
-            --primary-color: #6B4226;
-            /* was #8B5FBF */
-            --primary-hover: #593721;
-            /* was #7A4CAC */
-            --secondary-color: #C8A165;
-            /* was #FF6B8B */
-            --secondary-hover: #B58F54;
-            /* was #E55A78 */
-            --accent-color: #8C5E3C;
-            /* was #4ECDC4 */
-            --accent-hover: #734C30;
-            /* was #3DBBB2 */
-            --text-on-primary: #FFFFFF;
-            /* same */
-            --text-on-secondary: #1A1A1A;
-            /* was #FFFFFF */
-            --background-color: #F8F5F2;
-            /* was #F8F9FF */
+        
             --card-background: #FFFFFF;
-            /* same as previous surface-color */
-            --border-color: #E5D5C3;
-            /* was #E8EAED */
         }
 
 
@@ -316,7 +296,7 @@
             }
 
             .search-drawer {
-                width: 100% !important;
+                width: 90% !important;
                 max-width: 100% !important;
             }
         }
@@ -374,200 +354,238 @@
 </head>
 
 <body class="font-sans bg-background">
-<style>
-    :root {
-        --primary-color: #6B4226;
-        --secondary-color: #C8A165;
-        --background-color: #F8F5F2;
-        --border-color: #E5D5C3;
-    }
-</style>
 
-<nav class="fixed top-0 left-0 right-0 z-50 bg-[#F8F5F2]/90 backdrop-blur-md border-b border-[#E5D5C3] transition-all duration-300">
-    <div class="container mx-auto px-4 py-3">
-        <div class="flex justify-between items-center">
-            
-            <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#6B4226] text-white shadow-md group-hover:scale-105 transition-transform duration-300">
-                    <i class="fas fa-home text-lg"></i>
-                </div>
-            </a>
 
-            <div class="hidden lg:flex items-center bg-white/50 px-2 py-1.5 rounded-full border border-[#E5D5C3]/50">
-                <a href="{{ route('home') }}"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
-                    <i class="fas fa-home mr-2 text-xs opacity-70"></i>Home
-                </a>
-                <a href="{{ route('product') }}"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
-                    <i class="fas fa-th-large mr-2 text-xs opacity-70"></i>Products
-                </a>
-                <a href="{{ route('category') }}"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
-                    <i class="fas fa-tags mr-2 text-xs opacity-70"></i>Categories
-                </a>
-                <a href="{{ route('about') }}"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
-                    <i class="fas fa-info-circle mr-2 text-xs opacity-70"></i>About
-                </a>
-                <a href="{{ route('contact') }}"
-                    class="px-4 py-2 text-sm font-medium text-gray-600 rounded-full hover:bg-[#6B4226] hover:text-white transition-all duration-300 relative flex items-center">
-                    <i class="fas fa-phone-alt mr-2 text-xs opacity-70"></i>Contact
-                </a>
+<div class="w-full bg-[var(--primary-color)] text-[var(--text-on-primary)] text-xs uppercase tracking-widest overflow-hidden select-none z-50 fixed top-0 left-0">
+    <div class="marquee flex whitespace-nowrap gap-12 px-4 py-1 animate-marquee">
+        <span>World Wide Shipping</span>
+        <span class="text-[var(--secondary-color)]">•</span>
+        <span>Premium Quality</span>
+        <span class="text-[var(--secondary-color)]">•</span>
+        <span>30-Day Returns</span>
+
+        <!-- Duplicate for smooth scroll -->
+        <span>World Wide Shipping</span>
+        <span class="text-[var(--secondary-color)]">•</span>
+        <span>Premium Quality</span>
+        <span class="text-[var(--secondary-color)]">•</span>
+        <span>30-Day Returns</span>
+    </div>
+</div>
+<nav 
+    x-data="{ mobileMenuOpen: false, searchOpen: false }"
+    class="fixed top-0 left-0 right-0 z-50 bg-[#FBF7EE]/80 top-[20px] backdrop-blur-xl border-b border-[#E2DBD1] transition-all duration-500"
+>
+    <div class="h-1 w-full bg-gradient-to-r from-[#680626] via-[#B89A6B] to-[#680626]"></div>
+
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        
+        <a href="{{ route('home') }}" class="flex items-center group">
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-full bg-[#680626] text-white shadow-2xl transition-transform duration-500 group-hover:rotate-[360deg]">
+                <i class="fas fa-crown text-lg"></i>
             </div>
+            <span class="ml-3 font-serif text-2xl tracking-tighter text-[#680626] hidden sm:block">
+                MAISON <span class="italic font-light text-[#B89A6B]">ELITE</span>
+            </span>
+        </a>
 
-            <div class="flex flex-wrap items-center gap-3 justify-end">
-                
-                <button id="search-button"
-                    class="group flex items-center pl-3 pr-4 py-2 rounded-full bg-white border border-[#E5D5C3] hover:border-[#6B4226] transition-colors duration-300">
-                    <i class="fas fa-search text-[#6B4226] text-sm group-hover:scale-110 transition-transform"></i>
-                    <span class="hidden md:inline ml-2 text-sm font-medium text-gray-500 group-hover:text-[#6B4226]">Search</span>
-                    <span class="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-[#F8F5F2] text-gray-400 rounded border border-[#E5D5C3]">⌘K</span>
-                </button>
+        <div class="hidden lg:flex items-center bg-white/40 px-2 py-1.5 rounded-full border border-[#E2DBD1] shadow-inner">
+            @php
+                $navLinks = [
+                    ['route' => 'home', 'label' => 'Home', 'icon' => 'fa-home'],
+                    ['route' => 'product', 'label' => 'Boutique', 'icon' => 'fa-shopping-bag'],
+                    ['route' => 'category', 'label' => 'Collections', 'icon' => 'fa-gem'],
+                    ['route' => 'about', 'label' => 'Heritage', 'icon' => 'fa-leaf'],
+                    ['route' => 'contact', 'label' => 'Concierge', 'icon' => 'fa-envelope'],
+                ];
+            @endphp
+            @foreach($navLinks as $link)
+                <a href="{{ route($link['route']) }}"
+                    class="px-6 py-2.5 text-[11px] uppercase tracking-[0.2em] font-bold text-gray-600 rounded-full hover:bg-[#680626] hover:text-white transition-all duration-500 flex items-center">
+                    {{ $link['label'] }}
+                </a>
+            @endforeach
+        </div>
 
-                <a href="{{ route('cart.index') }}"
-                    class="relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#E5D5C3] text-[#6B4226] hover:bg-[#6B4226] hover:text-white hover:border-[#6B4226] transition-all duration-300">
-                    <i class="fas fa-shopping-cart text-sm"></i>
+        <div class="flex items-center gap-4">
+            
+            <button id="search-button"
+            class="group flex items-center pl-3 pr-4 py-2 rounded-full bg-white border border-[#E5D5C3] hover:border-[#6B4226] transition-colors duration-300">
+            <i class="fas fa-search text-[#6B4226] text-sm group-hover:scale-110 transition-transform"></i>
+            <span class="hidden md:inline ml-2 text-sm font-medium text-gray-500 group-hover:text-[#6B4226]">Search</span>
+            <span class="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-[#F8F5F2] text-gray-400 rounded border border-[#E5D5C3]">⌘K</span>
+            </button>
 
-                    @php
-                    use Illuminate\Support\Facades\Auth;
-                    use Illuminate\Support\Facades\Session;
-                    use App\Models\Cart;
+            <a href="{{ route('cart.index') }}"
+                class="relative w-11 h-11 flex items-center justify-center rounded-full bg-white border border-[#E2DBD1] text-[#680626] hover:bg-[#680626] hover:text-white transition-all duration-500 shadow-sm">
+                <i class="fas fa-shopping-cart text-sm"></i>
 
+                @php
                     $cartCount = 0;
-
-                    if (Auth::check()) {
-                        $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
+                    if (auth()->check()) {
+                        $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
                     } else {
-                        $guestToken = Session::get('guest_token');
+                        $guestToken = session()->get('guest_token');
                         if ($guestToken) {
-                            $cartCount = Cart::where('guest_token', $guestToken)->sum('quantity');
+                            $cartCount = \App\Models\Cart::where('guest_token', $guestToken)->sum('quantity');
                         } else {
                             $sessionCart = session('cart', []);
                             $cartCount = collect($sessionCart)->sum('quantity') ?: count($sessionCart);
                         }
                     }
-                    @endphp
+                @endphp
 
-                    @if($cartCount > 0)
-                    <span class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#C8A165] text-white text-[10px] font-bold rounded-full border-2 border-[#F8F5F2]">
-                        {{ $cartCount > 99 ? '99+' : $cartCount }}
-                    </span>
-                    @endif
-                </a>
-                <div class="relative" x-data="{ open: false }">
-    <button @click="open = !open" 
-        class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#E5D5C3] text-[#6B4226] hover:bg-[#F8F5F2] transition-all duration-300 focus:outline-none">
-        <i class="fas fa-user text-sm"></i>
+                @if($cartCount > 0)
+                <span class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#B89A6B] text-white text-[9px] font-bold rounded-full border-2 border-[#FBF7EE]">
+                    {{ $cartCount > 99 ? '99+' : $cartCount }}
+                </span>
+                @endif
+            </a>
+
+            <div class="relative inline-block text-left">
+    <button onclick="toggleUserMenu()" id="user-menu-btn" 
+        class="w-11 h-11 flex items-center justify-center rounded-full bg-white border border-[#E2DBD1] text-[#680626] hover:shadow-lg transition-all duration-300">
+        <i class="fas fa-user text-sm"></i> 
     </button>
 
-    <div x-show="open" 
-            @click.away="open = false" 
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 translate-y-2"
-            class="fixed right-4 top-[70px] w-64 bg-white rounded-2xl shadow-xl border border-[#E5D5C3] overflow-hidden z-[100]">
+    <div id="user-menu-dropdown" 
+        class="hidden absolute right-0 mt-4 w-72 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-[#E2DBD1] overflow-hidden z-[999]">
 
         @auth
-        <div class="p-4 w-full border-b border-[#E5D5C3] bg-[#F8F5F2]/50">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-[#6B4226] text-white flex items-center justify-center text-sm font-bold shadow-sm">
+        <div class="p-6 text-center border-b border-[#FBF7EE] bg-[#FBF7EE]/50">
+            <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-tr from-[#680626] to-[#B89A6B] p-1 shadow-lg">
+                <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-[#680626] font-serif text-xl">
                     {{ substr(auth()->user()->name, 0, 1) }}
                 </div>
-                <div class="overflow-hidden">
-                    <p class="font-bold text-[#1A1A1A] text-sm truncate">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
-                </div>
             </div>
+            <p class="font-serif text-lg text-[#1A1A1A]">{{ auth()->user()->name }}</p>
+            <p class="text-[10px] uppercase tracking-widest text-[#B89A6B]">{{ auth()->user()->email }}</p>
         </div>
 
-        <div class="py-1">
-            <form action="{{ route('logout') }}" method="POST" class="w-full">
+        <div class="p-2">
+            <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit"
-                        class="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                    <i class="fas fa-sign-out-alt mr-3"></i>
-                    <span>Logout</span>
+                <button type="submit" class="w-full flex items-center px-4 py-3 text-[11px] uppercase tracking-widest font-bold text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all rounded-xl">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
                 </button>
             </form>
         </div>
         @else
-        <div class="p-5">
-            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Account</p>
+        <div class="p-6">
+            <p class="text-[10px] font-bold text-[#B89A6B] uppercase tracking-[0.3em] mb-4 text-center">Membership</p>
             <div class="space-y-3">
-                <a href="{{ route('user.login') }}"
-                    class="block w-full text-center bg-[#6B4226] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#593721] transition-colors">
-                    Login
-                </a>
-                <a href="{{ route('user.register') }}"
-                    class="block w-full text-center border border-[#6B4226] text-[#6B4226] py-2.5 rounded-lg text-sm font-semibold hover:bg-[#6B4226] hover:text-white transition-colors">
-                    Register
-                </a>
+                <a href="{{ route('user.login') }}" class="block w-full text-center bg-[#680626] text-white py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#52041E] transition-all">Login</a>
+                <a href="{{ route('user.register') }}" class="block w-full text-center border border-[#680626] text-[#680626] py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#680626] hover:text-white transition-all">Join Now</a>
             </div>
         </div>
         @endauth
     </div>
 </div>
 
-                <button id="mobile-menu-button"
-                    class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#E5D5C3] text-[#6B4226] hover:bg-[#F8F5F2] transition-colors">
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-            </div>
-        </div>
+<script>
+    function toggleUserMenu() {
+        const menu = document.getElementById('user-menu-dropdown');
+        menu.classList.toggle('hidden');
+    }
 
-        <div id="mobile-menu"
-            class="lg:hidden mt-4 hidden bg-white border border-[#E5D5C3] rounded-2xl shadow-xl p-2 slide-in-right mobile-menu">
-            <div class="space-y-1">
-                <a href="{{ route('home') }}"
-                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
-                    <div class="w-8 flex justify-center"><i class="fas fa-home text-[#C8A165]"></i></div>
-                    <span class="font-medium">Home</span>
-                </a>
-                <a href="{{ route('product') }}"
-                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
-                    <div class="w-8 flex justify-center"><i class="fas fa-th-large text-[#C8A165]"></i></div>
-                    <span class="font-medium">Products</span>
-                </a>
-                <a href="{{ route('category') }}"
-                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
-                    <div class="w-8 flex justify-center"><i class="fas fa-tags text-[#C8A165]"></i></div>
-                    <span class="font-medium">Categories</span>
-                </a>
-                <a href="{{ route('about') }}"
-                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
-                    <div class="w-8 flex justify-center"><i class="fas fa-info-circle text-[#C8A165]"></i></div>
-                    <span class="font-medium">About Us</span>
-                </a>
-                <a href="{{ route('contact') }}"
-                    class="flex items-center px-4 py-3 rounded-xl hover:bg-[#F8F5F2] text-gray-700 hover:text-[#6B4226] transition-colors">
-                    <div class="w-8 flex justify-center"><i class="fas fa-phone-alt text-[#C8A165]"></i></div>
-                    <span class="font-medium">Contact</span>
-                </a>
-            </div>
-
-            @guest
-            <div class="mt-4 p-3 border-t border-[#E5D5C3]">
-                <div class="flex space-x-3">
-                    <a href="{{ route('user.login') }}"
-                        class="flex-1 text-center bg-[#6B4226] text-white py-2.5 rounded-lg font-semibold hover:bg-[#593721] transition-colors text-sm">
-                        Login
-                    </a>
-                    <a href="{{ route('user.register') }}"
-                        class="flex-1 text-center border border-[#6B4226] text-[#6B4226] py-2.5 rounded-lg font-semibold hover:bg-[#6B4226] hover:text-white transition-colors text-sm">
-                        Register
-                    </a>
-                </div>
-            </div>
-            @endguest
+    // Optional: Close if clicking outside
+    document.addEventListener('click', function(event) {
+        const menu = document.getElementById('user-menu-dropdown');
+        const btn = document.getElementById('user-menu-btn');
+        
+        // If the click happened outside the menu AND outside the button
+        if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+</script>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-full bg-[#680626] text-white">
+                <i class="fas" :class="mobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+            </button>
         </div>
     </div>
-</nav>    <!-- Spacer for fixed navbar -->
-    <div class="h-20"></div>
 
+    <template x-teleport="body">
+        <div x-show="searchOpen" 
+             class="fixed inset-0 z-[60] flex items-start justify-center pt-32 px-4"
+             x-transition:enter="transition duration-500 ease-out"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100">
+            
+            <div class="absolute inset-0 bg-[#680626]/95 backdrop-blur-xl" @click="searchOpen = false"></div>
+            
+            <div class="relative w-full max-w-3xl transform transition-all"
+                 x-transition:enter="transition duration-500 ease-out"
+                 x-transition:enter-start="scale-95 translate-y-8"
+                 x-transition:enter-end="scale-100 translate-y-0">
+                
+                <div class="relative">
+                    <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-[#B89A6B] text-xl"></i>
+                    <input type="text" 
+                           placeholder="Discover our collection..." 
+                           class="w-full bg-transparent border-b-2 border-[#B89A6B] py-6 pl-16 pr-8 text-3xl font-serif text-white placeholder-white/30 focus:outline-none focus:border-white transition-all">
+                    <button @click="searchOpen = false" class="absolute right-0 -top-12 text-white/50 hover:text-white text-sm uppercase tracking-widest">Close (Esc)</button>
+                </div>
+                
+                <div class="mt-12">
+                    <p class="text-[#B89A6B] text-[10px] uppercase tracking-[0.4em] font-bold mb-6">Popular Collections</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="px-6 py-2 rounded-full border border-white/20 text-white text-xs hover:bg-white hover:text-[#680626] transition-all">Velvet Suits</button>
+                        <button class="px-6 py-2 rounded-full border border-white/20 text-white text-xs hover:bg-white hover:text-[#680626] transition-all">Bridal Gold</button>
+                        <button class="px-6 py-2 rounded-full border border-white/20 text-white text-xs hover:bg-white hover:text-[#680626] transition-all">Winter Silk</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- MOBILE MENU - FIXED VERSION -->
+    <div x-show="mobileMenuOpen"
+     class="fixed inset-0 z-[9999] lg:hidden"
+     x-transition:enter="transition-opacity duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition-opacity duration-300"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0">
+
+    <!-- overlay -->
+    <div class="absolute inset-0 bg-black/50" @click="mobileMenuOpen = false"></div>
+
+    <!-- slide-in menu -->
+    <nav class="absolute right-0 top-0 bottom-0 w-[80%] max-w-sm bg-[#FBF7EE] shadow-2xl p-8 flex flex-col"
+         x-transition:enter="transition transform duration-500 ease-out"
+         x-transition:enter-start="translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition transform duration-500 ease-in"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="translate-x-full">
+            <div class="mb-12">
+                <p class="text-[10px] uppercase tracking-[0.5em] text-[#B89A6B] font-bold mb-8">Navigation</p>
+                <div class="space-y-4">
+                    @foreach($navLinks as $link)
+                        <a href="{{ route($link['route']) }}" 
+                           class="flex items-center text-2xl font-serif text-[#680626] bg-white px-6 py-4 w-full rounded-lg hover:bg-gray-50 transition-all duration-300">
+                            <span class="mr-4 text-xs text-[#B89A6B]">0{{ $loop->iteration }}</span>
+                            {{ $link['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="mt-auto pt-8 border-t border-[#E2DBD1]">
+                @guest
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="{{ route('user.login') }}" class="text-center bg-[#680626] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#52041E] transition-all">Login</a>
+                        <a href="{{ route('user.register') }}" class="text-center border border-[#680626] text-[#680626] py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#680626] hover:text-white transition-all">Join</a>
+                    </div>
+                @endguest
+            </div>
+        </nav>
+    </div>
+</nav>
+
+<div class="h-20"></div>
     <!-- Search Drawer -->
     <div id="search-drawer"
         class="fixed inset-y-0 right-0 w-full md:w-3/4 lg:w-1/2 xl:w-2/5 bg-card shadow-2xl transform translate-x-full z-[60] transition-transform duration-500 ease-out">

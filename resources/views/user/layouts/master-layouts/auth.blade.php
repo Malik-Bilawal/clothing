@@ -11,19 +11,33 @@
 
 <style>
      
-              :root {
-            --primary-color: #6B4226;      
-            --primary-hover: #593721;       
-            --secondary-color: #C8A165;     
-            --secondary-hover: #B58F54;     
-            --accent-color: #8C5E3C;       
-            --accent-hover: #734C30;        
-            --text-on-primary: #FFFFFF;     
-            --text-on-secondary: #1A1A1A;   
-            --background-color: #F8F5F2;   
-            --surface-color: #FFFFFF;      
-            --border-color: #E5D5C3;
-        }
+     :root {
+    /* Primary */
+    --primary-color: #680626;        /* Dark Maroon */
+    --primary-hover: #52041E;        /* Deeper Maroon */
+    --secondary-color: #B89A6B;     /* Rose-champagne gold */
+--secondary-hover: #967B52;     /* Elegant darkening, stays refined */
+
+
+
+    /* Cards */
+    --card-background: #FFFFFF;
+
+    /* Accent (Greige – slightly warmer) */
+    --accent-color: #D6CEC3;         /* Warm Greige */
+    --accent-hover: #C8BFB3;         /* Natural darkening, not muddy */
+
+    /* Text */
+    --text-on-primary: #FFFFFF;
+    --text-on-secondary: #2A2A2A;
+
+    /* Backgrounds */
+    --background-color: #FBF7EE;     /* Soft Ivory */
+    --surface-color: #FFFFFF;
+
+    /* Borders */
+    --border-color: #E2DBD1;
+}
 </style>
 
     <main class="p-6">

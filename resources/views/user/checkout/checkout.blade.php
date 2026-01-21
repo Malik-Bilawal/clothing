@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             </div>
-            <span class="font-medium text-[var(--accent-color)]">PKR.{{ number_format($price * $item->quantity, 2) }}</span>
+            <span class="font-medium text-[var(--primary-color)]">PKR.{{ number_format($price * $item->quantity, 2) }}</span>
         </div>
     @endforeach
 </div>
@@ -303,7 +303,7 @@ $grandTotal = $subtotal - $discountAmount + $shipping + $tax;
     </div>
 
     @if($activeSale)
-        <div class="flex justify-between text-[var(--accent-color)]">
+        <div class="flex justify-between text-[var(--primary-color)]">
             <span>Sale Discount ({{ $activeSale->discount_percent }}%)</span>
             <span>-PKR. {{ number_format($discountAmount, 2) }}</span>
         </div>
@@ -322,7 +322,7 @@ $grandTotal = $subtotal - $discountAmount + $shipping + $tax;
     <div class="border-t border-gray-200 pt-3">
         <div class="flex justify-between">
             <span class="text-lg font-bold text-[var(--primary-color)]">Total</span>
-            <span class="text-lg font-bold text-[var(--accent-color)]">
+            <span class="text-lg font-bold text-[var(--primary-color)]">
                 PKR. {{ number_format($grandTotal, 2) }}
             </span>
         </div>

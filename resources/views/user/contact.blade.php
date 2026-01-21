@@ -46,19 +46,28 @@
         text-transform: uppercase;
     }
 
-    /* Luxury Hero */
     .luxury-hero {
-        position: relative;
-        min-height: 100vh;
-        background: linear-gradient(rgba(107, 66, 38, 0.85), rgba(140, 94, 60, 0.9)),
-                    url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-    }
+    position: relative;
+    min-height: 100vh;
+
+    /* Use CSS variables from :root for gradient overlay */
+    background: linear-gradient(
+                    rgba(104, 6, 38, 0.85),  /* --primary-color */
+                    rgba(184, 154, 107, 0.9) /* --secondary-color */
+                ),
+                url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+
+    /* Text color from theme */
+    color: var(--text-on-primary);
+}
+
 
     .hero-content {
         position: relative;
@@ -380,18 +389,25 @@
 
     /* Map Section */
     .luxury-map-section {
-        position: relative;
-        height: 500px;
-        overflow: hidden;
-    }
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+}
 
-    .map-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(rgba(107, 66, 38, 0.4), rgba(140, 94, 60, 0.6));
-        z-index: 1;
-        pointer-events: none;
-    }
+.map-overlay {
+    position: absolute;
+    inset: 0;
+
+    /* Use theme colors with adjusted opacity */
+    background: linear-gradient(
+        rgba(var(--primary-color-rgb), 0.4),   /* --primary-color with 40% opacity */
+        rgba(var(--secondary-color-rgb), 0.6)  /* --secondary-color with 60% opacity */
+    );
+
+    z-index: 1;
+    pointer-events: none;
+}
+
 
     .map-content {
         position: absolute;

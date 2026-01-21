@@ -18,20 +18,6 @@
         box-sizing: border-box;
     }
 
-    :root {
-        --primary-color: #6B4226;
-        --primary-hover: #593721;
-        --secondary-color: #C8A165;
-        --secondary-hover: #B58F54;
-        --accent-color: #8C5E3C;
-        --accent-hover: #734C30;
-        --text-on-primary: #FFFFFF;
-        --text-on-secondary: #1A1A1A;
-        --background-color: #F8F5F2;
-        --surface-color: #FFFFFF;
-        --border-color: #E5D5C3;
-        --surface-light: #FFFCF9;
-    }
 
     * {
         font-family: 'Inter', sans-serif;
@@ -112,10 +98,19 @@
     .animate-fade-in-up {
         animation: fadeInUp 0.8s ease-out forwards;
     }
-
     .animate-marquee {
-        animation: marquee 30s linear infinite;
+    display: inline-flex; /* Important: no shrink */
+    animation: marquee 12s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
     }
+    100% {
+        transform: translateX(-50%);
+    }
+}
 
     /* Premium Glass Effect */
     .glass-effect {
@@ -540,30 +535,55 @@
             </div>
 
             <div class="hidden lg:flex flex-1 justify-end overflow-hidden ml-12">
-                <div class="animate-marquee whitespace-nowrap flex gap-8 opacity-60">
-                    <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">World Wide Shipping</span>
-                    <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
-                    <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">Premium Quality</span>
+    <div class="animate-marquee flex whitespace-nowrap gap-12 opacity-60">
+        <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
+            World Wide Shipping
+        </span>
+        <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
+        <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
+            Premium Quality
+        </span>
+        <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
+        <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
+            30-Day Returns
+        </span>
+
+        <!-- Duplicate for smooth infinite effect -->
+        <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
+            World Wide Shipping
+        </span>
+        <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
+        <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
+            Premium Quality
+        </span>
+        <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
+        <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
+            30-Day Returns
+        </span>
+    </div>
+</div>
+
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 <section 
-    class="bg-[#F8F5F2] py-20 overflow-hidden select-none" 
+    class="bg-[#FBF7EE] py-20 overflow-hidden select-none" 
     x-data="infiniteCarousel()" 
     x-init="initCarousel()"
     @mouseenter="stopAutoplay()" 
     @mouseleave="startAutoplay()"
 >
     <div class="container mx-auto px-6 mb-12 text-center relative z-10">
-        <h2 class="text-4xl md:text-5xl font-serif text-[#6B4226] font-medium tracking-tight mb-4">Curated Best Sellers</h2>
-        <p class="text-[#8C5E3C] uppercase tracking-[0.2em] text-xs font-medium">Excellence in Every Detail</p>
+        <h2 class="text-4xl md:text-5xl font-serif text-[#680626] font-medium tracking-tight mb-4">Curated Best Sellers</h2>
+        <p class="text-[#B89A6B] uppercase tracking-[0.2em] text-xs font-medium">Excellence in Every Detail</p>
     </div>
 
     <div class="relative w-full">
-        <div class="absolute left-0 top-0 bottom-0 w-12 md:w-40 bg-gradient-to-r from-[#F8F5F2] to-transparent z-20 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-12 md:w-40 bg-gradient-to-l from-[#F8F5F2] to-transparent z-20 pointer-events-none"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-12 md:w-40 bg-gradient-to-r from-[#FBF7EE] to-transparent z-20 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-12 md:w-40 bg-gradient-to-l from-[#FBF7EE] to-transparent z-20 pointer-events-none"></div>
 
         <div 
             x-ref="track"
@@ -571,7 +591,6 @@
             :style="`transform: translateX(-${currentIndex * (window.innerWidth < 768 ? 100 : 25)}%); transition-duration: ${transitionDuration}ms`"
         >
             @php 
-                // --- KEEPS THE INFINITE SCROLL WORKING ---
                 $originals = $topSellingProduct;
                 $clones = $originals->count() >= 4 ? $originals->take(4) : $originals;
                 while($clones->count() < 4 && $originals->isNotEmpty()) {
@@ -583,74 +602,62 @@
 
             @foreach($allProducts as $index => $product)
                 <div class="w-full md:w-1/4 flex-shrink-0 px-3 md:px-6 relative group">
-                    <div class="bg-white h-full flex flex-col relative overflow-hidden transition-all duration-500 hover:shadow-[0_10px_40px_-15px_rgba(107,66,38,0.15)] border border-transparent hover:border-[#E5D5C3]/30">
+                    <div class="bg-white h-full flex flex-col relative overflow-hidden transition-all duration-500 hover:shadow-[0_10px_40px_-15px_rgba(104,6,38,0.2)] border border-transparent hover:border-[#D6CEC3]/30">
                         
                         <div class="relative aspect-[3/4] overflow-hidden bg-[#F0EBE6]">
-                             
                              @if($product->offer_price && $product->offer_price < $product->price)
-                                <div class="absolute top-3 left-3 bg-white/95 backdrop-blur text-[#6B4226] text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-20 shadow-sm">
+                                <div class="absolute top-3 left-3 bg-white/95 backdrop-blur text-[#680626] text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-20 shadow-sm">
                                     Sale
                                 </div>
                              @endif
 
                              <img 
-                                src="{{ $product->image_url ?? 'https://placehold.co/600x800/E5D5C3/6B4226?text=Image' }}" 
+                                src="{{ $product->image_url ?? 'https://placehold.co/600x800/E2DBD1/680626?text=Image' }}" 
                                 alt="{{ $product->name }}" 
                                 class="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                             >
 
                             <div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-20">
-                            <button
-    class="btn-cta w-full bg-[#6B4226] text-white py-4 uppercase text-xs tracking-[0.2em] font-medium hover:bg-[#54331D] transition-colors"
-    data-url="{{ route('product.detail', $product->id) }}">
-    Add to Cart
-</button>
-
-<script>
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('btn-cta')) {
-        window.location.href = e.target.dataset.url;
-    }
-});
-</script>
-
+                                <button
+                                    class="btn-cta w-full bg-[#680626] text-white py-4 uppercase text-xs tracking-[0.2em] font-medium hover:bg-[#52041E] transition-colors"
+                                    data-url="{{ route('product.detail', $product->id) }}">
+                                    Add to Cart
+                                </button>
                             </div>
                         </div>
 
                         <div class="p-6 flex flex-col flex-grow text-center bg-white relative z-10">
-                            
-                            <div class="text-[#C8A165] text-[10px] font-bold uppercase tracking-widest mb-3">
+                            <div class="text-[#B89A6B] text-[10px] font-bold uppercase tracking-widest mb-3">
                                 {{ $product->category->name ?? 'Signature Collection' }}
                             </div>
 
-                            <h3 class="text-[#1A1A1A] text-xl font-serif mb-2 group-hover:text-[#6B4226] transition-colors duration-300 truncate">
+                            <h3 class="text-[#1A1A1A] text-xl font-serif mb-2 group-hover:text-[#680626] transition-colors duration-300 truncate">
                                 {{ $product->name }}
                             </h3>
 
                             <div class="flex justify-center gap-1 mb-3">
                                 @php $rating = $product->rating ?? 0; @endphp
                                 @for($i = 1; $i <= 5; $i++)
-                                    <svg class="w-3 h-3 {{ $i <= $rating ? 'text-[#C8A165] fill-current' : 'text-gray-200 fill-current' }}" viewBox="0 0 24 24">
+                                    <svg class="w-3 h-3 {{ $i <= $rating ? 'text-[#B89A6B] fill-current' : 'text-[#E2DBD1] fill-current' }}" viewBox="0 0 24 24">
                                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                                     </svg>
                                 @endfor
                             </div>
 
-                            <div class="mt-auto pt-3 border-t border-gray-50 flex justify-center items-baseline gap-3">
+                            <div class="mt-auto pt-3 border-t border-[#FBF7EE] flex justify-center items-baseline gap-3">
                                 @if($product->offer_price)
                                     <span class="text-gray-400 line-through text-xs font-light">
                                         Rs.{{ number_format($product->price, 2) }}
                                     </span>
-                                    <span class="text-[#6B4226] text-lg font-medium">
+                                    <span class="text-[#680626] text-lg font-medium">
                                         Rs.{{ number_format($product->offer_price, 2) }}
                                     </span>
                                 @else
-                                    <span class="text-[#6B4226] text-lg font-medium">
+                                    <span class="text-[#680626] text-lg font-medium">
                                         Rs.{{ number_format($product->price, 2) }}
                                     </span>
                                 @endif
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -662,7 +669,7 @@ document.addEventListener('click', function (e) {
                 <button 
                     @click="currentIndex = {{ $index }}" 
                     class="h-1 rounded-full transition-all duration-500"
-                    :class="(currentIndex % {{ $topSellingProduct->count() }}) === {{ $index }} ? 'w-8 bg-[#6B4226]' : 'w-2 bg-[#E5D5C3]'"
+                    :class="(currentIndex % {{ $topSellingProduct->count() }}) === {{ $index }} ? 'w-8 bg-[#680626]' : 'w-2 bg-[#D6CEC3]'"
                 ></button>
             @endforeach
         </div>
@@ -670,6 +677,12 @@ document.addEventListener('click', function (e) {
 </section>
 
 <script>
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-cta')) {
+            window.location.href = e.target.dataset.url;
+        }
+    });
+
     function infiniteCarousel() {
         return {
             currentIndex: 0,
@@ -686,17 +699,14 @@ document.addEventListener('click', function (e) {
                     setTimeout(() => this.transitionDuration = 1000, 100);
                 });
             },
-
             startAutoplay() {
                 this.interval = setInterval(() => {
                     this.next();
                 }, this.autoplayDelay);
             },
-
             stopAutoplay() {
                 clearInterval(this.interval);
             },
-
             next() {
                 if (this.isResetting) return;
 
@@ -704,17 +714,13 @@ document.addEventListener('click', function (e) {
                 this.currentIndex++;
 
                 if (this.currentIndex >= this.totalItems) {
-                    
                     this.isResetting = true;
-
                     setTimeout(() => {
                         this.transitionDuration = 0;
-                        
                         this.currentIndex = 0;
-
                         setTimeout(() => {
                             this.transitionDuration = 1000;
-                            this.isResetting = false; // Unlock
+                            this.isResetting = false;
                         }, 50);
                     }, 1000); 
                 }
@@ -722,79 +728,245 @@ document.addEventListener('click', function (e) {
         }
     }
 </script>
-<!-- Premium Categories Section -->
-<section class="py-16 md:py-24 bg-[var(--background-color)] relative overflow-hidden">
+<section class="py-24 bg-[#FBF7EE] relative overflow-hidden">
+    
+    <div class="absolute inset-0 pointer-events-none opacity-40">
+        <div class="container mx-auto h-full px-6 lg:px-12 flex justify-between">
+            <div class="w-px h-full bg-[#E2DBD1]"></div>
+            <div class="w-px h-full bg-[#E2DBD1] hidden md:block"></div>
+            <div class="w-px h-full bg-[#E2DBD1] hidden md:block"></div>
+            <div class="w-px h-full bg-[#E2DBD1]"></div>
+        </div>
+    </div>
 
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-[var(--border-color)] opacity-50 hidden md:block"></div>
-
-    <div class="container relative mx-auto px-4 md:px-6 lg:px-12">
-
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 border-b border-[var(--border-color)] pb-6 md:pb-8">
-            <div class="max-w-xl mb-6 md:mb-0">
-                <span class="block text-xs font-mono uppercase tracking-[0.25em] text-[var(--secondary-color)] mb-4">
-                    // The Collections
-                </span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif text-[var(--primary-color)] leading-[0.9]">
-                    Curated <br> <span class="italic text-[var(--secondary-color)]">Essentials</span>
+    <div class="container mx-auto px-6 lg:px-12 relative z-10">
+        
+        <div class="flex flex-col md:flex-row justify-between items-end mb-32 gap-8">
+            <div class="max-w-2xl">
+                <span class="text-[10px] font-bold uppercase tracking-[0.5em] text-[#B89A6B] mb-4 block">The 2026 Collections</span>
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-serif text-[#680626] leading-[0.85] tracking-tighter">
+                    Refined <br> <span class="italic font-light ml-12 md:ml-24">Simplicity</span>
                 </h2>
             </div>
-            <div class="hidden md:block mb-2">
-                <a href="#" class="group inline-flex items-center text-sm font-mono uppercase tracking-widest text-[var(--primary-color)]">
-                    <span class="border-b border-transparent group-hover:border-[var(--primary-color)] transition-all duration-300">View All Categories</span>
-                    <svg class="w-4 h-4 ml-2 transform -rotate-45 group-hover:rotate-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
+            <div class="md:w-1/3 text-right">
+                <p class="text-xs text-[#680626]/60 font-light uppercase tracking-widest leading-loose border-r-2 border-[#B89A6B] pr-6">
+                    Guided by heritage,<br>defined by modern craft.
+                </p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 md:gap-y-16 gap-x-6 md:gap-x-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20 items-start">
+            
             @foreach($categories as $index => $category)
-            <a href="{{ route('product', ['category_id' => $category->id]) }}" class="group block relative w-full cursor-pointer">
+                @php
+                    // Define unique heights and offsets for a "Non-Boxy" expensive look
+                    $itemStyles = [
+                        0 => 'aspect-[3/4] md:translate-y-0',       // Col 1: Tall
+                        1 => 'aspect-square md:translate-y-24',    // Col 2: Square & Dropped
+                        2 => 'aspect-[4/5] md:-translate-y-12',    // Col 3: Medium & Raised
+                    ];
+                    $currentStyle = $itemStyles[$index % 3];
+                @endphp
 
-                <div class="relative w-full aspect-[3/4] overflow-hidden bg-[var(--primary-color)]">
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 z-10 transition-opacity duration-500 group-hover:opacity-40"></div>
-
-                    <img src="{{ $category->image ? asset('storage/app/public/' . $category->image) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800' }}"
-                        alt="{{ $category->name }}"
-                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[20%] group-hover:grayscale-0">
-
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-50 group-hover:scale-100">
-                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center">
-                            <span class="text-white text-xs font-mono uppercase tracking-widest">Explore</span>
+                <div class="relative group {{ explode(' ', $currentStyle)[1] }}">
+                    <a href="{{ route('product', ['category_id' => $category->id]) }}" class="block">
+                        
+                        <div class="relative w-full {{ explode(' ', $currentStyle)[0] }} overflow-hidden bg-[#D6CEC3]">
+                            <img src="{{ $category->image ? asset('storage/app/public/' . $category->image) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200' }}"
+                                alt="{{ $category->name }}"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2.5s] ease-[cubic-bezier(0.2,1,0.3,1)] group-hover:scale-105">
+                            
+                            <div class="absolute inset-0 bg-[#680626]/5 group-hover:bg-transparent transition-colors duration-700"></div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="mt-4 md:mt-6 border-t border-[var(--border-color)] pt-4 group-hover:border-[var(--secondary-color)] transition-colors duration-500">
-                    <div class="flex justify-between items-start">
+                        <div class="mt-10 {{ ($index % 3 == 2) ? 'md:text-right' : 'text-left' }}">
+                            <div class="inline-flex flex-col {{ ($index % 3 == 2) ? 'md:items-end' : 'items-start' }}">
+                                <span class="text-[9px] font-bold text-[#B89A6B] tracking-[0.4em] mb-4">
+                                    SERIES // 0{{ $index + 1 }}
+                                </span>
+                                
+                                <h3 class="text-3xl md:text-4xl font-serif text-[#680626] leading-none mb-6 group-hover:text-[#B89A6B] transition-colors duration-500">
+                                    {{ $category->name }}
+                                </h3>
 
-                        <span class="text-xs font-mono text-[var(--secondary-color)] uppercase tracking-widest">
-                            {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
-                        </span>
+                                <div class="h-px w-8 bg-[#B89A6B] group-hover:w-20 transition-all duration-700"></div>
 
-                        <div class="flex-1 text-right pl-4 md:pl-8">
-                            <h3 class="text-xl md:text-2xl lg:text-3xl font-serif text-[var(--primary-color)] group-hover:text-[var(--secondary-color)] transition-colors duration-300">
-                                {{ $category->name }}
-                            </h3>
-
-                            <div class="overflow-hidden h-6 mt-2">
-                                <p class="text-xs md:text-sm text-[var(--primary-color)]/60 font-light transform translate-y-0 group-hover:-translate-y-full transition-transform duration-500">
-                                    {{ Str::limit($category->description ?? 'Exclusive Collection', 40) }}
-                                </p>
-                                <p class="text-xs md:text-sm text-[var(--secondary-color)] font-mono uppercase tracking-widest transform translate-y-full group-hover:-translate-y-full transition-transform duration-500">
-                                    Shop Now &rarr;
-                                </p>
+                                <div class="mt-8 overflow-hidden">
+                                    <span class="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-[#680626] transition-all duration-500 transform translate-y-full group-hover:translate-y-0">
+                                        Explore Collection &rarr;
+                                    </span>
+                                </div>
                             </div>
                         </div>
+                    </a>
+                </div>
+            @endforeach
+
+        </div>
+
+        <div class="absolute bottom-10 left-6 pointer-events-none opacity-[0.03] select-none">
+            <span class="text-[10rem] font-serif italic text-[#680626]">Curated</span>
+        </div>
+    </div>
+</section>
+
+<section 
+    class="bg-[#FBF7EE] py-24 overflow-hidden select-none" 
+    x-data="infiniteCarousel()" 
+    x-init="initCarousel()"
+    @mouseenter="stopAutoplay()" 
+    @mouseleave="startAutoplay()"
+>
+    <div class="container mx-auto px-6 mb-16 relative z-10 text-center">
+        <h2 class="text-5xl md:text-6xl font-serif text-[#680626] font-light tracking-tight mb-4 italic">The <span class="font-medium not-italic">Signature</span> Edit</h2>
+        <div class="flex items-center justify-center gap-4">
+            <div class="h-[1px] w-12 bg-[#B89A6B]/40"></div>
+            <p class="text-[#B89A6B] uppercase tracking-[0.4em] text-[10px] font-bold">Curated Excellence</p>
+            <div class="h-[1px] w-12 bg-[#B89A6B]/40"></div>
+        </div>
+    </div>
+
+    <div class="relative w-full">
+        <div class="absolute left-0 top-0 bottom-0 w-20 md:w-64 bg-gradient-to-r from-[#FBF7EE] to-transparent z-20 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-20 md:w-64 bg-gradient-to-l from-[#FBF7EE] to-transparent z-20 pointer-events-none"></div>
+
+        <div 
+            x-ref="track"
+            class="flex ease-[cubic-bezier(0.23,1,0.32,1)]"
+            :style="`transform: translateX(-${currentIndex * (window.innerWidth < 768 ? 100 : 33.333)}%); transition-duration: ${transitionDuration}ms`"
+        >
+            @php 
+                // Using exactly your cloning logic for stability
+                $originals = $popularProducts;
+                $clones = $originals->count() >= 3 ? $originals->take(3) : $originals;
+                while($clones->count() < 3 && $originals->isNotEmpty()) {
+                    $clones = $clones->concat($originals);
+                }
+                $clones = $clones->take(3);
+                $allProducts = $originals->concat($clones);
+            @endphp
+
+            @foreach($allProducts as $index => $product)
+                <div class="w-full md:w-1/3 flex-shrink-0 px-4 md:px-8 relative group">
+                    <div class="relative flex flex-col h-full bg-white p-4 border border-[#E2DBD1]/30 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(104,6,38,0.08)]">
+                        
+                        @if($product->offer_price && $product->offer_price < $product->price)
+                            <div class="absolute top-6 left-6 z-20">
+                                <span class="bg-[#680626] text-white text-[9px] font-bold px-3 py-1 uppercase tracking-widest">Limited Offer</span>
+                            </div>
+                        @endif
+
+                        <div class="relative aspect-[4/5] overflow-hidden bg-[#FBF7EE]">
+                            <img 
+                                src="{{ $product->image_url ?? 'https://placehold.co/800x1000/F4F0EB/680626?text=' . urlencode($product->name) }}" 
+                                alt="{{ $product->name }}" 
+                                class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-[2s] ease-out group-hover:scale-110"
+                            >
+                            
+                            <div class="absolute inset-0 bg-[#680626]/0 group-hover:bg-[#680626]/5 transition-all duration-700 flex flex-col justify-end p-6">
+                                <div class="translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                                    <button 
+                                        class="btn-cta w-full bg-white text-[#680626] py-4 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#680626] hover:text-white transition-all shadow-xl"
+                                        data-url="{{ route('product.detail', $product->id) }}">
+                                        Add to Collection
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 mb-4 text-center">
+                            <p class="text-[#B89A6B] text-[9px] uppercase tracking-[0.3em] font-bold mb-2">{{ $product->category->name ?? 'Maison Collection' }}</p>
+                            <h3 class="text-[#1A1A1A] text-2xl font-serif mb-4 group-hover:text-[#680626] transition-colors duration-500 truncate px-4">
+                                {{ $product->name }}
+                            </h3>
+                            
+                            <div class="flex items-center justify-center gap-3">
+                                @if($product->offer_price)
+                                    <span class="text-[#B89A6B]/50 line-through text-xs font-light tracking-wider">
+                                        Rs.{{ number_format($product->price, 0) }}
+                                    </span>
+                                    <span class="text-[#680626] text-xl font-medium tracking-tight">
+                                        Rs.{{ number_format($product->offer_price, 0) }}
+                                    </span>
+                                @else
+                                    <span class="text-[#680626] text-xl font-medium tracking-tight">
+                                        Rs.{{ number_format($product->price, 0) }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-[#680626] group-hover:w-full transition-all duration-700"></div>
                     </div>
                 </div>
-            </a>
+            @endforeach
+        </div>
+
+        <div class="flex justify-center mt-16 gap-3">
+            @foreach($popularProducts as $index => $p)
+                <button 
+                    @click="currentIndex = {{ $index }}" 
+                    class="h-[2px] transition-all duration-700"
+                    :class="(currentIndex % {{ $popularProducts->count() }}) === {{ $index }} ? 'w-12 bg-[#680626]' : 'w-4 bg-[#D6CEC3]'"
+                ></button>
             @endforeach
         </div>
     </div>
 </section>
+
+<script>
+    // Keeping your logic intact as requested, just adjusting for 3-card width
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-cta')) {
+            window.location.href = e.target.dataset.url;
+        }
+    });
+
+    function infiniteCarousel() {
+        return {
+            currentIndex: 0,
+            totalItems: {{ $popularProducts->count() }}, 
+            transitionDuration: 1000,
+            interval: null,
+            autoplayDelay: 4000, // Slightly slower for luxury feel
+            isResetting: false, 
+            initCarousel() {
+                this.startAutoplay();
+                window.addEventListener('resize', () => {
+                    this.transitionDuration = 0;
+                    this.currentIndex = 0;
+                    setTimeout(() => this.transitionDuration = 1000, 100);
+                });
+            },
+            startAutoplay() {
+                this.interval = setInterval(() => {
+                    this.next();
+                }, this.autoplayDelay);
+            },
+            stopAutoplay() {
+                clearInterval(this.interval);
+            },
+            next() {
+                if (this.isResetting) return;
+
+                this.transitionDuration = 1000;
+                this.currentIndex++;
+
+                if (this.currentIndex >= this.totalItems) {
+                    this.isResetting = true;
+                    setTimeout(() => {
+                        this.transitionDuration = 0;
+                        this.currentIndex = 0;
+                        setTimeout(() => {
+                            this.transitionDuration = 1000;
+                            this.isResetting = false;
+                        }, 50);
+                    }, 1000); 
+                }
+            }
+        }
+    }
+</script>
 
 <section class="py-16 md:py-24 bg-[var(--background-color)]">
     <div class="container mx-auto px-4 md:px-6">
