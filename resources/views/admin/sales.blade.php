@@ -1,6 +1,6 @@
 @extends("admin.layouts.master-layouts.plain")
 
-<title>Home Collection | Sales Management</title>
+<title>Inhouse Textiles | Sales Management</title>
 
 @push("script")
 <script>

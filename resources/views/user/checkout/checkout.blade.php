@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="flex items-center">
         <div class="w-12 h-12 bg-[var(--primary-color)]/10 rounded-lg flex items-center justify-center mr-3">
             @if($image)
-                <img src="{{ asset('storage/' . $image) }}" 
+                <img src="{{ asset('storage/app/public/' . $image) }}" 
                      alt="{{ $name }}" 
                      class="h-10 w-10 object-cover rounded">
             @endif

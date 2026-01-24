@@ -1,22 +1,22 @@
 @extends("user.layouts.master-layouts.plain")
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>Home Collection | Premium Products</title>
+<title>Inhouse Textiles | Premium Textile Products</title>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 <style>
 :root {
-    --primary-color: #6B4226;      
-    --primary-hover: #593721;       
-    --secondary-color: #C8A165;     
-    --secondary-hover: #B58F54;     
-    --accent-color: #8C5E3C;       
-    --accent-hover: #734C30;        
-    --text-on-primary: #FFFFFF;     
-    --text-on-secondary: #1A1A1A;   
-    --background-color: #F8F5F2;   
-    --surface-color: #FFFFFF;      
-    --border-color: #E5D5C3;
+    --primary-color: #680626;
+    --primary-hover: #52041E;
+    --secondary-color: #B89A6B;
+    --secondary-hover: #967B52;
+    --accent-color: #D6CEC3;
+    --accent-hover: #C8BFB3;
+    --text-on-primary: #FFFFFF;
+    --text-on-secondary: #2A2A2A;
+    --background-color: #FBF7EE;
+    --surface-color: #FFFFFF;
+    --border-color: #E2DBD1;
 }
 
 body {

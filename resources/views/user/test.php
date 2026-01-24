@@ -1,20 +1,20 @@
 @extends("user.layouts.master-layouts.plain")
 
-<title>Home Collection | Product Deatil </title>
+<title>Inhouse Textiles | Product Detail </title>
 
 
 
 @push("style")
 <style>
         :root {
-            --primary-color: #8B5FBF;      /* Elegant purple */
-            --primary-hover: #7A4DA6;
-            --secondary-color: #D4AF37;    /* Gold accent */
-            --secondary-hover: #C19B2E;
-            --accent-color: #2E8B57;       /* Sea green */
-            --accent-hover: #267349;
+            --primary-color: #680626;      /* Dark Maroon */
+            --primary-hover: #52041E;
+            --secondary-color: #B89A6B;    /* Warm Brown */
+            --secondary-hover: #967B52;
+            --accent-color: #D6CEC3;       /* Warm Greige */
+            --accent-hover: #C8BFB3;
             --text-on-primary: #FFFFFF;
-            --text-on-secondary: #000000;
+            --text-on-secondary: #2A2A2A;
         }
 
         body {

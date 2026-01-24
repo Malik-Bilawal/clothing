@@ -881,7 +881,7 @@
             name: @json($category->name),
             image: @json(
                 $category->image
-                    ? asset('storage/'.$category->image)
+                    ? asset('storage/app/public/'.$category->image)
                     : asset('images/category-placeholder.jpg')
             ),
         },

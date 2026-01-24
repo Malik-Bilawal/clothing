@@ -1,6 +1,6 @@
 @extends("user.layouts.master-layouts.plain")
 
-@section("title", "Home Collection | About Us")
+@section("title", "Inhouse Textiles | About Us")
 
 @push("style")
 <style>
@@ -181,7 +181,7 @@
             <span class="inline-block px-5 py-2 bg-gradient-to-r from-[#FBF7EE] to-[#F5F0E9] text-[#680626] text-sm font-semibold tracking-widest uppercase rounded-full mb-6">
                 Our Journey
             </span>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-[#2A2A2A] mb-6">The HomeStyle Story</h2>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#680626] mb-6">The Inhouse Textiles Story</h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                 From a small workshop to a national name, our journey is one of passion, 
                 innovation, and unwavering commitment to quality.
@@ -207,8 +207,7 @@
             <div class="fade-in" style="transition-delay: 0.2s">
                 <h3 class="text-3xl font-bold text-[#2A2A2A] mb-8">Crafting Excellence Since 2010</h3>
                 <p class="text-lg text-gray-700 mb-6">
-                    Founded with a vision to transform ordinary homes into extraordinary spaces, 
-                    HomeStyle began as a small workshop dedicated to handcrafted excellence.
+                    Rooted in decades of export and wholesale manufacturing experience, Inhouse Textiles is now bringing export-quality textiles at accessible prices. Our story began with a grandfather who ran a textile business in India, and today the third generation is giving that legacy a new direction - connecting directly with customers.
                 </p>
                 <p class="text-lg text-gray-700 mb-10">
                     Today, we combine traditional craftsmanship with modern design principles, 
@@ -275,74 +274,74 @@
             <div class="fade-in timeline-item flex items-center mb-20">
                 <div class="w-[150px] text-center relative z-10">
                     <span class="bg-gradient-to-r from-[#680626] to-[#B89A6B] text-white px-8 py-4 rounded-full font-bold text-lg inline-block shadow-lg">
-                        2010
+                        1947
                     </span>
                 </div>
                 <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] ml-10">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">The Beginning</h3>
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">The Foundation</h3>
                     <p class="text-gray-600">
-                        Founded as a small workshop specializing in handcrafted bedsheets and linens.
-                        Our first collection featured 12 unique designs, all made by local artisans.
+                        Our grandfather's textile business in India was left behind during partition.
+                        Only skill, courage, and belief were carried forward to rebuild in Pakistan.
                     </p>
                 </div>
             </div>
-            
+
             <div class="fade-in timeline-item flex items-center mb-20 flex-row-reverse" style="transition-delay: 0.1s">
                 <div class="w-[150px] text-center relative z-10">
                     <span class="bg-gradient-to-r from-[#680626] to-[#B89A6B] text-white px-8 py-4 rounded-full font-bold text-lg inline-block shadow-lg">
-                        2013
+                        1970
                     </span>
                 </div>
                 <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] mr-10">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">First Flagship Store</h3>
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Building Expertise</h3>
                     <p class="text-gray-600">
-                        Opened our first physical store, creating a tangible experience 
-                        for customers to feel the quality and craftsmanship firsthand.
+                        Our father transformed experience into execution, building a strong
+                        manufacturing, wholesale and export business for international markets.
                     </p>
                 </div>
             </div>
-            
+
             <div class="fade-in timeline-item flex items-center mb-20" style="transition-delay: 0.2s">
-                <div class="w-[150px] text-center relative z-10">
-                    <span class="bg-gradient-to-r from-[#680626] to-[#B89A6B] text-white px-8 py-4 rounded-full font-bold text-lg inline-block shadow-lg">
-                        2016
-                    </span>
-                </div>
-                <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] ml-10">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Digital Transformation</h3>
-                    <p class="text-gray-600">
-                        Launched our e-commerce platform, expanding our reach nationwide 
-                        while maintaining the personal touch of our in-store experience.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="fade-in timeline-item flex items-center mb-20 flex-row-reverse" style="transition-delay: 0.3s">
                 <div class="w-[150px] text-center relative z-10">
                     <span class="bg-gradient-to-r from-[#680626] to-[#B89A6B] text-white px-8 py-4 rounded-full font-bold text-lg inline-block shadow-lg">
                         2020
                     </span>
                 </div>
-                <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] mr-10">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Sustainability Initiative</h3>
+                <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] ml-10">
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Export Excellence</h3>
                     <p class="text-gray-600">
-                        Implemented our Green Promise initiative, committing to 100% 
-                        sustainable materials and carbon-neutral operations.
+                        Decades of manufacturing expertise established us as a trusted supplier
+                        of export-grade textiles to international brands and retailers.
                     </p>
                 </div>
             </div>
-            
-            <div class="fade-in timeline-item flex items-center" style="transition-delay: 0.4s">
+
+            <div class="fade-in timeline-item flex items-center mb-20 flex-row-reverse" style="transition-delay: 0.3s">
                 <div class="w-[150px] text-center relative z-10">
                     <span class="bg-gradient-to-r from-[#680626] to-[#B89A6B] text-white px-8 py-4 rounded-full font-bold text-lg inline-block shadow-lg">
                         2024
                     </span>
                 </div>
-                <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] ml-10">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Global Recognition</h3>
+                <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] mr-10">
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Direct to Customer</h3>
                     <p class="text-gray-600">
-                        Received the International Home Design Award for excellence 
-                        in sustainable luxury home products.
+                        Third generation gives the legacy a new direction, connecting directly
+                        with Pakistani customers and bringing export quality to local homes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="fade-in timeline-item flex items-center" style="transition-delay: 0.4s">
+                <div class="w-[150px] text-center relative z-10">
+                    <span class="bg-gradient-to-r from-[#680626] to-[#B89A6B] text-white px-8 py-4 rounded-full font-bold text-lg inline-block shadow-lg">
+                        2026
+                    </span>
+                </div>
+                <div class="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#E2DBD1] ml-10">
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-4">Future Vision</h3>
+                    <p class="text-gray-600">
+                        Committed to becoming a trusted household name in Pakistan by
+                        delivering export-quality textiles that blend comfort, quality & affordability.
                     </p>
                 </div>
             </div>
@@ -364,157 +363,126 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="fade-in bg-white p-12 rounded-3xl shadow-2xl shadow-[#680626]/10 border border-transparent transition-all duration-400 hover:-translate-y-4 hover:border-[#B89A6B] hover:shadow-3xl hover:shadow-[#680626]/15 relative overflow-hidden h-full">
                 <div class="w-20 h-20 bg-gradient-to-r from-[#FBF7EE] to-[#F5F0E9] rounded-2xl flex items-center justify-center text-4xl text-[#680626] mb-10">
-                    <i class="fas fa-hands-helping"></i>
+                    <i class="fas fa-hand-holding-heart"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-[#2A2A2A] mb-6">Artisan Craftsmanship</h3>
+                <h3 class="text-2xl font-bold text-[#2A2A2A] mb-6">Accessibility</h3>
                 <p class="text-gray-600">
-                    Every product is a testament to skilled craftsmanship, 
-                    combining traditional techniques with modern innovation.
+                    Premium quality made affordable for everyday homes.
+                    We believe export-grade textiles should be accessible to
+                    middle and upper-middle class households.
                 </p>
             </div>
-            
+
             <div class="fade-in bg-white p-12 rounded-3xl shadow-2xl shadow-[#680626]/10 border border-transparent transition-all duration-400 hover:-translate-y-4 hover:border-[#B89A6B] hover:shadow-3xl hover:shadow-[#680626]/15 relative overflow-hidden h-full" style="transition-delay: 0.1s">
                 <div class="w-20 h-20 bg-gradient-to-r from-[#FBF7EE] to-[#F5F0E9] rounded-2xl flex items-center justify-center text-4xl text-[#680626] mb-10">
-                    <i class="fas fa-leaf"></i>
+                    <i class="fas fa-history"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-[#2A2A2A] mb-6">Sustainable Luxury</h3>
+                <h3 class="text-2xl font-bold text-[#2A2A2A] mb-6">Legacy</h3>
                 <p class="text-gray-600">
-                    We believe luxury should be sustainable. From sourcing 
-                    to packaging, every step prioritizes environmental responsibility.
+                    Honoring generations of textile expertise. Three generations
+                    of skill and knowledge passed down through family, now
+                    serving Pakistani homes directly.
                 </p>
             </div>
-            
+
             <div class="fade-in bg-white p-12 rounded-3xl shadow-2xl shadow-[#680626]/10 border border-transparent transition-all duration-400 hover:-translate-y-4 hover:border-[#B89A6B] hover:shadow-3xl hover:shadow-[#680626]/15 relative overflow-hidden h-full" style="transition-delay: 0.2s">
                 <div class="w-20 h-20 bg-gradient-to-r from-[#FBF7EE] to-[#F5F0E9] rounded-2xl flex items-center justify-center text-4xl text-[#680626] mb-10">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-star"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-[#2A2A2A] mb-6">Customer-Centric</h3>
+                <h3 class="text-2xl font-bold text-[#2A2A2A] mb-6">Trust</h3>
                 <p class="text-gray-600">
-                    Your satisfaction is our ultimate goal. We listen, adapt, 
-                    and exceed expectations at every touchpoint.
+                    Built on decades of manufacturing experience and reputation
+                    in international markets. Transparent pricing and consistent
+                    delivery of export-grade quality.
                 </p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Modern Team -->
+<!-- Our Heritage -->
 <section class="py-24 bg-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-20">
             <span class="inline-block px-5 py-2 bg-gradient-to-r from-[#FBF7EE] to-[#F5F0E9] text-[#680626] text-sm font-semibold tracking-widest uppercase rounded-full mb-6">
-                Leadership
+                Our Heritage
             </span>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-[#2A2A2A] mb-6">Meet Our Visionaries</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">The passionate minds behind HomeStyle's success</p>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#2A2A2A] mb-6">Three Generations of Excellence</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">From a grandfather's textile business to export-grade quality for Pakistani homes</p>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="fade-in bg-white rounded-3xl shadow-2xl shadow-[#680626]/10 overflow-hidden transition-all duration-400 hover:-translate-y-4 hover:shadow-3xl hover:shadow-[#680626]/15 h-full">
                 <div class="overflow-hidden h-80">
-                    <img 
-                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                        alt="Sarah Johnson" 
-                        class="w-full h-full object-cover transition-transform duration-600 hover:scale-105"
-                    >
-                </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-2">Sarah Johnson</h3>
-                    <p class="text-[#680626] font-semibold mb-4">Founder & Creative Director</p>
-                    <p class="text-gray-600 mb-6">
-                        With a background in textile design, Sarah brings 
-                        artistic vision and passion to every collection.
-                    </p>
-                    <div class="flex gap-4 opacity-0 translate-y-5 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+                    <div class="w-full h-full bg-[#FBF7EE] flex items-center justify-center">
+                        <i class="fas fa-user text-[#680626] text-6xl"></i>
                     </div>
                 </div>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-2">Our Grandfather</h3>
+                    <p class="text-[#680626] font-semibold mb-4">Founder</p>
+                    <p class="text-gray-600 mb-6">
+                        Started a textile business in India. During partition,
+                        everything was left behind except skill, courage, and belief.
+                        In Pakistan, he began again, working in a home-textile shop,
+                        learning, observing, and dreaming of rebuilding what was lost.
+                    </p>
+                </div>
             </div>
-            
+
             <div class="fade-in bg-white rounded-3xl shadow-2xl shadow-[#680626]/10 overflow-hidden transition-all duration-400 hover:-translate-y-4 hover:shadow-3xl hover:shadow-[#680626]/15 h-full" style="transition-delay: 0.1s">
                 <div class="overflow-hidden h-80">
-                    <img 
-                        src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                        alt="Michael Chen" 
-                        class="w-full h-full object-cover transition-transform duration-600 hover:scale-105"
-                    >
+                    <div class="w-full h-full bg-[#FBF7EE] flex items-center justify-center">
+                        <i class="fas fa-user text-[#680626] text-6xl"></i>
+                    </div>
                 </div>
                 <div class="p-8">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-2">Michael Chen</h3>
-                    <p class="text-[#680626] font-semibold mb-4">Head of Product</p>
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-2">Our Father</h3>
+                    <p class="text-[#680626] font-semibold mb-4">Builder</p>
                     <p class="text-gray-600 mb-6">
-                        Michael ensures every product meets our rigorous standards 
-                        for quality, comfort, and sustainability.
+                        Transformed experience into execution and built a strong
+                        manufacturing, wholesale and export business, supplying
+                        quality textiles to international markets for years.
                     </p>
-                    <div class="flex gap-4 opacity-0 translate-y-5 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
-            
+
             <div class="fade-in bg-white rounded-3xl shadow-2xl shadow-[#680626]/10 overflow-hidden transition-all duration-400 hover:-translate-y-4 hover:shadow-3xl hover:shadow-[#680626]/15 h-full" style="transition-delay: 0.2s">
                 <div class="overflow-hidden h-80">
-                    <img 
-                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                        alt="Elena Rodriguez" 
-                        class="w-full h-full object-cover transition-transform duration-600 hover:scale-105"
-                    >
+                    <div class="w-full h-full bg-[#FBF7EE] flex items-center justify-center">
+                        <i class="fas fa-user text-[#680626] text-6xl"></i>
+                    </div>
                 </div>
                 <div class="p-8">
-                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-2">Elena Rodriguez</h3>
-                    <p class="text-[#680626] font-semibold mb-4">Customer Experience Director</p>
+                    <h3 class="text-2xl font-bold text-[#2A2A2A] mb-2">Our Generation</h3>
+                    <p class="text-[#680626] font-semibold mb-4">Innovation</p>
                     <p class="text-gray-600 mb-6">
-                        Elena leads our commitment to exceptional service, 
-                        ensuring every customer feels valued and heard.
+                        Today, the third generation is giving that legacy a new direction.
+                        Inhouse Textiles is stepping out from behind the scenes to connect
+                        directly with customers—bringing the same export grade quality
+                        and honesty into Pakistani homes.
                     </p>
-                    <div class="flex gap-4 opacity-0 translate-y-5 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0">
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#FBF7EE] flex items-center justify-center text-[#680626] transition-all hover:bg-[#680626] hover:text-white hover:-translate-y-1">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Modern CTA -->
+<!-- Our Heritage CTA -->
 <section class="relative py-24 bg-gradient-to-r from-[#680626] to-[#B89A6B] overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
         <div class="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-white"></div>
         <div class="absolute -bottom-20 -right-20 w-96 h-96 rounded-full bg-white"></div>
     </div>
-    
+
     <div class="container mx-auto px-4 text-center relative z-10">
         <h2 class="fade-in text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-10 leading-tight">
-            Ready to Transform<br>
-            Your Home Experience?
+            Experience Three Generations<br>
+            Of Textile Excellence
         </h2>
         <p class="fade-in text-xl text-white/90 max-w-2xl mx-auto mb-12" style="transition-delay: 0.1s">
-            Discover our curated collection of premium home essentials 
-            and experience the difference of artisan craftsmanship.
+            Discover our heritage collection of export-grade textiles,
+            bringing decades of manufacturing expertise directly to Pakistani homes.
         </p>
         <div class="fade-in flex flex-wrap gap-6 justify-center" style="transition-delay: 0.2s">
             <a href="/shop" class="relative modern-btn inline-flex items-center gap-3 px-9 py-5 text-lg font-semibold text-[#680626] rounded-full bg-white shadow-lg shadow-black/20 transition-all duration-400 hover:shadow-xl hover:shadow-black/30 hover:-translate-y-1 overflow-hidden">

@@ -244,7 +244,7 @@
                                 <div class="mt-3">
                                     <p class="text-sm font-medium text-gray-700 mb-2">Current Default Image:</p>
                                     <div class="image-container">
-                                        <img src="{{ $product->defaultImage->image_path ? (Str::startsWith($product->defaultImage->image_path, 'http') ? $product->defaultImage->image_path : asset('storage/' . $product->defaultImage->image_path)) : '/placeholder-image.jpg' }}" 
+                                        <img src="{{ $product->defaultImage->image_path ? (Str::startsWith($product->defaultImage->image_path, 'http') ? $product->defaultImage->image_path : asset('storage/app/public/' . $product->defaultImage->image_path)) : '/placeholder-image.jpg' }}" 
                                              alt="Current product image" class="image-preview">
                                         <button type="button" class="remove-btn remove-existing-image" data-image-id="{{ $product->defaultImage->id }}" data-image-type="default">
                                             <i class="fas fa-times"></i>
@@ -279,7 +279,7 @@
                                     <div class="flex flex-wrap gap-2" id="existing-gallery-container">
                                         @foreach($product->galleryImages as $galleryImage)
                                             <div class="image-container">
-                                                <img src="{{ $galleryImage->image_path ? (Str::startsWith($galleryImage->image_path, 'http') ? $galleryImage->image_path : asset('storage/' . $galleryImage->image_path)) : '/placeholder-image.jpg' }}" 
+                                                <img src="{{ $galleryImage->image_path ? (Str::startsWith($galleryImage->image_path, 'http') ? $galleryImage->image_path : asset('storage/app/public/' . $galleryImage->image_path)) : '/placeholder-image.jpg' }}" 
                                                      alt="Gallery image" class="image-preview">
                                                 <button type="button" class="remove-btn remove-existing-image" data-image-id="{{ $galleryImage->id }}" data-image-type="gallery">
                                                     <i class="fas fa-times"></i>

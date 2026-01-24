@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s)",
+      "Bash(dir)",
+      "Bash(dir resourcesviews /s)",
+      "Bash(dir resourcesviews)",
+      "Bash(dir database)",
+      "Bash(dir database/seeders)",
+      "Bash(find database/ -name \"*.php\" -exec grep -l \"HomeStyle\\\\|Home Collection\\\\|description\" {} ;)"
+    ]
+  }
+}

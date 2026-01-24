@@ -2,7 +2,7 @@
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<title>Home Collection | Premium Home Essentials</title>
+<title>Inhouse Textiles | Premium Home Textiles</title>
 
 @push("style")
 <style>
@@ -477,7 +477,7 @@
                 <source src="{{ asset($banner->video) }}" type="video/mp4">
             </video>
         @else
-            <img src="{{ asset('storage/' . $banner->image) }}" 
+            <img src="{{ asset('storage/app/public/' . $banner->image) }}" 
                  alt="{{ $banner->title }}" 
                  class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" 
                  loading="{{ $index === 0 ? 'eager' : 'lazy' }}">
@@ -537,28 +537,28 @@
             <div class="hidden lg:flex flex-1 justify-end overflow-hidden ml-12">
     <div class="animate-marquee flex whitespace-nowrap gap-12 opacity-60">
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
-            World Wide Shipping
+            EXPORT GRADE QUALITY
         </span>
         <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
-            Premium Quality
+            THREE GENERATIONS OF EXPERTISE
         </span>
         <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
-            30-Day Returns
+            TRUSTED BY PAKISTANI FAMILIES
         </span>
 
         <!-- Duplicate for smooth infinite effect -->
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
-            World Wide Shipping
+            EXPORT GRADE QUALITY
         </span>
         <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
-            Premium Quality
+            THREE GENERATIONS OF EXPERTISE
         </span>
         <span class="text-xs font-mono text-[var(--secondary-color)]">•</span>
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
-            30-Day Returns
+            TRUSTED BY PAKISTANI FAMILIES
         </span>
     </div>
 </div>
@@ -743,14 +743,14 @@
         
         <div class="flex flex-col md:flex-row justify-between items-end mb-32 gap-8">
             <div class="max-w-2xl">
-                <span class="text-[10px] font-bold uppercase tracking-[0.5em] text-[#B89A6B] mb-4 block">The 2026 Collections</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.5em] text-[#B89A6B] mb-4 block">HERITAGE COLLECTIONS</span>
                 <h2 class="text-5xl md:text-7xl lg:text-8xl font-serif text-[#680626] leading-[0.85] tracking-tighter">
-                    Refined <br> <span class="italic font-light ml-12 md:ml-24">Simplicity</span>
+                    Generational <br> <span class="italic font-light ml-12 md:ml-24">Craft</span>
                 </h2>
             </div>
             <div class="md:w-1/3 text-right">
                 <p class="text-xs text-[#680626]/60 font-light uppercase tracking-widest leading-loose border-r-2 border-[#B89A6B] pr-6">
-                    Guided by heritage,<br>defined by modern craft.
+                    Three generations of expertise,<br>woven into every thread.
                 </p>
             </div>
         </div>
@@ -818,10 +818,10 @@
     @mouseleave="startAutoplay()"
 >
     <div class="container mx-auto px-6 mb-16 relative z-10 text-center">
-        <h2 class="text-5xl md:text-6xl font-serif text-[#680626] font-light tracking-tight mb-4 italic">The <span class="font-medium not-italic">Signature</span> Edit</h2>
+        <h2 class="text-5xl md:text-6xl font-serif text-[#680626] font-light tracking-tight mb-4 italic">The <span class="font-medium not-italic">Heritage</span> Collection</h2>
         <div class="flex items-center justify-center gap-4">
             <div class="h-[1px] w-12 bg-[#B89A6B]/40"></div>
-            <p class="text-[#B89A6B] uppercase tracking-[0.4em] text-[10px] font-bold">Curated Excellence</p>
+            <p class="text-[#B89A6B] uppercase tracking-[0.4em] text-[10px] font-bold">Export Grade Quality</p>
             <div class="h-[1px] w-12 bg-[#B89A6B]/40"></div>
         </div>
     </div>
@@ -852,7 +852,7 @@
                         
                         @if($product->offer_price && $product->offer_price < $product->price)
                             <div class="absolute top-6 left-6 z-20">
-                                <span class="bg-[#680626] text-white text-[9px] font-bold px-3 py-1 uppercase tracking-widest">Limited Offer</span>
+                                <span class="bg-[#680626] text-white text-[9px] font-bold px-3 py-1 uppercase tracking-widest">EXPORT QUALITY</span>
                             </div>
                         @endif
 
@@ -865,17 +865,17 @@
                             
                             <div class="absolute inset-0 bg-[#680626]/0 group-hover:bg-[#680626]/5 transition-all duration-700 flex flex-col justify-end p-6">
                                 <div class="translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                                    <button 
+                                    <button
                                         class="btn-cta w-full bg-white text-[#680626] py-4 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#680626] hover:text-white transition-all shadow-xl"
                                         data-url="{{ route('product.detail', $product->id) }}">
-                                        Add to Collection
+                                        Experience Quality
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-8 mb-4 text-center">
-                            <p class="text-[#B89A6B] text-[9px] uppercase tracking-[0.3em] font-bold mb-2">{{ $product->category->name ?? 'Maison Collection' }}</p>
+                            <p class="text-[#B89A6B] text-[9px] uppercase tracking-[0.3em] font-bold mb-2">{{ $product->category->name ?? 'Premium Collection' }}</p>
                             <h3 class="text-[#1A1A1A] text-2xl font-serif mb-4 group-hover:text-[#680626] transition-colors duration-500 truncate px-4">
                                 {{ $product->name }}
                             </h3>
@@ -973,14 +973,14 @@
 
         <div class="text-center mb-12 md:mb-20" data-aos="fade-up">
             <span class="inline-block px-3 py-1 md:px-4 md:py-1.5 mb-4 md:mb-6 text-[10px] md:text-[11px] font-bold tracking-[0.3em] uppercase text-[var(--secondary-color)] border border-[var(--border-color)] rounded-full">
-                The Collection
+                HERITAGE COLLECTION
             </span>
             <h2 class="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-serif font-light mb-4 md:mb-6 text-[var(--primary-color)]">
-                Editor's Selection
+                Family Curated
             </h2>
             <div class="w-12 md:w-16 h-px bg-[var(--secondary-color)] mx-auto mb-4 md:mb-6"></div>
             <p class="text-neutral-600 max-w-xl mx-auto leading-relaxed text-sm md:text-base">
-                Handpicked pieces that define luxury living, curated for the discerning homeowner.
+                Three generations of textile expertise, bringing export-grade quality to Pakistani homes.
             </p>
         </div>
 
@@ -993,7 +993,7 @@
         <div class="mt-12 md:mt-20 text-center" data-aos="fade-up">
             <a href="{{ route('product') }}" class="relative inline-flex items-center gap-3 md:gap-4 group">
                 <span class="text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-[var(--primary-color)]">
-                    Explore Entire Collection
+                    Discover Heritage Collection
                 </span>
                 <div class="w-8 md:w-12 h-px bg-[var(--primary-color)] transition-all group-hover:w-12 md:group-hover:w-20"></div>
                 <svg class="w-4 h-4 md:w-5 md:h-5 text-[var(--primary-color)] transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1018,7 +1018,7 @@
             <div class="lg:col-span-6" data-aos="fade-right">
                 <div class="mb-8 md:mb-10">
                     <span class="inline-block uppercase tracking-[0.6em] text-[8px] md:text-[10px] font-bold text-[var(--secondary-color)] mb-4 md:mb-6 border-b border-[var(--secondary-color)] pb-1 md:pb-2">
-                        Private Invitation
+                        FAMILY EXCLUSIVE
                     </span>
                     <h2 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-9xl font-serif text-white leading-[0.8] mb-6 md:mb-8">
                         {{ $activeSale->name }}
@@ -1037,7 +1037,7 @@
                         </svg>
                     </div>
                     <span class="uppercase tracking-[0.4em] text-[10px] md:text-xs font-bold text-white group-hover:text-[var(--secondary-color)] transition-colors">
-                        Enter the Event
+                        Discover Quality
                     </span>
                 </a>
             </div>
@@ -1073,7 +1073,7 @@
                         </div>
 
                         <div class="mt-8 md:mt-12 lg:mt-16 text-center">
-                            <p class="text-[8px] md:text-[10px] text-white/20 uppercase tracking-[0.2em]">Limited Collection Access</p>
+                            <p class="text-[8px] md:text-[10px] text-white/20 uppercase tracking-[0.2em]">EXPORT GRADE TEXTILES</p>
                         </div>
                     </div>
                 </div>
@@ -1134,24 +1134,24 @@
     <div class="container mx-auto px-4 md:px-6">
         <div class="flex flex-col lg:flex-row justify-between items-end mb-12 md:mb-20 gap-6 md:gap-8">
             <div class="max-w-2xl" data-aos="fade-right">
-                <span class="text-[10px] md:text-[11px] font-bold tracking-[0.4em] text-[var(--secondary-color)] uppercase block mb-3 md:mb-4">Our Philosophy</span>
+                <span class="text-[10px] md:text-[11px] font-bold tracking-[0.4em] text-[var(--secondary-color)] uppercase block mb-3 md:mb-4">OUR HERITAGE</span>
                 <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-serif text-[var(--primary-color)] leading-tight">
-                    The Art of <br><span class="italic text-[var(--secondary-color)]">Refined</span> Living
+                    Three Generations of <br><span class="italic text-[var(--secondary-color)]">Expertise</span>
                 </h2>
             </div>
             <div class="lg:w-1/3" data-aos="fade-left">
                 <p class="text-neutral-500 leading-relaxed border-l-2 border-[var(--secondary-color)] pl-4 md:pl-6 text-sm md:text-base">
-                    We don't just manufacture; we curate. Every piece is a testament to the dialogue between raw materials and human precision.
+                    From a grandfather's textile business in India to export-grade quality for Pakistani homes. Every thread tells a story of resilience, skill, and dedication passed down through generations.
                 </p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-[var(--border-color)]">
             @foreach([
-            ['num' => '01', 'title' => 'Ethical Sourcing', 'desc' => 'Hand-selected timber and fabrics from sustainable, certified forests.'],
-            ['num' => '02', 'title' => 'Master Craft', 'desc' => 'Assembled by artisans with over two decades of experience in joinery.'],
-            ['num' => '03', 'title' => 'Global White-Glove', 'desc' => 'Complimentary premium delivery including room-of-choice setup.'],
-            ['num' => '04', 'title' => 'Lifetime Promise', 'desc' => 'A testament to quality: our frames carry a lifetime structural warranty.']
+            ['num' => '01', 'title' => 'EXPORT QUALITY', 'desc' => 'Bringing the same quality standards we use for international exports to Pakistani homes.'],
+            ['num' => '02', 'title' => 'GENERATIONAL EXPERTISE', 'desc' => 'Three generations of textile knowledge and craftsmanship passed down through family.'],
+            ['num' => '03', 'title' => 'ACCESSIBLE PREMIUM', 'desc' => 'Premium quality textiles at prices accessible for middle and upper-middle class households.'],
+            ['num' => '04', 'title' => 'TRUSTED LEGACY', 'desc' => 'Built on decades of manufacturing experience and reputation in international markets.']
             ] as $trust)
             <div class="p-6 md:p-8 lg:p-10 border-r border-b border-[var(--border-color)] group hover:bg-[var(--background-color)] transition-colors duration-500">
                 <span class="text-sm font-serif italic text-[var(--secondary-color)] mb-4 md:mb-6 lg:mb-8 block">{{ $trust['num'] }}</span>
@@ -1175,7 +1175,7 @@
                 <div class="lg:col-span-11">
                     <div class="space-y-8 md:space-y-12">
                         @foreach([
-                        ['name' => 'Sarah Johnson', 'role' => 'Interior Architect', 'text' => 'The silhouettes are timeless. It is rare to find a brand that balances modern structural integrity with such warm, organic aesthetics.'],
+                        ['name' => 'Fatima Ali', 'role' => 'Home Decor Enthusiast', 'text' => 'Finally, Pakistani textiles that match international quality standards. The craftsmanship shows three generations of expertise, and you can feel the difference in every thread.'],
                         ] as $testimonial)
                         <div class="space-y-6 md:space-y-8" data-aos="fade-up">
                             <p class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-serif italic text-[var(--primary-color)] leading-snug">

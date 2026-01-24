@@ -1,11 +1,26 @@
 @extends("user.layouts.master-layouts.plain")
 
-<title>Home Collection | Category </title>
+<title>Inhouse Textiles | Category</title>
 
 
 
 @push("style")
 <style>
+  :root {
+    --primary-color: #680626;
+    --primary-hover: #52041E;
+    --secondary-color: #B89A6B;
+    --secondary-hover: #967B52;
+    --accent-color: #D6CEC3;
+    --accent-hover: #C8BFB3;
+    --text-on-primary: #FFFFFF;
+    --text-on-secondary: #2A2A2A;
+    --background-color: #FBF7EE;
+    --card-background: #FFFFFF;
+    --border-color: #E2DBD1;
+    --text-color: #2A2A2A;
+  }
+
   body {
     font-family: 'Inter', sans-serif;
     color: var(--text-color);
@@ -185,7 +200,7 @@
 
         <div class="relative h-[450px] overflow-hidden bg-[var(--background-color)]">
           <img
-            src="{{ $category->image ? asset('storage/' . $category->image) : asset('images/default-category.jpg') }}"
+            src="{{ $category->image ? asset('storage/app/public/' . $category->image) : asset('images/default-category.jpg') }}"
             alt="{{ $category->name }}"
             class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
 

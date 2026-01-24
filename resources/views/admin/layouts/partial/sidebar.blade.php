@@ -2,7 +2,7 @@
     <div class="p-4 border-b border-gray-700">
         <h1 class="text-xl font-bold flex items-center">
             <i class="fas fa-store mr-2 text-secondary"></i>
-            Home Collection Admin
+            Inhouse Textiles Admin
         </h1>
         
         <button

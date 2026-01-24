@@ -1,6 +1,6 @@
 @extends("admin.layouts.master-layouts.plain")
 
-<title>Slider | Home Collection</title>
+<title>Slider | Inhouse Textiles</title>
 
 @push("script")
 <script>
@@ -165,7 +165,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="w-20 h-12 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
                     @if ($slider->image)
-                        <img src="{{ asset('storage/' . $slider->image) }}" 
+                        <img src="{{ asset('storage/app/public/' . $slider->image) }}" 
                              alt="Slider Image" 
                              class="object-cover w-full h-full">
                     @else
@@ -220,8 +220,8 @@
     data-button_text="{{ $slider->button_text ?? '' }}"
     data-button_url="{{ $slider->button_url ?? '' }}"
     data-status="{{ $slider->status }}"
-    data-image="{{ $slider->type === 'banner' && $slider->image ? asset('storage/'.$slider->image) : '' }}"
-    data-video="{{ $slider->type === 'video' && $slider->video_path ? asset('storage/'.$slider->video_path) : '' }}"
+    data-image="{{ $slider->type === 'banner' && $slider->image ? asset('storage/app/public/'.$slider->image) : '' }}"
+    data-video="{{ $slider->type === 'video' && $slider->video_path ? asset('storage/app/public/'.$slider->video_path) : '' }}"
 >
     <i class="fas fa-edit"></i>
 </button>

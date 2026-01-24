@@ -1,22 +1,22 @@
 @extends("user.layouts.master-layouts.plain")
 
-<title>Home Collection | Shopping Cart</title>
+<title>Inhouse Textiles | Shopping Cart</title>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 @push("style")
 <style>
     :root {
-        --primary-color: #8B7355;
-        --primary-hover: #7A6244;
-        --secondary-color: #C19A6B;
-        --secondary-hover: #B08A5B;
-        --accent-color: #A67C52;
-        --accent-hover: #956C42;
+        --primary-color: #680626;
+        --primary-hover: #52041E;
+        --secondary-color: #B89A6B;
+        --secondary-hover: #967B52;
+        --accent-color: #D6CEC3;
+        --accent-hover: #C8BFB3;
         --text-on-primary: #FFFFFF;
-        --text-on-secondary: #1A1A1A;
-        --background-color: #FAF7F2;
+        --text-on-secondary: #2A2A2A;
+        --background-color: #FBF7EE;
         --card-background: #FFFFFF;
-        --border-color: #E8DECD;
+        --border-color: #E2DBD1;
         --success-color: #10B981;
         --error-color: #EF4444;
         --warning-color: #F59E0B;
@@ -353,7 +353,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                         <div class="md:col-span-3">
                             <div class="cart-item-image">
-                                <img src="{{ $item->product->images->first() ? asset('storage/' . $item->product->images->first()->image_path) : asset('images/default-product.jpg') }}"
+                                <img src="{{ $item->product->images->first() ? asset('storage/app/public/' . $item->product->images->first()->image_path) : asset('images/default-product.jpg') }}"
                                     alt="{{ $item->product->name }}"
                                     class="w-full h-48 object-cover rounded-lg">
                             </div>

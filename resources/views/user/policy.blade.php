@@ -4,17 +4,17 @@
 
     <style>
         :root {
-            --primary-color: #6B4226;      
-            --primary-hover: #593721;       
-            --secondary-color: #C8A165;     
-            --secondary-hover: #B58F54;     
-            --accent-color: #8C5E3C;       
-            --accent-hover: #734C30;        
-            --text-on-primary: #FFFFFF;     
-            --text-on-secondary: #1A1A1A;   
-            --background-color: #F8F5F2;   
-            --surface-color: #FFFFFF;      
-            --border-color: #E5D5C3;
+            --primary-color: #680626;
+            --primary-hover: #52041E;
+            --secondary-color: #B89A6B;
+            --secondary-hover: #967B52;
+            --accent-color: #D6CEC3;
+            --accent-hover: #C8BFB3;
+            --text-on-primary: #FFFFFF;
+            --text-on-secondary: #2A2A2A;
+            --background-color: #FBF7EE;
+            --surface-color: #FFFFFF;
+            --border-color: #E2DBD1;
         }
         
         body {
@@ -83,15 +83,15 @@
                         <div class="space-y-3">
                             <div class="flex items-start">
                                 <i class="fas fa-envelope mt-1 mr-3" style="color: var(--accent-color);"></i>
-                                <span>support@inhousetextiles.com</span>
+                                <span>support@inhousetextiles.pk</span>
                             </div>
                             <div class="flex items-start">
                                 <i class="fas fa-phone mt-1 mr-3" style="color: var(--accent-color);"></i>
-                                <span>+1 (800) 555-1234</span>
+                                <span>+92 300 1234567</span>
                             </div>
                             <div class="flex items-start">
                                 <i class="fas fa-clock mt-1 mr-3" style="color: var(--accent-color);"></i>
-                                <span>Mon-Fri: 9am-6pm EST</span>
+                                <span>Mon-Fri: 9am-6pm PKT</span>
                             </div>
                         </div>
                     </div>
