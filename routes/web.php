@@ -88,21 +88,30 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 
 
-Route::get('/product', [ProductController::class, 'index'])->name('product');
 
 // Navbar search route
 Route::get('/navbar-search', [NavbarController::class, 'search'])->name('navbar.search');
 Route::post('/recent-searches', [NavbarController::class, 'storeRecentSearch'])->name('recent.searches.store');
 Route::delete('/recent-searches/{id}', [NavbarController::class, 'deleteRecentSearch'])->name('recent.searches.delete');
 
+// Product Routes
+Route::get('/products', [ProductController::class, 'index'])->name('product');
+Route::post('/set-grid-preference', [ProductController::class, 'setGridPreference'])->name('product.set-grid');
+Route::get('/product/{id}/quick-view', [ProductController::class, 'quickView'])->name('product.quick-view');
+Route::get('/product/{id}/add-to-cart-modal', [ProductController::class, 'addToCartModal'])->name('product.add-to-cart-modal');
+
+Route::get('/products/ajax', [ProductController::class, 'index'])->name('product.ajax');
 
 
+// Product Routes
+// Product routes
+Route::get('/products', [ProductController::class, 'index'])->name('product');
+Route::post('/set-grid-preference', [ProductController::class, 'setGridPreference'])->name('product.set-grid');
+Route::get('/product/{id}/quick-view', [ProductController::class, 'quickView'])->name('product.quick-view');
 
-Route::post('/products/{id}/quick-add', [ProductDetailController::class, 'quickAddToCart'])
-    ->name('product.quick.add');
-// Add this line to your routes/web.php
-Route::get('/products/load-more/{category}', [ProductController::class, 'loadMoreProducts'])
-    ->name('products.load-more');
+// Product detail routes
+Route::get('/product/{id}', [ProductDetailController::class, 'show'])->name('product.detail');
+
 Route::post('add-to-cart', [ProductDetailController::class, 'addToCart']);
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/buy-now', [ProductDetailController::class, 'buyNow']);

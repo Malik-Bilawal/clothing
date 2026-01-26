@@ -7,16 +7,12 @@
 @push("style")
 <style>
     /* Prevent horizontal overflow globally */
-    html, body {
-        max-width: 100%;
-        overflow-x: hidden;
-        position: relative;
-    }
-
+ 
+/* 
     * {
         max-width: 100%;
         box-sizing: border-box;
-    }
+    } */
 
 
     * {
@@ -548,7 +544,6 @@
             TRUSTED BY PAKISTANI FAMILIES
         </span>
 
-        <!-- Duplicate for smooth infinite effect -->
         <span class="text-xs font-mono uppercase tracking-[0.3em] text-white/70">
             EXPORT GRADE QUALITY
         </span>
@@ -566,6 +561,100 @@
 
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+<section class="py-12 md:py-24 bg-[#FBF7EE]">
+    <div class="container mx-auto px-2 md:px-12">
+        
+        <div class="text-center mb-16">
+            <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-[#B89A6B] mb-2 block">2026 Series</span>
+            <h2 class="text-4xl md:text-6xl font-serif text-[#680626] italic">Curated <span class="not-italic">Mosaic</span></h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 auto-rows-[minmax(200px,auto)] md:grid-flow-dense">
+            
+            @foreach($categories as $index => $category)
+                @php
+                    // --- 1. MOBILE LOGIC (The one you liked) ---
+                    // Pattern: [Small] [Small] [Big Full Width]
+                    // The cycle repeats every 3 items.
+                    $mPos = ($index + 1) % 3;
+                    $mobileClass = ($mPos === 0) ? 'col-span-2 aspect-square' : 'col-span-1 aspect-square';
+
+                    // --- 2. DESKTOP LOGIC (The "Bento" Puzzle) ---
+                    // Pattern: Repeats every 6 items to create a weaving effect.
+                    // 0 = Big (Left)
+                    // 1, 2 = Small Stacked (Right)
+                    // 3, 4 = Small Stacked (Left)
+                    // 5 = Big (Right)
+                    
+                    $dPos = $index % 6;
+                    $desktopClass = '';
+                    $isDesktopBig = false;
+
+                    switch ($dPos) {
+                        case 0: // Big Box (Left Side)
+                            $desktopClass = 'md:col-span-2 md:row-span-2';
+                            $isDesktopBig = true;
+                            break;
+                        case 1: // Small (Right Top)
+                        case 2: // Small (Right Bottom)
+                            $desktopClass = 'md:col-span-1 md:row-span-1';
+                            break;
+                        case 3: // Small (Left Top)
+                        case 4: // Small (Left Bottom)
+                            $desktopClass = 'md:col-span-1 md:row-span-1'; // Logic handled by grid-flow-dense
+                            break;
+                        case 5: // Big Box (Right Side)
+                            $desktopClass = 'md:col-span-2 md:row-span-2';
+                            $isDesktopBig = true;
+                            break;
+                    }
+                @endphp
+
+                <div class="relative group {{ $mobileClass }} {{ $desktopClass }} overflow-hidden bg-[#E2DBD1]">
+                    
+                    <a href="{{ route('product', ['category_id' => $category->id]) }}" class="block w-full h-full">
+                        
+                        <img src="{{ $category->image ? asset('storage/app/public/' . $category->image) : 'https://placehold.co/800x800/E2DBD1/680626?text=' . urlencode($category->name) }}"
+                             alt="{{ $category->name }}"
+                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105">
+                        
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all duration-500"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-90 md:opacity-60 transition-opacity duration-500"></div>
+
+                        <div class="absolute inset-0 p-4 md:p-8 flex flex-col justify-end items-start">
+                            
+                            <h3 class="font-serif text-white leading-none mb-2 transition-all duration-500 group-hover:translate-x-2 
+                                {{ $isDesktopBig ? 'text-3xl md:text-5xl' : 'text-lg md:text-2xl' }}
+                                {{ ($mPos === 0) ? 'text-3xl' : '' }} "
+                            >
+                                {{ $category->name }}
+                            </h3>
+
+                            <div class="flex items-center gap-3 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                                <div class="h-px bg-white/70 transition-all duration-500 group-hover:w-12 {{ $isDesktopBig ? 'w-12' : 'w-4' }}"></div>
+                                <span class="text-[9px] font-bold text-white uppercase tracking-widest">
+                                    {{ $category->products_count ?? 'Explore' }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        @if($isDesktopBig)
+                            <div class="absolute top-6 right-6 hidden md:block">
+                                <div class="w-2 h-2 rounded-full bg-white animate-pulse"></div>
+                            </div>
+                        @endif
+                    </a>
+                </div>
+            @endforeach
+
+        </div>
+        
+        <div class="mt-8 text-center md:hidden">
+            <p class="text-[9px] text-[#680626]/40 uppercase tracking-widest">Swipe for more</p>
         </div>
     </div>
 </section>
@@ -728,17 +817,8 @@
         }
     }
 </script>
-<section class="py-24 bg-[#FBF7EE] relative overflow-hidden">
-    
-    <div class="absolute inset-0 pointer-events-none opacity-40">
-        <div class="container mx-auto h-full px-6 lg:px-12 flex justify-between">
-            <div class="w-px h-full bg-[#E2DBD1]"></div>
-            <div class="w-px h-full bg-[#E2DBD1] hidden md:block"></div>
-            <div class="w-px h-full bg-[#E2DBD1] hidden md:block"></div>
-            <div class="w-px h-full bg-[#E2DBD1]"></div>
-        </div>
-    </div>
 
+<<<<<<< HEAD
     <div class="container mx-auto px-6 lg:px-12 relative z-10">
         
         <div class="flex flex-col md:flex-row justify-between items-end mb-32 gap-8">
@@ -809,6 +889,8 @@
         </div>
     </div>
 </section>
+=======
+>>>>>>> 26d0e50 (hello world)
 
 <section 
     class="bg-[#FBF7EE] py-24 overflow-hidden select-none" 

@@ -18,7 +18,7 @@
             --card-background: #FFFFFF;
         }
 
-
+/* 
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +29,7 @@
             font-family: 'Outfit', sans-serif;
             background-color: var(--background-color);
             overflow-x: hidden;
-        }
+        } */
 
         /* Glass morphism effect */
         .glass-effect {
@@ -505,39 +505,6 @@
         </div>
     </div>
 
-    <template x-teleport="body">
-        <div x-show="searchOpen" 
-             class="fixed inset-0 z-[60] flex items-start justify-center pt-32 px-4"
-             x-transition:enter="transition duration-500 ease-out"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100">
-            
-            <div class="absolute inset-0 bg-[#680626]/95 backdrop-blur-xl" @click="searchOpen = false"></div>
-            
-            <div class="relative w-full max-w-3xl transform transition-all"
-                 x-transition:enter="transition duration-500 ease-out"
-                 x-transition:enter-start="scale-95 translate-y-8"
-                 x-transition:enter-end="scale-100 translate-y-0">
-                
-                <div class="relative">
-                    <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-[#B89A6B] text-xl"></i>
-                    <input type="text" 
-                           placeholder="Discover our collection..." 
-                           class="w-full bg-transparent border-b-2 border-[#B89A6B] py-6 pl-16 pr-8 text-3xl font-serif text-white placeholder-white/30 focus:outline-none focus:border-white transition-all">
-                    <button @click="searchOpen = false" class="absolute right-0 -top-12 text-white/50 hover:text-white text-sm uppercase tracking-widest">Close (Esc)</button>
-                </div>
-                
-                <div class="mt-12">
-                    <p class="text-[#B89A6B] text-[10px] uppercase tracking-[0.4em] font-bold mb-6">Popular Collections</p>
-                    <div class="flex flex-wrap gap-3">
-                        <button class="px-6 py-2 rounded-full border border-white/20 text-white text-xs hover:bg-white hover:text-[#680626] transition-all">Velvet Suits</button>
-                        <button class="px-6 py-2 rounded-full border border-white/20 text-white text-xs hover:bg-white hover:text-[#680626] transition-all">Bridal Gold</button>
-                        <button class="px-6 py-2 rounded-full border border-white/20 text-white text-xs hover:bg-white hover:text-[#680626] transition-all">Winter Silk</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
 
     <!-- MOBILE MENU - FIXED VERSION -->
     <div x-show="mobileMenuOpen"
